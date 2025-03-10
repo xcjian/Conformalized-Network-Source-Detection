@@ -1,0 +1,119 @@
+Parameters: batch_size=16, lr=0.001, ks=2, kt=3
+
+Output:
+Training configs: Namespace(batch_size=16, dropout=0, end=-1, epoch=3, exp_name='SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16', graph='./dataset/highSchool/data/graph/highSchool.edgelist', gt='highSchool', ks=2, kt=3, lr=0.001, n_channel=3, n_frame=16, n_node=774, opt='RMSProp', pred='./output/models/highSchool/pred_highSchool_nf16.pickle', random=0, save=1, sconv='gcn', seq='./dataset/highSchool/data/SIR/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16_entire.pickle', start=1, valid=0)
+./dataset/highSchool/data/graph/highSchool.edgelist
+The input graph is a 0/1 matrix; set "scaling" to False.
+Epoch  0, Step   0: Elapsed Time 1.884 Loss 6.613 Train Acc 0.000
+Epoch  0, Step  10: Elapsed Time 12.571 Loss 6.682 Train Acc 0.000
+Epoch  0, Step  20: Elapsed Time 23.184 Loss 6.630 Train Acc 0.000
+Epoch  0, Step  30: Elapsed Time 33.819 Loss 6.644 Train Acc 0.000
+Epoch  0, Step  40: Elapsed Time 44.420 Loss 6.625 Train Acc 0.000
+Epoch  0, Step  50: Elapsed Time 55.046 Loss 6.639 Train Acc 0.000
+Epoch  0, Step  60: Elapsed Time 65.579 Loss 6.615 Train Acc 0.000
+Epoch  0, Step  70: Elapsed Time 76.118 Loss 6.584 Train Acc 0.000
+Epoch  0, Step  80: Elapsed Time 86.700 Loss 6.201 Train Acc 0.125
+Epoch  0, Step  90: Elapsed Time 97.257 Loss 4.707 Train Acc 0.125
+Epoch  0, Step 100: Elapsed Time 107.871 Loss 4.241 Train Acc 0.188
+Epoch  0, Step 110: Elapsed Time 118.370 Loss 2.140 Train Acc 0.125
+Epoch  0, Step 120: Elapsed Time 128.872 Loss 1.734 Train Acc 0.250
+Epoch  0, Step 130: Elapsed Time 139.395 Loss 2.734 Train Acc 0.250
+Epoch  0, Step 140: Elapsed Time 149.915 Loss 1.783 Train Acc 0.500
+Epoch  0, Step 150: Elapsed Time 160.373 Loss 1.640 Train Acc 0.562
+Epoch  0, Step 160: Elapsed Time 170.930 Loss 1.634 Train Acc 0.375
+Epoch  0, Step 170: Elapsed Time 181.448 Loss 1.431 Train Acc 0.438
+Epoch  0, Step 180: Elapsed Time 191.926 Loss 1.351 Train Acc 0.500
+Epoch  0, Step 190: Elapsed Time 202.432 Loss 1.583 Train Acc 0.500
+<< Saving model to ./output/models/highSchool/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16/STGCN-200 ...
+Epoch  1, Step   0: Elapsed Time 1.353 Loss 1.985 Train Acc 0.500
+Epoch  1, Step  10: Elapsed Time 11.894 Loss 2.173 Train Acc 0.188
+Epoch  1, Step  20: Elapsed Time 22.449 Loss 1.791 Train Acc 0.438
+Epoch  1, Step  30: Elapsed Time 32.932 Loss 1.648 Train Acc 0.625
+Epoch  1, Step  40: Elapsed Time 43.443 Loss 1.657 Train Acc 0.312
+Epoch  1, Step  50: Elapsed Time 53.988 Loss 1.567 Train Acc 0.625
+Epoch  1, Step  60: Elapsed Time 64.499 Loss 1.603 Train Acc 0.438
+Epoch  1, Step  70: Elapsed Time 75.004 Loss 1.712 Train Acc 0.375
+Epoch  1, Step  80: Elapsed Time 85.491 Loss 1.534 Train Acc 0.625
+Epoch  1, Step  90: Elapsed Time 95.958 Loss 1.774 Train Acc 0.438
+Epoch  1, Step 100: Elapsed Time 106.483 Loss 1.734 Train Acc 0.375
+Epoch  1, Step 110: Elapsed Time 116.999 Loss 1.677 Train Acc 0.312
+Epoch  1, Step 120: Elapsed Time 127.515 Loss 1.709 Train Acc 0.312
+Epoch  1, Step 130: Elapsed Time 138.039 Loss 1.697 Train Acc 0.500
+Epoch  1, Step 140: Elapsed Time 148.553 Loss 1.752 Train Acc 0.438
+Epoch  1, Step 150: Elapsed Time 159.058 Loss 1.556 Train Acc 0.312
+Epoch  1, Step 160: Elapsed Time 169.603 Loss 1.674 Train Acc 0.375
+Epoch  1, Step 170: Elapsed Time 180.043 Loss 1.795 Train Acc 0.312
+Epoch  1, Step 180: Elapsed Time 190.468 Loss 1.662 Train Acc 0.375
+Epoch  1, Step 190: Elapsed Time 201.008 Loss 1.755 Train Acc 0.438
+<< Saving model to ./output/models/highSchool/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16/STGCN-400 ...
+Epoch  2, Step   0: Elapsed Time 1.353 Loss 1.518 Train Acc 0.500
+Epoch  2, Step  10: Elapsed Time 11.817 Loss 1.455 Train Acc 0.438
+Epoch  2, Step  20: Elapsed Time 22.319 Loss 1.647 Train Acc 0.375
+Epoch  2, Step  30: Elapsed Time 32.816 Loss 1.778 Train Acc 0.250
+Epoch  2, Step  40: Elapsed Time 43.321 Loss 1.571 Train Acc 0.312
+Epoch  2, Step  50: Elapsed Time 53.811 Loss 1.425 Train Acc 0.500
+Epoch  2, Step  60: Elapsed Time 64.344 Loss 1.477 Train Acc 0.438
+Epoch  2, Step  70: Elapsed Time 74.855 Loss 1.411 Train Acc 0.500
+Epoch  2, Step  80: Elapsed Time 85.384 Loss 1.600 Train Acc 0.438
+Epoch  2, Step  90: Elapsed Time 95.868 Loss 1.638 Train Acc 0.375
+Epoch  2, Step 100: Elapsed Time 106.368 Loss 2.038 Train Acc 0.438
+Epoch  2, Step 110: Elapsed Time 116.852 Loss 1.569 Train Acc 0.438
+Epoch  2, Step 120: Elapsed Time 127.356 Loss 1.622 Train Acc 0.500
+Epoch  2, Step 130: Elapsed Time 137.821 Loss 1.603 Train Acc 0.375
+Epoch  2, Step 140: Elapsed Time 148.298 Loss 1.969 Train Acc 0.188
+Epoch  2, Step 150: Elapsed Time 158.790 Loss 1.707 Train Acc 0.312
+Epoch  2, Step 160: Elapsed Time 169.299 Loss 1.702 Train Acc 0.438
+Epoch  2, Step 170: Elapsed Time 179.790 Loss 1.641 Train Acc 0.312
+Epoch  2, Step 180: Elapsed Time 190.271 Loss 1.745 Train Acc 0.375
+Epoch  2, Step 190: Elapsed Time 200.716 Loss 1.532 Train Acc 0.438
+<< Saving model to ./output/models/highSchool/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16/STGCN-600 ...
+Training model finished!
+>> Loading saved model from ./output/models/highSchool/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16/STGCN-600 ...
+>> Test results saved to ./output/test_res/highSchool/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16/
+0.290 0.478 0.723 0.930 1.000
+
+Errors:
+2025-03-09 23:17:24.686339: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcudart.so.10.1'; dlerror: libcudart.so.10.1: cannot open shared object file: No such file or directory
+2025-03-09 23:17:24.686364: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2025-03-09 23:17:25.536370: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN)to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-03-09 23:17:25.568866: I tensorflow/core/platform/profile_utils/cpu_utils.cc:104] CPU Frequency: 3600000000 Hz
+2025-03-09 23:17:25.570031: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55e90a814930 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2025-03-09 23:17:25.570075: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2025-03-09 23:17:25.574705: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcuda.so.1
+2025-03-09 23:17:25.681732: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55e90a89eee0 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2025-03-09 23:17:25.681782: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): NVIDIA GeForce RTX 2080 Ti, Compute Capability 7.5
+2025-03-09 23:17:25.682358: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:65:00.0 name: NVIDIA GeForce RTX 2080 Ti computeCapability: 7.5
+coreClock: 1.545GHz coreCount: 68 deviceMemorySize: 10.76GiB deviceMemoryBandwidth: 573.69GiB/s
+2025-03-09 23:17:25.682545: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcudart.so.10.1'; dlerror: libcudart.so.10.1: cannot open shared object file: No such file or directory
+2025-03-09 23:17:25.682663: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcublas.so.10'; dlerror: libcublas.so.10: cannot open shared object file: No such file or directory
+2025-03-09 23:17:25.716248: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2025-03-09 23:17:25.716586: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2025-03-09 23:17:25.716654: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcusolver.so.10'; dlerror: libcusolver.so.10: cannot open shared object file: No such file or directory
+2025-03-09 23:17:25.716692: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcusparse.so.10'; dlerror: libcusparse.so.10: cannot open shared object file: No such file or directory
+2025-03-09 23:17:25.719922: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2025-03-09 23:17:25.719943: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1753] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+2025-03-09 23:17:25.719963: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2025-03-09 23:17:25.719969: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
+2025-03-09 23:17:25.719973: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
+WARNING:tensorflow:From /home/twp/anaconda3/envs/env_CP_source_det/lib/python3.7/site-packages/tensorflow/python/training/rmsprop.py:123: calling Ones.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+2025-03-09 23:17:27.567993: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:65:00.0 name: NVIDIA GeForce RTX 2080 Ti computeCapability: 7.5
+coreClock: 1.545GHz coreCount: 68 deviceMemorySize: 10.76GiB deviceMemoryBandwidth: 573.69GiB/s
+2025-03-09 23:17:27.568119: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcudart.so.10.1'; dlerror: libcudart.so.10.1: cannot open shared object file: No such file or directory
+2025-03-09 23:17:27.568161: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcublas.so.10'; dlerror: libcublas.so.10: cannot open shared object file: No such file or directory
+2025-03-09 23:17:27.568174: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2025-03-09 23:17:27.568181: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2025-03-09 23:17:27.568215: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcusolver.so.10'; dlerror: libcusolver.so.10: cannot open shared object file: No such file or directory
+2025-03-09 23:17:27.568251: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcusparse.so.10'; dlerror: libcusparse.so.10: cannot open shared object file: No such file or directory
+2025-03-09 23:17:27.568262: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2025-03-09 23:17:27.568265: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1753] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+2025-03-09 23:17:27.568473: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2025-03-09 23:17:27.568486: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      
+2025-03-09 23:28:00.244200: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2025-03-09 23:28:00.244231: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      

@@ -1,0 +1,104 @@
+Parameters: batch_size=16, lr=0.001, ks=2, kt=1
+
+Output:
+Training configs: Namespace(batch_size=16, dropout=0, end=-1, epoch=3, exp_name='SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16', graph='./dataset/highSchool/data/graph/highSchool.edgelist', gt='highSchool', ks=2, kt=1, lr=0.001, n_channel=3, n_frame=16, n_node=774, opt='RMSProp', pred='./output/models/highSchool/pred_highSchool_nf16.pickle', random=0, save=1, sconv='gcn', seq='./dataset/highSchool/data/SIR/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16_entire.pickle', start=1, valid=1)
+./dataset/highSchool/data/graph/highSchool.edgelist
+The input graph is a 0/1 matrix; set "scaling" to False.
+Epoch  0, Step   0: Elapsed Time 7.544 Loss 6.609 Train Acc 0.000 Val Acc 0.013
+Epoch  0, Step  10: Elapsed Time 10.637 Loss 6.605 Train Acc 0.000 Val Acc 0.068
+Epoch  0, Step  20: Elapsed Time 13.723 Loss 6.483 Train Acc 0.250 Val Acc 0.177
+Epoch  0, Step  30: Elapsed Time 16.946 Loss 5.603 Train Acc 0.250 Val Acc 0.215
+Epoch  0, Step  40: Elapsed Time 20.007 Loss 2.385 Train Acc 0.312 Val Acc 0.205
+Epoch  0, Step  50: Elapsed Time 23.046 Loss 2.004 Train Acc 0.188 Val Acc 0.228
+Epoch  0, Step  60: Elapsed Time 26.137 Loss 1.790 Train Acc 0.375 Val Acc 0.220
+Epoch  0, Step  70: Elapsed Time 29.426 Loss 1.824 Train Acc 0.250 Val Acc 0.233
+Epoch  0, Step  80: Elapsed Time 32.396 Loss 1.574 Train Acc 0.250 Val Acc 0.233
+Epoch  0, Step  90: Elapsed Time 35.645 Loss 1.827 Train Acc 0.250 Val Acc 0.220
+Epoch  0, Step 100: Elapsed Time 38.770 Loss 1.957 Train Acc 0.438 Val Acc 0.228
+Epoch  0, Step 110: Elapsed Time 41.876 Loss 2.028 Train Acc 0.250 Val Acc 0.215
+Epoch  0, Step 120: Elapsed Time 44.894 Loss 1.733 Train Acc 0.438 Val Acc 0.203
+Epoch  0, Step 130: Elapsed Time 47.939 Loss 1.919 Train Acc 0.188 Val Acc 0.242
+Epoch  0, Step 140: Elapsed Time 51.023 Loss 1.820 Train Acc 0.312 Val Acc 0.250
+Epoch  0, Step 150: Elapsed Time 54.125 Loss 1.675 Train Acc 0.375 Val Acc 0.245
+Epoch  0, Step 160: Elapsed Time 57.068 Loss 1.638 Train Acc 0.438 Val Acc 0.260
+Epoch  0, Step 170: Elapsed Time 60.004 Loss 1.438 Train Acc 0.500 Val Acc 0.212
+Epoch  0, Step 180: Elapsed Time 63.141 Loss 1.361 Train Acc 0.438 Val Acc 0.245
+Epoch  0, Step 190: Elapsed Time 66.455 Loss 1.647 Train Acc 0.500 Val Acc 0.245
+<< Saving model to ./output/models/highSchool/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16/STGCN-200 ...
+Epoch  1, Step   0: Elapsed Time 1.954 Loss 1.998 Train Acc 0.438 Val Acc 0.273
+Epoch  1, Step  10: Elapsed Time 5.045 Loss 2.015 Train Acc 0.312 Val Acc 0.255
+Epoch  1, Step  20: Elapsed Time 8.090 Loss 1.986 Train Acc 0.500 Val Acc 0.223
+Epoch  1, Step  30: Elapsed Time 11.370 Loss 1.735 Train Acc 0.500 Val Acc 0.207
+Epoch  1, Step  40: Elapsed Time 14.526 Loss 1.720 Train Acc 0.438 Val Acc 0.225
+Epoch  1, Step  50: Elapsed Time 17.627 Loss 1.830 Train Acc 0.500 Val Acc 0.220
+Epoch  1, Step  60: Elapsed Time 20.732 Loss 1.626 Train Acc 0.500 Val Acc 0.242
+Epoch  1, Step  70: Elapsed Time 23.940 Loss 1.807 Train Acc 0.375 Val Acc 0.258
+Epoch  1, Step  80: Elapsed Time 27.096 Loss 1.592 Train Acc 0.562 Val Acc 0.258
+Epoch  1, Step  90: Elapsed Time 30.203 Loss 1.802 Train Acc 0.500 Val Acc 0.245
+Epoch  1, Step 100: Elapsed Time 33.293 Loss 1.783 Train Acc 0.438 Val Acc 0.253
+Epoch  1, Step 110: Elapsed Time 36.374 Loss 1.662 Train Acc 0.250 Val Acc 0.250
+Epoch  1, Step 120: Elapsed Time 39.468 Loss 1.734 Train Acc 0.250 Val Acc 0.263
+Epoch  1, Step 130: Elapsed Time 42.565 Loss 1.712 Train Acc 0.438 Val Acc 0.255
+Epoch  1, Step 140: Elapsed Time 45.605 Loss 1.771 Train Acc 0.375 Val Acc 0.245
+Epoch  1, Step 150: Elapsed Time 48.875 Loss 1.602 Train Acc 0.438 Val Acc 0.265
+Epoch  1, Step 160: Elapsed Time 51.915 Loss 1.728 Train Acc 0.375 Val Acc 0.295
+Epoch  1, Step 170: Elapsed Time 55.214 Loss 1.837 Train Acc 0.312 Val Acc 0.282
+Epoch  1, Step 180: Elapsed Time 58.431 Loss 1.653 Train Acc 0.312 Val Acc 0.290
+Epoch  1, Step 190: Elapsed Time 61.713 Loss 1.732 Train Acc 0.438 Val Acc 0.297
+<< Saving model to ./output/models/highSchool/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16/STGCN-400 ...
+Epoch  2, Step   0: Elapsed Time 2.073 Loss 1.614 Train Acc 0.438 Val Acc 0.275
+Epoch  2, Step  10: Elapsed Time 5.508 Loss 1.492 Train Acc 0.438 Val Acc 0.260
+Epoch  2, Step  20: Elapsed Time 8.927 Loss 1.621 Train Acc 0.438 Val Acc 0.260
+Epoch  2, Step  30: Elapsed Time 12.169 Loss 1.758 Train Acc 0.312 Val Acc 0.287
+Epoch  2, Step  40: Elapsed Time 15.493 Loss 1.595 Train Acc 0.438 Val Acc 0.275
+Epoch  2, Step  50: Elapsed Time 18.858 Loss 1.411 Train Acc 0.438 Val Acc 0.278
+Epoch  2, Step  60: Elapsed Time 22.236 Loss 1.544 Train Acc 0.375 Val Acc 0.260
+Epoch  2, Step  70: Elapsed Time 25.467 Loss 1.397 Train Acc 0.562 Val Acc 0.275
+Epoch  2, Step  80: Elapsed Time 28.548 Loss 1.573 Train Acc 0.500 Val Acc 0.270
+Epoch  2, Step  90: Elapsed Time 31.658 Loss 1.618 Train Acc 0.438 Val Acc 0.278
+Epoch  2, Step 100: Elapsed Time 34.899 Loss 2.016 Train Acc 0.438 Val Acc 0.278
+Epoch  2, Step 110: Elapsed Time 38.006 Loss 1.530 Train Acc 0.500 Val Acc 0.260
+Epoch  2, Step 120: Elapsed Time 41.305 Loss 1.582 Train Acc 0.438 Val Acc 0.268
+Epoch  2, Step 130: Elapsed Time 44.233 Loss 1.594 Train Acc 0.312 Val Acc 0.260
+Epoch  2, Step 140: Elapsed Time 47.150 Loss 1.997 Train Acc 0.188 Val Acc 0.278
+Epoch  2, Step 150: Elapsed Time 50.356 Loss 1.656 Train Acc 0.312 Val Acc 0.285
+Epoch  2, Step 160: Elapsed Time 53.509 Loss 1.604 Train Acc 0.312 Val Acc 0.285
+Epoch  2, Step 170: Elapsed Time 56.575 Loss 1.601 Train Acc 0.312 Val Acc 0.273
+Epoch  2, Step 180: Elapsed Time 59.764 Loss 1.756 Train Acc 0.312 Val Acc 0.295
+Epoch  2, Step 190: Elapsed Time 62.948 Loss 1.551 Train Acc 0.500 Val Acc 0.270
+<< Saving model to ./output/models/highSchool/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16/STGCN-600 ...
+validation erorr: 0.27
+Training model finished!
+>> Loading saved model from ./output/models/highSchool/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16/STGCN-600 ...
+>> Test results saved to ./output/test_res/highSchool/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16/
+0.280 0.477 0.725 0.930 1.000
+
+Errors:
+2025-03-10 09:07:43.575978: I tensorflow/core/platform/cpu_feature_guard.cc:151] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-03-10 09:07:43.605546: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:07:43.643188: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:07:43.643528: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:07:44.776609: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:07:44.776902: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:07:44.777133: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:07:44.777741: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1525] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 20829 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2080 Ti, pci bus id: 0000:10:00.0, compute capability: 7.5
+WARNING:tensorflow:From /environment/miniconda3/lib/python3.7/site-packages/tensorflow/python/training/rmsprop.py:192: calling Ones.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+2025-03-10 09:07:48.455803: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:07:48.456347: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:07:48.456590: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:07:48.457164: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:07:48.457418: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:07:48.457641: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:07:48.457969: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:07:48.458242: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:07:48.458437: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1525] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 20829 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2080 Ti, pci bus id: 0000:10:00.0, compute capability: 7.5
+2025-03-10 09:07:50.720470: I tensorflow/stream_executor/cuda/cuda_dnn.cc:366] Loaded cuDNN version 8101
+2025-03-10 09:11:05.834500: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:11:05.834881: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:11:05.835134: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:11:05.835475: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:11:05.835737: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:939] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2025-03-10 09:11:05.835977: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1525] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 20829 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 2080 Ti, pci bus id: 0000:10:00.0, compute capability: 7.5

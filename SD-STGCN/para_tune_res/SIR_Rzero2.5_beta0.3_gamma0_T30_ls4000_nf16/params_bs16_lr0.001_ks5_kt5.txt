@@ -1,0 +1,70 @@
+Parameters: batch_size=16, lr=0.001, ks=5, kt=5
+
+Output:
+Training configs: Namespace(batch_size=16, dropout=0, end=-1, epoch=3, exp_name='SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16', graph='./dataset/highSchool/data/graph/highSchool.edgelist', gt='highSchool', ks=5, kt=5, lr=0.001, n_channel=3, n_frame=16, n_node=774, opt='RMSProp', pred='./output/models/highSchool/pred_highSchool_nf16.pickle', random=0, save=1, sconv='gcn', seq='./dataset/highSchool/data/SIR/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16_entire.pickle', start=1, valid=0)
+./dataset/highSchool/data/graph/highSchool.edgelist
+The input graph is a 0/1 matrix; set "scaling" to False.
+
+Errors:
+2025-03-09 17:13:05.083397: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcudart.so.10.1'; dlerror: libcudart.so.10.1: cannot open shared object file: No such file or directory
+2025-03-09 17:13:05.083422: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2025-03-09 17:13:05.930839: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN)to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-03-09 17:13:05.952804: I tensorflow/core/platform/profile_utils/cpu_utils.cc:104] CPU Frequency: 3600000000 Hz
+2025-03-09 17:13:05.953865: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55f71c683580 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2025-03-09 17:13:05.953905: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2025-03-09 17:13:05.958423: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcuda.so.1
+2025-03-09 17:13:06.064107: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55f71c707290 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2025-03-09 17:13:06.064155: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): NVIDIA GeForce RTX 2080 Ti, Compute Capability 7.5
+2025-03-09 17:13:06.064764: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:65:00.0 name: NVIDIA GeForce RTX 2080 Ti computeCapability: 7.5
+coreClock: 1.545GHz coreCount: 68 deviceMemorySize: 10.76GiB deviceMemoryBandwidth: 573.69GiB/s
+2025-03-09 17:13:06.064958: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcudart.so.10.1'; dlerror: libcudart.so.10.1: cannot open shared object file: No such file or directory
+2025-03-09 17:13:06.065089: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcublas.so.10'; dlerror: libcublas.so.10: cannot open shared object file: No such file or directory
+2025-03-09 17:13:06.094658: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2025-03-09 17:13:06.094986: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2025-03-09 17:13:06.095047: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcusolver.so.10'; dlerror: libcusolver.so.10: cannot open shared object file: No such file or directory
+2025-03-09 17:13:06.095088: W tensorflow/stream_executor/platform/default/dso_loader.cc:59] Could not load dynamic library 'libcusparse.so.10'; dlerror: libcusparse.so.10: cannot open shared object file: No such file or directory
+2025-03-09 17:13:06.098378: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2025-03-09 17:13:06.098401: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1753] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+2025-03-09 17:13:06.098421: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2025-03-09 17:13:06.098427: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
+2025-03-09 17:13:06.098431: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
+Traceback (most recent call last):
+  File "/home/twp/anaconda3/envs/env_CP_source_det/lib/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1812, in _create_c_op
+    c_op = pywrap_tf_session.TF_FinishOperation(op_desc)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Negative dimension size caused by subtracting 5 from 4 for '{{node stn_block_1_out/Conv2D}} = Conv2D[T=DT_FLOAT, data_format="NHWC", dilations=[1, 1, 1, 1], explicit_paddings=[], padding="VALID", strides=[1, 1, 1, 1], use_cudnn_on_gpu=true](stn_block_1_in/Relu_4, stn_block_1_out/Conv2D/ReadVariableOp)' with input shapes: [?,4,774,36], [5,1,36,72].
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "main_SIR_T.py", line 124, in <module>
+    model_train(dataset, blocks, args, save_path=save_path)
+  File "/home/twp/xcjian/CP_source_det/SD-STGCN/models/trainer.py", line 40, in model_train
+    train_loss, pred = build_model(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv)
+  File "/home/twp/xcjian/CP_source_det/SD-STGCN/models/base_model.py", line 24, in build_model
+    x = st_conv_block(x, Ks, Kt, channels, i, keep_prob, sconv, act_func='GLU')
+  File "/home/twp/xcjian/CP_source_det/SD-STGCN/models/layers.py", line 252, in st_conv_block
+    x_o = temporal_conv_layer(x_t, Kt, c_t, c_oo)
+  File "/home/twp/xcjian/CP_source_det/SD-STGCN/models/layers.py", line 137, in temporal_conv_layer
+    x_conv = tf.nn.conv2d(input=x, filters=wt, strides=[1, 1, 1, 1], padding='VALID') + bt
+  File "/home/twp/anaconda3/envs/env_CP_source_det/lib/python3.7/site-packages/tensorflow/python/util/dispatch.py", line 201, in wrapper
+    return target(*args, **kwargs)
+  File "/home/twp/anaconda3/envs/env_CP_source_det/lib/python3.7/site-packages/tensorflow/python/ops/nn_ops.py", line 2166, in conv2d_v2
+    name=name)
+  File "/home/twp/anaconda3/envs/env_CP_source_det/lib/python3.7/site-packages/tensorflow/python/util/dispatch.py", line 201, in wrapper
+    return target(*args, **kwargs)
+  File "/home/twp/anaconda3/envs/env_CP_source_det/lib/python3.7/site-packages/tensorflow/python/ops/nn_ops.py", line 2274, in conv2d
+    name=name)
+  File "/home/twp/anaconda3/envs/env_CP_source_det/lib/python3.7/site-packages/tensorflow/python/ops/gen_nn_ops.py", line 979, in conv2d
+    data_format=data_format, dilations=dilations, name=name)
+  File "/home/twp/anaconda3/envs/env_CP_source_det/lib/python3.7/site-packages/tensorflow/python/framework/op_def_library.py", line 744, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "/home/twp/anaconda3/envs/env_CP_source_det/lib/python3.7/site-packages/tensorflow/python/framework/ops.py", line 3485, in _create_op_internal
+    op_def=op_def)
+  File "/home/twp/anaconda3/envs/env_CP_source_det/lib/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1975, in __init__
+    control_input_ops, op_def)
+  File "/home/twp/anaconda3/envs/env_CP_source_det/lib/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1815, in _create_c_op
+    raise ValueError(str(e))
+ValueError: Negative dimension size caused by subtracting 5 from 4 for '{{node stn_block_1_out/Conv2D}} = Conv2D[T=DT_FLOAT, data_format="NHWC", dilations=[1, 1, 1, 1], explicit_paddings=[], padding="VALID", strides=[1, 1, 1, 1], use_cudnn_on_gpu=true](stn_block_1_in/Relu_4, stn_block_1_out/Conv2D/ReadVariableOp)' with input shapes: [?,4,774,36], [5,1,36,72].
