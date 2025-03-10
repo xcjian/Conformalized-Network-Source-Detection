@@ -99,14 +99,14 @@ cfscore_calib = np.array(cfscore_calib)
 ## Compute conformity scores on the test set
 cfscore_test = []
 for i in range(n_test):
-  cfscore_ = np.zeros(n_nodes)
+  cfscore_ = np.ones(n_nodes)
   if prop_model == 'SI':
     infected_nodes_ = np.nonzero(inputs_test[i])[0]
     for j in infected_nodes_:
       cfscore_[j] = APS_score_SI(pred_scores_test[i], infected_nodes_, j)
   elif prop_model == 'SIR':
     for j in range(n_nodes):
-      cfscore_.append(APS_score(pred_scores_test[i], j))
+      cfscore_[j] = APS_score(pred_scores_test[i], j)
   cfscore_test.append(cfscore_)
 cfscore_test = np.array(cfscore_test)
 print('Conformity scores computed. shape of test:' + str(cfscore_test.shape))
@@ -141,5 +141,13 @@ for i in range(n_test):
   avg_size = avg_size + len(pred_sets[i])
 avg_size = avg_size / n_test
 print('set size:', avg_size)
+
+### To compare, comute the average size of infected set.
+infected_num = 0
+for i in range(n_test):
+  infected_nodes_ = np.nonzero(inputs_test[i])[0]
+  infected_num = infected_num + len(infected_nodes_)
+avg_infected_num = infected_num / n_test
+print('average infected size:', avg_infected_num)
 
 print('finished.')

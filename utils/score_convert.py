@@ -24,9 +24,7 @@ def APS_score(pred_score, ground_truth):
 
     ## compute APS score
     APS = sum_scores + u * pred_score_array[ground_truth]
-
-    ## small score implies good prediction
-    APS = - APS
+    ## Note that in this case, small score implies good prediction.
 
     return APS
 
