@@ -62,7 +62,8 @@ def model_test(inputs, args, load_path='./output/models/', save_test_path=None):
             hit_20_list += hit_at(pred_test, y_test, 20)
 
             if save_test_path:
-                all_inputs.append(x_test_[0, :, :])
+                x_test_array = np.array([list(x_test_[i][0]) for i in range(len(x_test_))])
+                all_inputs.append(x_test_array[:, :, 1]) # only use the infected status
                 all_pred_results.append(pred_test)
                 all_y_test.append(y_test)
         

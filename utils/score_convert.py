@@ -25,6 +25,9 @@ def APS_score(pred_score, ground_truth):
     ## compute APS score
     APS = sum_scores + u * pred_score_array[ground_truth]
 
+    ## small score implies good prediction
+    APS = - APS
+
     return APS
 
 def APS_score_SI(pred_score, infected_nodes, ground_truth):
@@ -46,6 +49,7 @@ def APS_score_SI(pred_score, infected_nodes, ground_truth):
     # Compute conditional APS score
     for node in infected_nodes:
         pred_score_array[node] = pred_score[node]
+    pred_score_array = pred_score_array / np.sum(pred_score_array)
 
     # Compute APS score
     APS = APS_score(pred_score_array, ground_truth)

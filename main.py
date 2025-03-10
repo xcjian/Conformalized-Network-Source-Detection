@@ -1,9 +1,10 @@
+import os
+import sys
 import networkx as nx
 import pickle
 import numpy as np
-import os
 from matplotlib import pyplot as plt
-from utils.score_convert import APS_score
+from utils.score_convert import *
 
 # Set parameters
 
@@ -52,18 +53,18 @@ print('Number of edges:', G.number_of_edges())
 with open(data_path, 'rb') as f:
     data = pickle.load(f)
 
-inputs_raw = data['inputs']
+inputs_raw = data['inputs'] # n_batch x n_sample x n_nodes
 pred_scores_raw = data['predictions']
 ground_truths_raw = data['ground_truth']
 
-print(len(inputs_raw))
-
 # Prepare the data
 ## unzipe the data
+inputs = []
 pred_scores = []
 ground_truths = []
 for i in range(len(pred_scores_raw)):
   for j in range(len(pred_scores_raw[i])):
+    inputs.append(inputs_raw[i][j])
     pred_scores.append(pred_scores_raw[i][j])
     ground_truths.append(ground_truths_raw[i][j])
 
@@ -76,9 +77,11 @@ calib_index = np.random.choice(n_samples, n_calibration, replace=False)
 test_index = np.setdiff1d(np.arange(n_samples), calib_index)
 print('Number of samples:', n_samples, 'Calibration size:', n_calibration, 'test size:', n_test)
 
+inputs_calib = [inputs[i] for i in calib_index]
 pred_scores_calib = [pred_scores[i] for i in calib_index]
 ground_truths_calib = [ground_truths[i] for i in calib_index]
 
+inputs_test = [inputs[i] for i in test_index]
 pred_scores_test = [pred_scores[i] for i in test_index]
 ground_truths_test = [ground_truths[i] for i in test_index]
 
@@ -86,21 +89,31 @@ ground_truths_test = [ground_truths[i] for i in test_index]
 ## Compute conformity scores on the calibration set
 cfscore_calib = []
 for i in range(n_calibration):
-  cfscore_calib.append(APS_score(pred_scores_calib[i], ground_truths_calib[i]))
+  if prop_model == 'SI':
+    infected_nodes_ = np.nonzero(inputs_calib[i])[0]
+    cfscore_calib.append(APS_score_SI(pred_scores_calib[i], infected_nodes_, ground_truths_calib[i]))
+  elif prop_model == 'SIR':
+    cfscore_calib.append(APS_score(pred_scores_calib[i], ground_truths_calib[i]))
 cfscore_calib = np.array(cfscore_calib)
 
 ## Compute conformity scores on the test set
 cfscore_test = []
 for i in range(n_test):
-  cfscore_ = []
-  for j in range(n_nodes):
-    cfscore_.append(APS_score(pred_scores_test[i], j))
+  cfscore_ = np.zeros(n_nodes)
+  if prop_model == 'SI':
+    infected_nodes_ = np.nonzero(inputs_test[i])[0]
+    for j in infected_nodes_:
+      cfscore_[j] = APS_score_SI(pred_scores_test[i], infected_nodes_, j)
+  elif prop_model == 'SIR':
+    for j in range(n_nodes):
+      cfscore_.append(APS_score(pred_scores_test[i], j))
   cfscore_test.append(cfscore_)
 cfscore_test = np.array(cfscore_test)
 print('Conformity scores computed. shape of test:' + str(cfscore_test.shape))
 
 ## compute the quantile
-threshold = np.quantile(cfscore_calib, 1 - confi_level, method = 'lower')
+tail_prop = (1 - confi_level) * (1 + 1 / n_calibration)
+threshold = np.quantile(cfscore_calib, tail_prop, method = 'lower')
 print('Quantile:', threshold)
 
 ## Apply the quantile on the test set
