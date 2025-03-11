@@ -76,6 +76,74 @@ def gcn(x, Ks, C_0):
 
     return x_gconv
 
+def gcn_rectangle(x, Ks, C_in, C_out, block_id):
+    '''
+    x: tensor, [batch_size, n, C_in]
+    Ks: int, kernel size of graph convolution
+    C_in: int, num of input channels
+    C_out: int, num of output channels
+    block_id: int, id of the block/layer
+    return: tensor, [batch_size, n, C_out]
+    '''
+    # kernel -> [n, n]
+    kernel = tf.compat.v1.get_collection('graph_kernel')[0]
+    n = tf.shape(input=kernel)[0]
+
+    x_gconv = x
+
+    # Use a unique variable scope name based on block_id
+    scope_name = f'gcn_layer_block{block_id}_Cin{C_in}_Cout{C_out}'
+    with tf.compat.v1.variable_scope(scope_name, reuse=tf.compat.v1.AUTO_REUSE):
+        for i in range(Ks):
+            # Weight matrix with shape [C_in, C_out]
+            ws = tf.compat.v1.get_variable(name='ws%d' % (i), shape=[C_in, C_out], dtype=tf.float32)
+
+            # Weight decay for the 1st layer
+            if i == 0:
+                tf.compat.v1.add_to_collection(name='weight_decay%d' % (i), value=tf.nn.l2_loss(ws))
+
+            # Bias with shape [C_out]
+            bs = tf.compat.v1.get_variable(name='bs%d' % (i), initializer=tf.zeros([C_out]), dtype=tf.float32)
+
+            # [batch_size, n, C_in] -> [batch_size * n, C_in]
+            x_a = tf.reshape(x_gconv, [-1, C_in])
+            # [batch_size * n, C_in] -> [batch_size, n, C_out]
+            x_b = tf.reshape(tf.matmul(x_a, ws), [-1, n, C_out])
+            # [batch_size, n, C_out] -> [batch_size, C_out, n] -> [batch_size * C_out, n]
+            x_c = tf.reshape(tf.transpose(a=x_b, perm=[0, 2, 1]), [-1, n])
+            # [batch_size * C_out, n] -> [batch_size, C_out, n]
+            x_d = tf.reshape(tf.matmul(x_c, kernel), [-1, C_out, n])
+            # [batch_size, C_out, n] -> [batch_size, n, C_out]
+            x_e = tf.transpose(a=x_d, perm=[0, 2, 1])
+
+            if i < (Ks - 1):
+                x_gconv = tf.nn.relu(x_e + bs)
+            else:
+                x_gconv = x_e + bs
+
+    return x_gconv
+
+def gcn_block(x, Ks, channels, block_id, keep_prob):
+    '''
+    GCN block with graph convolution.
+    x: tensor, [batch_size, N, C_in]
+    Ks: int, kernel size of graph convolution.
+    channels: list, [C_in, C_out] for the block.
+    block_id: int, id of the block.
+    keep_prob: placeholder for dropout.
+    '''
+    C_in, C_out = channels
+
+    # Graph Convolution
+    x = gcn_rectangle(x, Ks, C_in, C_out, block_id)  # Apply GCN
+
+    # Dropout
+    x = tf.nn.dropout(x, rate=1 - keep_prob)
+
+    # Activation
+    x = tf.nn.relu(x)
+
+    return x
 
 
 def layer_norm(x, scope):
@@ -295,6 +363,24 @@ def output_layer(x, T, scope, act_func='GLU'):
     x_fc = tf.reshape(x_fc, [-1,n])
     return x_fc
 
+def output_layer_gcn(x, scope):
+    '''
+    Output layer.
+    x: tensor, [batch_size, N, C_out]
+    scope: str, scope name.
+    '''
+    with tf.compat.v1.variable_scope(scope):
+        # Define weights and biases
+        W = tf.compat.v1.get_variable('W', shape=[x.shape[-1], 1], dtype=tf.float32)
+        b = tf.compat.v1.get_variable('b', shape=[1], dtype=tf.float32)
+
+        # Apply fully connected layer
+        x = tf.matmul(x, W) + b  # Shape: [batch_size, N, 1]
+
+        # Squeeze to [batch_size, N]
+        x = tf.squeeze(x, axis=-1)
+
+    return x
 
 def variable_summaries(var, v_name):
     '''

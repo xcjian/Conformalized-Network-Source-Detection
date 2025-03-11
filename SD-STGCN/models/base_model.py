@@ -42,6 +42,32 @@ def build_model(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv):
 
     return train_loss, y_pred
 
+def build_gcn_model(x, y, Ks, blocks, keep_prob):
+    '''
+    Build the base model using GCN layers.
+    x: placeholder features, [batch_size, n, C_in]
+    y: placeholder label, [batch_size, n]
+    Ks: int, kernel size of spatial convolution.
+    blocks: list, channel configs of gcn blocks.
+    keep_prob: placeholder.
+    '''
+
+    # GCN Blocks
+    for i, channels in enumerate(blocks):
+        # Apply GCN block
+        x = gcn_block(x, Ks, channels, i, keep_prob)
+
+    # Output Layer
+    logits = output_layer_gcn(x, 'output_layer')
+
+    train_loss = tf.compat.v1.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(\
+                                            labels=y, logits=logits, axis=-1))
+
+    # Predictions
+    y_pred = tf.nn.softmax(logits)
+    tf.compat.v1.add_to_collection(name='y_pred', value=y_pred)
+
+    return train_loss, y_pred
 
 def model_save(sess, global_steps, model_name, save_path='./output/models/'):
     '''
