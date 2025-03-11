@@ -36,6 +36,8 @@ calib_ratio = 0.5
 ## Parameters for ADiT-DSI
 discrepancies = [ADiT_h] # discrepancy function
 discrepancy_str = 'ADiT_h'
+m_l = 500
+m_p = 500
 
 # Load data
 # graph_path = 'SD-STGCN/dataset/highSchool/data/graph/highSchool.edgelist'
@@ -175,7 +177,7 @@ if ADiT_DSI:
     for i in range(n_test):
       infected_nodes_ = np.nonzero(inputs_test[i])[0]
 
-      model = FixedTSI(G, discrepancies, canonical=True, expectation_after=False, m_l=1000, m_p=1000, T=len(infected_nodes_) - 1)
+      model = FixedTSI(G, discrepancies, canonical=True, expectation_after=False, m_l=m_l, m_p=m_p, T=len(infected_nodes_) - 1)
 
       start_time = time.time()
       confidence_set = model.confidence_set(infected_nodes_, confi_level, new_run=True) 
