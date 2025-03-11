@@ -1,0 +1,9 @@
+dsivenv
+__pycache__/
+data
+*figures*
+*results*
+*probs*
+*saved*
+!experiments/*
+!examples/*

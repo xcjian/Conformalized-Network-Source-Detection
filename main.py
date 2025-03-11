@@ -3,8 +3,11 @@ import sys
 import networkx as nx
 import pickle
 import numpy as np
+import time
 from matplotlib import pyplot as plt
 from utils.score_convert import *
+from DSI.src.diffusion_source.infection_model import FixedTSI
+from DSI.src.diffusion_source.discrepancies import ADiT_h
 
 # Set parameters
 
@@ -22,9 +25,17 @@ if gamma <= 0:
 else:
   prop_model = 'SIR'
 
-## Parameters for Conformal Prediction
-calib_ratio = 0.5
+## Public parameters
 confi_level = 0.05
+
+## Parameters for Conformal Prediction
+proposed_method = True
+ADiT_DSI = True
+calib_ratio = 0.5
+
+## Parameters for ADiT-DSI
+discrepancies = [ADiT_h] # discrepancy function
+discrepancy_str = 'ADiT_h'
 
 # Load data
 # graph_path = 'SD-STGCN/dataset/highSchool/data/graph/highSchool.edgelist'
@@ -46,6 +57,7 @@ if not os.path.exists(data_path):
 
 graph = nx.read_edgelist(graph_path, nodetype=int)
 G = nx.Graph(graph)
+G.graph = G
 n_nodes = G.number_of_nodes()
 print('Number of nodes:', G.number_of_nodes())
 print('Number of edges:', G.number_of_edges())
@@ -85,69 +97,102 @@ inputs_test = [inputs[i] for i in test_index]
 pred_scores_test = [pred_scores[i] for i in test_index]
 ground_truths_test = [ground_truths[i] for i in test_index]
 
-# Conformal Prediction
-## Compute conformity scores on the calibration set
-cfscore_calib = []
-for i in range(n_calibration):
-  if prop_model == 'SI':
-    infected_nodes_ = np.nonzero(inputs_calib[i])[0]
-    cfscore_calib.append(APS_score_SI(pred_scores_calib[i], infected_nodes_, ground_truths_calib[i]))
-  elif prop_model == 'SIR':
-    cfscore_calib.append(APS_score(pred_scores_calib[i], ground_truths_calib[i]))
-cfscore_calib = np.array(cfscore_calib)
+if proposed_method:
+  # Conformal Prediction
+  ## Compute conformity scores on the calibration set
+  cfscore_calib = []
+  for i in range(n_calibration):
+    if prop_model == 'SI':
+      infected_nodes_ = np.nonzero(inputs_calib[i])[0]
+      cfscore_calib.append(APS_score_SI(pred_scores_calib[i], infected_nodes_, ground_truths_calib[i]))
+    elif prop_model == 'SIR':
+      cfscore_calib.append(APS_score(pred_scores_calib[i], ground_truths_calib[i]))
+  cfscore_calib = np.array(cfscore_calib)
 
-## Compute conformity scores on the test set
-cfscore_test = []
-for i in range(n_test):
-  cfscore_ = np.ones(n_nodes)
-  if prop_model == 'SI':
-    infected_nodes_ = np.nonzero(inputs_test[i])[0]
-    for j in infected_nodes_:
-      cfscore_[j] = APS_score_SI(pred_scores_test[i], infected_nodes_, j)
-  elif prop_model == 'SIR':
+  ## Compute conformity scores on the test set
+  cfscore_test = []
+  for i in range(n_test):
+    cfscore_ = np.ones(n_nodes)
+    if prop_model == 'SI':
+      infected_nodes_ = np.nonzero(inputs_test[i])[0]
+      for j in infected_nodes_:
+        cfscore_[j] = APS_score_SI(pred_scores_test[i], infected_nodes_, j)
+    elif prop_model == 'SIR':
+      for j in range(n_nodes):
+        cfscore_[j] = APS_score(pred_scores_test[i], j)
+    cfscore_test.append(cfscore_)
+  cfscore_test = np.array(cfscore_test)
+  print('Conformity scores computed. shape of test:' + str(cfscore_test.shape))
+
+  ## compute the quantile
+  tail_prop = (1 - confi_level) * (1 + 1 / n_calibration)
+  threshold = np.quantile(cfscore_calib, tail_prop, method = 'lower')
+  print('Quantile:', threshold)
+
+  ## Apply the quantile on the test set
+  pred_sets = []
+  for i in range(n_test):
+    pred_set_ = []
     for j in range(n_nodes):
-      cfscore_[j] = APS_score(pred_scores_test[i], j)
-  cfscore_test.append(cfscore_)
-cfscore_test = np.array(cfscore_test)
-print('Conformity scores computed. shape of test:' + str(cfscore_test.shape))
+      if cfscore_test[i][j] <= threshold:
+        pred_set_.append(j)
+    pred_sets.append(pred_set_)
+  print('Prediction sets computed.')
 
-## compute the quantile
-tail_prop = (1 - confi_level) * (1 + 1 / n_calibration)
-threshold = np.quantile(cfscore_calib, tail_prop, method = 'lower')
-print('Quantile:', threshold)
+  ## Verify the test results
+  ### coverage
+  cover_num = 0
+  for i in range(n_test):
+    if ground_truths_test[i] in pred_sets[i]:
+      cover_num = cover_num + 1
+  coverage = cover_num / n_test
+  print('coverage:', coverage)
 
-## Apply the quantile on the test set
-pred_sets = []
-for i in range(n_test):
-  pred_set_ = []
-  for j in range(n_nodes):
-    if cfscore_test[i][j] <= threshold:
-      pred_set_.append(j)
-  pred_sets.append(pred_set_)
-print('Prediction sets computed.')
+  ### set size
+  avg_size = 0
+  for i in range(n_test):
+    avg_size = avg_size + len(pred_sets[i])
+  avg_size = avg_size / n_test
+  print('set size:', avg_size)
 
-## Verify the test results
-### coverage
-cover_num = 0
-for i in range(n_test):
-  if ground_truths_test[i] in pred_sets[i]:
-    cover_num = cover_num + 1
-coverage = cover_num / n_test
-print('coverage:', coverage)
+  ### To compare, comute the average size of infected set.
+  infected_num = 0
+  for i in range(n_test):
+    infected_nodes_ = np.nonzero(inputs_test[i])[0]
+    infected_num = infected_num + len(infected_nodes_)
+  avg_infected_num = infected_num / n_test
+  print('average infected size:', avg_infected_num)
 
-### set size
-avg_size = 0
-for i in range(n_test):
-  avg_size = avg_size + len(pred_sets[i])
-avg_size = avg_size / n_test
-print('set size:', avg_size)
+if ADiT_DSI:
+  # ADiT-DSI
+  print('computing ADiT-DSI...')
+  if prop_model == 'SI':
 
-### To compare, comute the average size of infected set.
-infected_num = 0
-for i in range(n_test):
-  infected_nodes_ = np.nonzero(inputs_test[i])[0]
-  infected_num = infected_num + len(infected_nodes_)
-avg_infected_num = infected_num / n_test
-print('average infected size:', avg_infected_num)
+    coverage = 0
+    avg_size = 0
+
+    for i in range(n_test):
+      infected_nodes_ = np.nonzero(inputs_test[i])[0]
+
+      model = FixedTSI(G, discrepancies, canonical=True, expectation_after=False, m_l=1000, m_p=1000, T=len(infected_nodes_))
+
+      start_time = time.time()
+      confidence_set = model.confidence_set(infected_nodes_, confi_level, new_run=True) 
+      print('Time:', time.time() - start_time, 'number of infected nodes:', len(infected_nodes_), 'size of confidence set:', len(confidence_set[discrepancy_str]))
+
+      if ground_truths_test[i] in confidence_set[discrepancy_str]:
+        coverage = coverage + 1
+      
+      avg_size = avg_size + len(confidence_set[discrepancy_str])
+    
+    coverage = coverage / n_test
+    avg_size = avg_size / n_test
+
+    print('coverage:', coverage)
+    print('set size:', avg_size)
+
+  else:
+    print('SIR model is not supported by ADiT-DSI.')
+    
 
 print('finished.')
