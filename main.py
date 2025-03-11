@@ -99,6 +99,7 @@ ground_truths_test = [ground_truths[i] for i in test_index]
 
 if proposed_method:
   # Conformal Prediction
+  print('computing proposed method...')
   ## Compute conformity scores on the calibration set
   cfscore_calib = []
   for i in range(n_calibration):
@@ -174,7 +175,7 @@ if ADiT_DSI:
     for i in range(n_test):
       infected_nodes_ = np.nonzero(inputs_test[i])[0]
 
-      model = FixedTSI(G, discrepancies, canonical=True, expectation_after=False, m_l=1000, m_p=1000, T=len(infected_nodes_))
+      model = FixedTSI(G, discrepancies, canonical=True, expectation_after=False, m_l=1000, m_p=1000, T=len(infected_nodes_) - 1)
 
       start_time = time.time()
       confidence_set = model.confidence_set(infected_nodes_, confi_level, new_run=True) 
