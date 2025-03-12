@@ -131,8 +131,8 @@ def model_gcn_train(inputs, blocks, args, save_path='./output/models/', sum_path
     start, n_frame, end = args.start, args.n_frame, args.end # Start and end indices for snapshot selection
 
     # Placeholder for model training
-    x = tf.compat.v1.placeholder(tf.float32, [None, n, n_channel], name='data_input')  # Input features
-    y = tf.compat.v1.placeholder(tf.float32, [None, n], name='data_label')  # Labels
+    x = tf.compat.v1.placeholder(tf.float32, [batch_size, n, n_channel], name='data_input')  # Input features
+    y = tf.compat.v1.placeholder(tf.float32, [batch_size, n], name='data_label')  # Labels
     keep_prob = tf.compat.v1.placeholder(tf.float32, name='keep_prob')  # Dropout placeholder
 
     # Define model loss
@@ -180,6 +180,9 @@ def model_gcn_train(inputs, blocks, args, save_path='./output/models/', sum_path
                 gen_xy_batch(inputs.get_data('train'), batch_size, dynamic_batch=True, shuffle=True)):
 
                 x_batch_ = onehot(iteration2snapshot(x_batch, n_frame, start=start, end=end, random=random), n_channel)  # Convert input to one-hot encoding if needed
+                y_batch_ = onehot(y_batch, n)
+
+                x_batch_ = x_batch_[:, 0, :, :]
                 summary, _ = sess.run([merged, train_op],
                                     feed_dict={x: x_batch_,
                                                y: onehot(y_batch, n),
@@ -197,7 +200,8 @@ def model_gcn_train(inputs, blocks, args, save_path='./output/models/', sum_path
                         # Evaluate accuracy on validation set
                         acc_val_list = []
                         for (x_val, y_val) in gen_xy_batch(inputs.get_data('val'), batch_size, dynamic_batch=True, shuffle=False):
-                            x_val_ = onehot(x_val, n_channel)  # Convert validation input to one-hot encoding if needed
+                            x_val_ = onehot(iteration2snapshot(x_val,n_frame,start=start,end=end,random=random), n_channel)  # Convert validation input to one-hot encoding if needed
+                            x_val_ = x_val_[:, 0, :, :]
                             pred_val = sess.run(pred, feed_dict={x: x_val_,
                                                                  y: onehot(y_val, n),
                                                                  keep_prob: 1.0})

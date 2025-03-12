@@ -1,2 +1,2 @@
-model_checkpoint_path: "STGCN-800"
-all_model_checkpoint_paths: "STGCN-800"
+model_checkpoint_path: "GCN_EPOCH_10-2000"
+all_model_checkpoint_paths: "GCN_EPOCH_10-2000"

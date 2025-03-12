@@ -29,12 +29,12 @@ parser.add_argument('--n_frame', type=int, default=1)
 parser.add_argument('--n_channel', type=int, default=3)
 
 parser.add_argument('--batch_size', type=int, default=16)
-parser.add_argument('--epoch', type=int, default=4)
+parser.add_argument('--epoch', type=int, default=10)
 parser.add_argument('--save', type=int, default=1)
 
-parser.add_argument('--ks', type=int, default=2)
+parser.add_argument('--ks', type=int, default=4)
 
-parser.add_argument('--lr', type=float, default=1e-3)
+parser.add_argument('--lr', type=float, default=1e-4)
 parser.add_argument('--opt', type=str, default='RMSProp')
 
 parser.add_argument('--dropout', type=float, default=0)
@@ -64,7 +64,7 @@ n, n_frame = args.n_node, args.n_frame
 Ks = args.ks
 
 # Define blocks for GCN
-blocks = [[1, 64], [64, 128], [128, 64], [64, 1]]
+blocks = [[3, 64], [64, 64], [64, 64], [64, 64]]
 
 # Load weighted adjacency matrix W
 if args.graph == 'default':

@@ -55,7 +55,7 @@ def build_gcn_model(x, y, Ks, blocks, keep_prob):
     # GCN Blocks
     for i, channels in enumerate(blocks):
         # Apply GCN block
-        x = gcn_block(x, Ks, channels, i, keep_prob)
+        x = gcn_rectangle_single(x, channels[0], channels[1], i)
 
     # Output Layer
     logits = output_layer_gcn(x, 'output_layer')
