@@ -30,7 +30,7 @@ parser.add_argument('--n_frame', type=int, default=16)
 parser.add_argument('--n_channel', type=int, default=3)
 
 parser.add_argument('--batch_size', type=int, default=16)
-parser.add_argument('--epoch', type=int, default=4)
+parser.add_argument('--epoch', type=int, default=30)
 parser.add_argument('--save', type=int, default=1)
 
 parser.add_argument('--ks', type=int, default=4)
