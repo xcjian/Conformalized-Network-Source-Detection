@@ -33,7 +33,7 @@ parser.add_argument('--batch_size', type=int, default=16)
 parser.add_argument('--epoch', type=int, default=4)
 parser.add_argument('--save', type=int, default=1)
 
-parser.add_argument('--ks', type=int, default=2)
+parser.add_argument('--ks', type=int, default=4)
 parser.add_argument('--kt', type=int, default=1)
 
 parser.add_argument('--sconv', type=str, default='gcn') # spatio-convolution method, cheb or gcn
@@ -46,10 +46,10 @@ parser.add_argument('--opt', type=str, default='RMSProp')
 parser.add_argument('--dropout', type=float, default=0)
 
 parser.add_argument('--graph', type=str, default='./dataset/highSchool/data/graph/highSchool.edgelist')
-parser.add_argument('--seq', type=str, default='./dataset/highSchool/data/SIR/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16_entire.pickle')
+parser.add_argument('--seq', type=str, default='./dataset/highSchool/data/SIR/SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16_entire.pickle')
 
 parser.add_argument('--pred', type=str, default='./output/models/highSchool/pred_highSchool_nf16.pickle') # file to save predictions
-parser.add_argument('--exp_name', type=str, default='SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16') 
+parser.add_argument('--exp_name', type=str, default='SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16') 
 # the name of the experiment. e.g., SIR_Rzero${Rzero}_beta${beta}_gamma${gamma}_T${T}_ls${ns}_nf${nf}
 
 
@@ -61,7 +61,7 @@ parser.add_argument('--gt', type=str, default='highSchool')
 parser.add_argument('--valid', type=int, default=1)
 parser.add_argument('--random', type=int, default=0)
 
-parser.add_argument("config", help="no use. just a placeholder")
+parser.add_argument("--config", help="no use. just a placeholder", default="xx")
 
 args = parser.parse_args()
 print(f'Training configs: {args}')
@@ -99,7 +99,7 @@ else:
 tf.compat.v1.add_to_collection(name='graph_kernel', value=tf.cast(tf.constant(Lk), tf.float32))
 
 # Data Preprocessing
-train_pct, val_pct = 0.8, 0.1
+train_pct, val_pct = 130/136, 2/136
 
 if args.seq == 'default':
     sfile =\

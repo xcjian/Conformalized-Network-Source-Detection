@@ -5,7 +5,8 @@ from os.path import join as pjoin
 import tensorflow as tf
 import numpy as np
 import time
-
+import os
+import shutil
 
 def model_train(inputs, blocks, args, save_path='./output/models/', sum_path='./output/tensorboard'):
     '''
@@ -63,7 +64,9 @@ def model_train(inputs, blocks, args, save_path='./output/models/', sum_path='./
 
     merged = tf.compat.v1.summary.merge_all()
 
-
+    # Initialize variables to track the best validation accuracy and corresponding model
+    best_val_acc = 0.0
+    best_epoch = 0
 
     with tf.compat.v1.Session() as sess:
         sess.run(tf.compat.v1.global_variables_initializer())
@@ -102,14 +105,31 @@ def model_train(inputs, blocks, args, save_path='./output/models/', sum_path='./
                         acc_val = np.mean(acc_val_list)
                         end_time = time.time()
                         print(f'Epoch {i:2d}, Step {j:3d}: Elapsed Time {(end_time-start_time):.3f} Loss {loss_value:.3f} Train Acc {acc:.3f} Val Acc {acc_val:.3f}')
+                        # Check if the current validation accuracy is the best
+                        if acc_val > best_val_acc:
+                            best_val_acc = acc_val
+                            best_epoch = i
+                            # delete the previous best model
+                            if os.path.exists(save_path):
+                                # delete all files in save_path with name starting by STGCN
+                                for file in os.listdir(save_path):
+                                    if file.startswith('STGCN'):
+                                        os.remove(os.path.join(save_path, file))
+                            # Save the model when a new best validation accuracy is found
+                            model_save(sess, global_steps, 'STGCN', save_path)
+                            print(f'New best model saved with validation accuracy: {best_val_acc:.3f} at epoch {best_epoch}')
                     else:
                         end_time = time.time()
                         print(f'Epoch {i:2d}, Step {j:3d}: Elapsed Time {(end_time-start_time):.3f} Loss {loss_value:.3f} Train Acc {acc:.3f}')
 
+        # Save the final model only if validation is enabled and it's the best
+        if valid:
+            print(f'Final model saved with best validation accuracy: {best_val_acc:.3f}')
+        else:
+            # Save the final model directly if validation is not enabled
+            model_save(sess, global_steps, 'STGCN', save_path)
+            print('Final model saved.')
 
-            if (i + 1) % args.save == 0:
-                model_save(sess, global_steps, 'STGCN', save_path)
-
-    if valid:
-        print('validation erorr:', acc_val)
+            # if (i + 1) % args.save == 0:
+            #     model_save(sess, global_steps, 'STGCN', save_path)
     print('Training model finished!')

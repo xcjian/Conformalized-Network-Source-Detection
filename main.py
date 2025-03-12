@@ -16,7 +16,7 @@ Rzero = 2.5
 beta = 0.3
 gamma = 0
 T = 30
-ls = 4000
+ls = 13600
 nf = 16
 graph = 'highSchool'
 
@@ -36,8 +36,8 @@ calib_ratio = 0.5
 ## Parameters for ADiT-DSI
 discrepancies = [ADiT_h] # discrepancy function
 discrepancy_str = 'ADiT_h'
-m_l = 500
-m_p = 500
+m_l = 5
+m_p = 5
 
 # Load data
 # graph_path = 'SD-STGCN/dataset/highSchool/data/graph/highSchool.edgelist'

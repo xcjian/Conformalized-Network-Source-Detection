@@ -261,12 +261,12 @@ class FixedTSI(InfectionModelBase):
                 else:
                     regroupings.append(grouping)
             for d1 in d1groupings:
-                parent = next(iter(self.G.neighbors[d1[0]]))
+                parent = next(iter(self.G.neighbors(d1[0])))
                 for i in range(len(regroupings)):
                     if parent in regroupings[i][1]:
                         regroupings[i][1].update(d1[1])
                         for v in d1[1]:
-                            v_parent = next(iter(self.G.neighbors[v]))
+                            v_parent = next(iter(self.G.neighbors(v)))
                             regroupings[i][2][v] = v_parent
                             if (v_parent, regroupings[i][0]) in permutations:
                                 permutations[(v, regroupings[i][0])] = permutations[(v_parent, regroupings[i][0])]
@@ -439,7 +439,7 @@ class FixedTSI(InfectionModelBase):
 
     def single_sample(self, s):
         edges = set()
-        for n in self.G.neighbors[s]:
+        for n in self.G.neighbors(s):
             edges.add((s, n))
         infected = {}
         infected[s] = [1, len(edges)]
@@ -448,7 +448,7 @@ class FixedTSI(InfectionModelBase):
                 break
             jump = random.sample(edges, 1)[0]
             infected[jump[1]] = [i+1, 0]
-            for n in self.G.neighbors[jump[1]]:
+            for n in self.G.neighbors(jump[1]):
                 if n in infected:
                     edges.discard((n, jump[1]))
                 else:
@@ -515,7 +515,7 @@ class FixedTSI_IW(FixedTSI_Directed):
 
     def single_sample(self, s):
         edges = set()
-        for n in self.G.neighbors[s]:
+        for n in self.G.neighbors(s):
             for i in range(int(self.G.graph[s][n]["weight"])):
                 edges.add((s, n, i))
         infected = {}
@@ -525,7 +525,7 @@ class FixedTSI_IW(FixedTSI_Directed):
                 break
             jump = random.sample(edges, 1)[0]
             infected[jump[1]] = [i+1]
-            for n in self.G.neighbors[jump[1]]:
+            for n in self.G.neighbors(jump[1]):
                 if n in infected:
                     for j in range(int(self.G.graph[jump[1]][n]["weight"])):
                         edges.discard((n, jump[1], j))
@@ -552,7 +552,7 @@ class ICM_fp(FixedTSI_Directed):
             t += 1
             new_active = set()
             for a in active:
-                for n in self.G.neighbors[a]:
+                for n in self.G.neighbors(a):
                     if n in inactive:
                         continue
                     if random.random() < p:
@@ -577,7 +577,7 @@ class ICM(FixedTSI_Directed):
             t += 1
             new_active = set()
             for a in active:
-                for n in self.G.neighbors[a]:
+                for n in self.G.neighbors(a):
                     if n in inactive or n in new_active:
                         continue
                     if random.random() < self.G.graph[a][n]["weight"]:
@@ -607,7 +607,7 @@ class LTM(FixedTSI_Directed):
             t += 1
             newly_added = set()
             for a in added:
-                for n in self.G.neighbors[a]:
+                for n in self.G.neighbors(a):
                     if n in active:
                         continue
                     if n not in influence:
