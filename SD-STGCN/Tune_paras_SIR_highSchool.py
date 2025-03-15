@@ -32,7 +32,7 @@ def main():
     nf = 16      # num of frames
     N = 774      # num of nodes in graph
     gt = "highSchool"  # graph type
-    ep = 30       # num of epochs
+    ep = 50       # num of epochs
     save = 1     # save every # of epochs
     skip = 1     # start from skip-th snapshot
     end = -1     # the sampled snapshots will end at (skip + n_frame)-th snapshot
@@ -40,8 +40,8 @@ def main():
     random = 0   # randomly sample n_frame snapshots?
 
     # Define parameter ranges for grid search
-    batch_sizes = [16, 32]  # batch_size
-    learning_rates = [1e-4, 1e-3, 1e-2]  # learning rate
+    batch_sizes = [16]  # batch_size
+    learning_rates = [1e-3]  # learning rate
     spatio_kernel_sizes = [2, 3, 4]  # spatio kernel size
     temporal_kernel_sizes = [1, 2]  # temporal kernel size
 

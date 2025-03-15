@@ -1,14 +1,34 @@
 nohup: ignoring input
 Testing parameters: batch_size=16, lr=0.001, ks=2, kt=1
-Running command: python main_SIR_T.py --gt highSchool --n_node 774 --n_frame 16 --batch_size 16 --epoch 3 --ks 2 --kt 1 --sconv gcn --save 1 --graph ./dataset/highSchool/data/graph/highSchool.edgelist --pred ./output/models/highSchool/pred_highSchool_nf16.pickle --seq ./dataset/highSchool/data/SIR/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16_entire.pickle --exp_name SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16 --start 1 --end -1 --random 0 --lr 0.001 --valid 1
-Saved results to ./para_tune_res/SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16/params_bs16_lr0.001_ks2_kt1.txt
-Validation accuracy: 0.31
+Running command: python main_SIR_T.py --gt highSchool --n_node 774 --n_frame 16 --batch_size 16 --epoch 50 --ks 2 --kt 1 --sconv gcn --save 1 --graph ./dataset/highSchool/data/graph/highSchool.edgelist --pred ./output/models/highSchool/pred_highSchool_nf16.pickle --seq ./dataset/highSchool/data/SIR/SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16_entire.pickle --exp_name SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16 --start 1 --end -1 --random 0 --lr 0.001 --valid 1
+Saved results to ./para_tune_res/SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16/params_bs16_lr0.001_ks2_kt1.txt
+Validation accuracy: 0.395
+Testing parameters: batch_size=16, lr=0.001, ks=2, kt=2
+Running command: python main_SIR_T.py --gt highSchool --n_node 774 --n_frame 16 --batch_size 16 --epoch 50 --ks 2 --kt 2 --sconv gcn --save 1 --graph ./dataset/highSchool/data/graph/highSchool.edgelist --pred ./output/models/highSchool/pred_highSchool_nf16.pickle --seq ./dataset/highSchool/data/SIR/SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16_entire.pickle --exp_name SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16 --start 1 --end -1 --random 0 --lr 0.001 --valid 1
+Saved results to ./para_tune_res/SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16/params_bs16_lr0.001_ks2_kt2.txt
+Validation accuracy: 0.347
+Testing parameters: batch_size=16, lr=0.001, ks=3, kt=1
+Running command: python main_SIR_T.py --gt highSchool --n_node 774 --n_frame 16 --batch_size 16 --epoch 50 --ks 3 --kt 1 --sconv gcn --save 1 --graph ./dataset/highSchool/data/graph/highSchool.edgelist --pred ./output/models/highSchool/pred_highSchool_nf16.pickle --seq ./dataset/highSchool/data/SIR/SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16_entire.pickle --exp_name SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16 --start 1 --end -1 --random 0 --lr 0.001 --valid 1
+Saved results to ./para_tune_res/SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16/params_bs16_lr0.001_ks3_kt1.txt
+Validation accuracy: 0.354
+Testing parameters: batch_size=16, lr=0.001, ks=3, kt=2
+Running command: python main_SIR_T.py --gt highSchool --n_node 774 --n_frame 16 --batch_size 16 --epoch 50 --ks 3 --kt 2 --sconv gcn --save 1 --graph ./dataset/highSchool/data/graph/highSchool.edgelist --pred ./output/models/highSchool/pred_highSchool_nf16.pickle --seq ./dataset/highSchool/data/SIR/SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16_entire.pickle --exp_name SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16 --start 1 --end -1 --random 0 --lr 0.001 --valid 1
+Saved results to ./para_tune_res/SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16/params_bs16_lr0.001_ks3_kt2.txt
+Validation accuracy: 0.342
+Testing parameters: batch_size=16, lr=0.001, ks=4, kt=1
+Running command: python main_SIR_T.py --gt highSchool --n_node 774 --n_frame 16 --batch_size 16 --epoch 50 --ks 4 --kt 1 --sconv gcn --save 1 --graph ./dataset/highSchool/data/graph/highSchool.edgelist --pred ./output/models/highSchool/pred_highSchool_nf16.pickle --seq ./dataset/highSchool/data/SIR/SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16_entire.pickle --exp_name SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16 --start 1 --end -1 --random 0 --lr 0.001 --valid 1
+Saved results to ./para_tune_res/SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16/params_bs16_lr0.001_ks4_kt1.txt
+Validation accuracy: 0.409
+Testing parameters: batch_size=16, lr=0.001, ks=4, kt=2
+Running command: python main_SIR_T.py --gt highSchool --n_node 774 --n_frame 16 --batch_size 16 --epoch 50 --ks 4 --kt 2 --sconv gcn --save 1 --graph ./dataset/highSchool/data/graph/highSchool.edgelist --pred ./output/models/highSchool/pred_highSchool_nf16.pickle --seq ./dataset/highSchool/data/SIR/SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16_entire.pickle --exp_name SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16 --start 1 --end -1 --random 0 --lr 0.001 --valid 1
+Saved results to ./para_tune_res/SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16/params_bs16_lr0.001_ks4_kt2.txt
+Validation accuracy: 0.347
 
 Best parameter combination:
 {
     "batch_size": 16,
     "learning_rate": 0.001,
-    "spatio_kernel_size": 2,
+    "spatio_kernel_size": 4,
     "temporal_kernel_size": 1,
-    "validation_accuracy": 0.31
+    "validation_accuracy": 0.409
 }
