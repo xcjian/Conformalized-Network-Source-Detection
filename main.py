@@ -26,7 +26,8 @@ else:
   prop_model = 'SIR'
 
 ## Public parameters
-confi_level = 0.05
+confi_levels = [0.02, 0.05, 0.07, 0.10, 0.15, 0.20, 0.25, 0.30]
+n_alpha = len(confi_levels)
 
 ## Parameters for Conformal Prediction
 proposed_method = True
@@ -99,6 +100,10 @@ inputs_test = [inputs[i] for i in test_index]
 pred_scores_test = [pred_scores[i] for i in test_index]
 ground_truths_test = [ground_truths[i] for i in test_index]
 
+method_names = []
+coverage_res = {}
+set_size_res = {}
+
 if proposed_method:
   # Conformal Prediction
   print('computing proposed method...')
@@ -127,36 +132,40 @@ if proposed_method:
   cfscore_test = np.array(cfscore_test)
   print('Conformity scores computed. shape of test:' + str(cfscore_test.shape))
 
-  ## compute the quantile
-  tail_prop = (1 - confi_level) * (1 + 1 / n_calibration)
-  threshold = np.quantile(cfscore_calib, tail_prop, method = 'lower')
-  print('Quantile:', threshold)
+  
+  ## Compute prediction sets and evaluate the performance
 
-  ## Apply the quantile on the test set
-  pred_sets = []
-  for i in range(n_test):
-    pred_set_ = []
-    for j in range(n_nodes):
-      if cfscore_test[i][j] <= threshold:
-        pred_set_.append(j)
-    pred_sets.append(pred_set_)
-  print('Prediction sets computed.')
+  coverage = np.zeros(n_alpha)
+  avg_size = np.zeros(n_alpha)
 
-  ## Verify the test results
-  ### coverage
-  cover_num = 0
   for i in range(n_test):
-    if ground_truths_test[i] in pred_sets[i]:
-      cover_num = cover_num + 1
-  coverage = cover_num / n_test
-  print('coverage:', coverage)
+    pred_sets = {}
+    for alpha in confi_levels:
+      pred_sets[str(alpha)] = set()
 
-  ### set size
-  avg_size = 0
-  for i in range(n_test):
-    avg_size = avg_size + len(pred_sets[i])
+      ## compute the quantile
+      tail_prop = (1 - alpha) * (1 + 1 / n_calibration)
+      threshold = np.quantile(cfscore_calib, tail_prop, method = 'lower')
+
+      for j in range(n_nodes):
+        if cfscore_test[i][j] <= threshold:
+          pred_sets[str(alpha)].add(j)
+    print('Prediction sets computed. index:', i)
+
+    for j, alpha in enumerate(confi_levels):
+      if ground_truths_test[i] in pred_sets[str(alpha)]:
+        coverage[j] = coverage[j] + 1
+      
+      avg_size[j] = avg_size[j] + len(pred_sets[str(alpha)])    
+  
+  coverage = coverage / n_test
   avg_size = avg_size / n_test
+  print('coverage:', coverage)
   print('set size:', avg_size)
+
+  method_names.append('proposed')
+  coverage_res['proposed'] = coverage
+  set_size_res['proposed'] = avg_size
 
   ### To compare, comute the average size of infected set.
   infected_num = 0
@@ -171,8 +180,8 @@ if ADiT_DSI:
   print('computing ADiT-DSI...')
   if prop_model == 'SI':
 
-    coverage = 0
-    avg_size = 0
+    coverage = np.zeros(n_alpha)
+    avg_size = np.zeros(n_alpha)
 
     for i in range(n_test):
       infected_nodes_ = np.nonzero(inputs_test[i])[0]
@@ -180,13 +189,15 @@ if ADiT_DSI:
       model = FixedTSI(G, discrepancies, canonical=True, expectation_after=False, m_l=m_l, m_p=m_p, T=len(infected_nodes_) - 1)
 
       start_time = time.time()
-      confidence_set = model.confidence_set(infected_nodes_, confi_level, new_run=True) 
-      print('Time:', time.time() - start_time, 'number of infected nodes:', len(infected_nodes_), 'size of confidence set:', len(confidence_set[discrepancy_str]))
+      confidence_sets = model.confidence_set_mp(infected_nodes_, confi_levels, new_run=True) 
+      confidence_sets = confidence_sets[discrepancy_str]
+      print('Time:', time.time() - start_time, 'index:', i)
 
-      if ground_truths_test[i] in confidence_set[discrepancy_str]:
-        coverage = coverage + 1
-      
-      avg_size = avg_size + len(confidence_set[discrepancy_str])
+      for j, alpha in enumerate(confi_levels):
+        if ground_truths_test[i] in confidence_sets[str(alpha)]:
+          coverage[j] = coverage[j] + 1
+        
+        avg_size[j] = avg_size[j] + len(confidence_sets[str(alpha)])
     
     coverage = coverage / n_test
     avg_size = avg_size / n_test
@@ -194,8 +205,35 @@ if ADiT_DSI:
     print('coverage:', coverage)
     print('set size:', avg_size)
 
+    method_names.append('ADiT-DSI')
+    coverage_res['ADiT-DSI'] = coverage
+    set_size_res['ADiT-DSI'] = avg_size
+
   else:
     print('SIR model is not supported by ADiT-DSI.')
-    
+
+
+## make plots for the results
+
+### plot coverage results
+plt.figure()
+for method in method_names:
+  plt.plot(confi_levels, coverage_res[method], label=method)
+plt.xlabel('Confidence level')
+plt.ylabel('Coverage')
+plt.legend()
+
+plt.savefig('coverage.pdf')
+
+### plot set size results
+plt.figure()
+for method in method_names:
+  plt.plot(confi_levels, set_size_res[method], label=method)
+plt.xlabel('Confidence level')
+plt.ylabel('Average set size')
+plt.legend()
+
+plt.savefig('set_size.pdf')
+
 
 print('finished.')

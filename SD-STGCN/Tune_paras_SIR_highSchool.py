@@ -38,11 +38,12 @@ def main():
     end = -1     # the sampled snapshots will end at (skip + n_frame)-th snapshot
     T = 30       # simulation time steps
     random = 0   # randomly sample n_frame snapshots?
+    run_on_cloud = 0 # run on cloud platform? if yes, the data will be read from the cloud.
 
     # Define parameter ranges for grid search
     batch_sizes = [16]  # batch_size
     learning_rates = [1e-3]  # learning rate
-    spatio_kernel_sizes = [5, 6, 7]  # spatio kernel size
+    spatio_kernel_sizes = [4]  # spatio kernel size
     temporal_kernel_sizes = [1]  # temporal kernel size
 
     # Parse command-line arguments (optional overrides)
@@ -70,9 +71,22 @@ def main():
     random = args.random
 
     # Construct paths
-    graph_path = f"./dataset/{gt}/data/graph/{gt}.edgelist"
+    local_graph_path = f"./dataset/{gt}/data/graph/{gt}.edgelist"
+    local_seq_path = f"./dataset/{gt}/data/SIR/SIR_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}_entire.pickle"
+    if run_on_cloud:
+        graph_path = f"/home/featurize/data/CP_source_det/dataset/{gt}/data/graph/{gt}.edgelist"
+        seq_path = f"/home/featurize/data/CP_source_det/dataset/{gt}/data/SIR/SIR_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}_entire.pickle"
+        if not os.path.exists(local_graph_path):
+            os.makedirs(os.path.dirname(local_graph_path), exist_ok=True)
+            subprocess.run(["cp", graph_path, local_graph_path])
+        if not os.path.exists(local_seq_path):
+            os.makedirs(os.path.dirname(local_seq_path), exist_ok=True)
+            subprocess.run(["cp", seq_path, local_seq_path])
+    else:
+        graph_path = local_graph_path
+        seq_path = local_seq_path
+    
     pred_path = f"./output/models/{gt}/pred_{gt}_nf{nf}.pickle"
-    seq_path = f"./dataset/{gt}/data/SIR/SIR_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}_entire.pickle"
     exp_name = f"SIR_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}"
 
     # Directory to store results

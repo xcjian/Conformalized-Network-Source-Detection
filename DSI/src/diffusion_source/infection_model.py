@@ -202,6 +202,42 @@ class InfectionModelBase(ABC):
             return full_C
 
         return csets(new_results)
+    
+    def confidence_set_mp(self, x, alpha_levels, new_run=True, meta=None, full=False):
+
+        # This function computes the confidence set simultaneously for a list of alpha levels.
+        if new_run:
+            new_results = self.p_values(x, meta=meta)
+        else:
+            if self.current is None:
+                raise RuntimeError('Requested confidence set based on previous run with empty history.')
+            new_results = self.results[self.current]
+
+        def csets(results):
+            p_vals = results["p_vals"]
+
+            C_sets = {}
+            for l_name in self.loss_names:
+                C_sets[l_name] = {}
+                for alpha in alpha_levels:
+                    C_sets[l_name][str(alpha)] = set()
+
+            for si, p in p_vals.items():
+                for i, l_name in enumerate(self.loss_names):
+                    for alpha in alpha_levels:
+                        if p[i][0] + random.random()*p[i][1] > alpha:
+                            C_sets[l_name][str(alpha)].add(si)
+
+            return C_sets
+
+        if full:
+            full_C = {}
+            for t, r in self.results.items():
+                full_C[t] = csets(r)
+            return full_C
+
+        return csets(new_results)
+
 
 
 ##########################################################################################################
