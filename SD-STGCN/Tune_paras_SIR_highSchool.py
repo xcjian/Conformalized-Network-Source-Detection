@@ -42,8 +42,8 @@ def main():
     # Define parameter ranges for grid search
     batch_sizes = [16]  # batch_size
     learning_rates = [1e-3]  # learning rate
-    spatio_kernel_sizes = [2, 3, 4]  # spatio kernel size
-    temporal_kernel_sizes = [1, 2]  # temporal kernel size
+    spatio_kernel_sizes = [5, 6, 7]  # spatio kernel size
+    temporal_kernel_sizes = [1]  # temporal kernel size
 
     # Parse command-line arguments (optional overrides)
     parser = argparse.ArgumentParser(description="Run SIR model with specified parameters.")
