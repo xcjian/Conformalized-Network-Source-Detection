@@ -61,6 +61,9 @@ parser.add_argument('--gt', type=str, default='ER')
 parser.add_argument('--valid', type=int, default=0)
 parser.add_argument('--random', type=int, default=1)
 
+parser.add_argument('--train_pct', type=float, default=0.8)
+parser.add_argument('--val_pct', type=float, default=0.1)
+
 args = parser.parse_args()
 print(f'Training configs: {args}')
 
@@ -97,7 +100,7 @@ else:
 tf.compat.v1.add_to_collection(name='graph_kernel', value=tf.cast(tf.constant(Lk), tf.float32))
 
 # Data Preprocessing
-train_pct, val_pct = 0.8, 0.1
+train_pct, val_pct = args.train_pct, args.val_pct
 
 if args.seq == 'default':
     sfile =\

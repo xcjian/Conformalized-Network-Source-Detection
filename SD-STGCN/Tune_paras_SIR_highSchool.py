@@ -28,7 +28,7 @@ def main():
     Rzero = 2.5  # simulation R0
     beta = 0.3   # beta
     gamma = 0    # simulation gamma
-    ns = 13600    # num of sequences
+    ns = 21200    # num of sequences
     nf = 16      # num of frames
     N = 774      # num of nodes in graph
     gt = "highSchool"  # graph type
@@ -39,6 +39,8 @@ def main():
     T = 30       # simulation time steps
     random = 0   # randomly sample n_frame snapshots?
     run_on_cloud = 0 # run on cloud platform? if yes, the data will be read from the cloud.
+    train_pct = 0.9434
+    val_pct = 0.0189
 
     # Define parameter ranges for grid search
     batch_sizes = [16]  # batch_size

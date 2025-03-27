@@ -16,7 +16,7 @@ Rzero = 2.5
 beta = 0.3
 gamma = 0
 T = 30
-ls = 13600
+ls = 21200
 nf = 16
 graph = 'highSchool'
 
@@ -53,10 +53,10 @@ graph_path = 'data/' + graph + '/graph/' + graph + '.edgelist'
 data_path = 'data/' + graph + '/test_res/' + exp_name + '/res.pickle'
 if not os.path.exists(graph_path):
   os.makedirs(os.path.dirname(graph_path), exist_ok=True)
-  os.system('cp ' + graph_extract_path + ' ' + graph_path)
+os.system('cp ' + graph_extract_path + ' ' + graph_path)
 if not os.path.exists(data_path):
   os.makedirs(os.path.dirname(data_path), exist_ok=True)
-  os.system('cp ' + data_extract_path + ' ' + data_path)
+os.system('cp ' + data_extract_path + ' ' + data_path)
 
 graph = nx.read_edgelist(graph_path, nodetype=int)
 G = nx.Graph(graph)
