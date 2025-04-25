@@ -69,7 +69,8 @@ i = 0
 sim_length = []
 while i < len_seq:
     if sim_type == 'SIR':
-        sim = SIR(N, g, beta, gamma, min_outbreak_frac=f0)
+        # sim = SIR(N, g, beta, gamma, min_outbreak_frac=f0)
+        sim = MultiSIR(N, g, beta, gamma, num_sources=3, min_outbreak_frac=f0)
     elif sim_type == 'SEIR':
         sim = SEIR(N, g, beta, gamma, alpha, min_outbreak_frac=f0)
     else:

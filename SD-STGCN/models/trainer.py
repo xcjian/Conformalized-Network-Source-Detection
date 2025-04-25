@@ -76,7 +76,7 @@ def model_train(inputs, blocks, args, save_path='./output/models/', sum_path='./
             for j, (x_batch, y_batch) in enumerate(
                 gen_xy_batch(inputs.get_data('train'), batch_size, dynamic_batch=True, shuffle=True)):
 
-                x_batch_ = onehot(iteration2snapshot(x_batch, n_frame, start=start, end=end, random=random), n_channel)
+                x_batch_ = onehot(iteration2snapshot(x_batch, n_frame, start=start, end=end, random=random), n_channel) 
                 summary, _ = sess.run([merged, train_op],\
                                 feed_dict={x: x_batch_,\
                                 y: onehot(y_batch, n), keep_prob: 1.0})

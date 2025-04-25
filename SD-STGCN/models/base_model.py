@@ -73,6 +73,33 @@ def build_model_SI(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv):
     else:
         raise ValueError(f'ERROR: kernel size Ko must be greater than 1, but received "{Ko}".')
 
+    # # SINGLE SOURCE DETECTION
+    # # ---- Apply SI propagation constraints ----
+    # # Extract infection status: shape = [batch_size, n_node]
+    # infection_status = Input[:, 0, :, 1]  # Select the second feature (index 1) at time step 0
+
+    # # Create mask for infected nodes
+    # infected_mask = tf.cast(infection_status > 0, tf.float32)  # 1 for infected, 0 for non-infected
+
+    # # Set logits to zero for non-infected nodes
+    # logits = logits * infected_mask + (1 - infected_mask) * (-1e9) # Zeroing out non-infected nodes
+
+    # # Compute loss
+    # train_loss = tf.compat.v1.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(\
+    #                                         labels=y, logits=logits, axis=-1))
+
+
+    # y_pred = tf.nn.softmax(logits)
+    # tf.compat.v1.add_to_collection(name='y_pred', value=y_pred)
+
+    # return train_loss, y_pred
+
+
+
+
+    
+
+    # MULTISOURCE DETECTION
     # ---- Apply SI propagation constraints ----
     # Extract infection status: shape = [batch_size, n_node]
     infection_status = Input[:, 0, :, 1]  # Select the second feature (index 1) at time step 0
@@ -80,18 +107,25 @@ def build_model_SI(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv):
     # Create mask for infected nodes
     infected_mask = tf.cast(infection_status > 0, tf.float32)  # 1 for infected, 0 for non-infected
 
-    # Set logits to zero for non-infected nodes
-    logits = logits * infected_mask + (1 - infected_mask) * (-1e9) # Zeroing out non-infected nodes
+    # Mask the logits: only compute for infected nodes
+    masked_logits = logits * infected_mask + (1 - infected_mask) * (-1e9)  # Prevent prediction on uninfected
 
-    # Compute loss
-    train_loss = tf.compat.v1.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(\
-                                            labels=y, logits=logits, axis=-1))
+    # Compute binary cross entropy loss (sigmoid + cross entropy)
+    loss_per_node = tf.nn.sigmoid_cross_entropy_with_logits(labels=y, logits=masked_logits)
 
+    # Mask the loss as well: only count loss from infected nodes
+    masked_loss = loss_per_node * infected_mask
 
-    y_pred = tf.nn.softmax(logits)
+    # Average loss over the batch
+    train_loss = tf.reduce_mean(masked_loss)
+
+    # Prediction: probability for each node being a source
+    y_pred = tf.nn.sigmoid(logits)
+
     tf.compat.v1.add_to_collection(name='y_pred', value=y_pred)
 
     return train_loss, y_pred
+
 
 
 def model_save(sess, global_steps, model_name, save_path='./output/models/'):
