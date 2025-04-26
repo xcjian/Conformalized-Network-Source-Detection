@@ -110,24 +110,22 @@ if proposed_method:
   ## Compute conformity scores on the calibration set
   cfscore_calib = []
   for i in range(n_calibration):
-    if prop_model == 'SI':
-      infected_nodes_ = np.nonzero(inputs_calib[i])[0]
-      cfscore_calib.append(APS_score_SI(pred_scores_calib[i], infected_nodes_, ground_truths_calib[i]))
-    elif prop_model == 'SIR':
-      cfscore_calib.append(APS_score(pred_scores_calib[i], ground_truths_calib[i]))
+    infected_nodes_ = np.nonzero(inputs_calib[i])[0]
+    ground_truth_one_hot_ = np.zeros(n_nodes)
+    ground_truth_one_hot_[ground_truths_calib[i]] = 1
+    score_ = avg_score(pred_scores_calib[i], ground_truth_one_hot_, prop_model, infected_nodes_)
+    cfscore_calib.append(score_)
   cfscore_calib = np.array(cfscore_calib)
 
   ## Compute conformity scores on the test set
   cfscore_test = []
   for i in range(n_test):
+    infected_nodes_ = np.nonzero(inputs_test[i])[0]
     cfscore_ = np.ones(n_nodes)
-    if prop_model == 'SI':
-      infected_nodes_ = np.nonzero(inputs_test[i])[0]
-      for j in infected_nodes_:
-        cfscore_[j] = APS_score_SI(pred_scores_test[i], infected_nodes_, j)
-    elif prop_model == 'SIR':
-      for j in range(n_nodes):
-        cfscore_[j] = APS_score(pred_scores_test[i], j)
+    for j in range(n_nodes):
+      indicator_ = np.zeros(n_nodes)
+      indicator_[j] = 1
+      cfscore_[j] = avg_score(pred_scores_test[i], indicator_, prop_model, infected_nodes_)
     cfscore_test.append(cfscore_)
   cfscore_test = np.array(cfscore_test)
   print('Conformity scores computed. shape of test:' + str(cfscore_test.shape))

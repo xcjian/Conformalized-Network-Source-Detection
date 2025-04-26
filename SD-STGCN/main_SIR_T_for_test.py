@@ -17,8 +17,8 @@ tf.compat.v1.Session(config=config)
 
 from utils.math_graph import *
 from data_loader.data_utils import *
-from models.trainer import model_train
-from models.tester import model_test
+from models.trainer import model_train_nodewise
+from models.tester import model_test_nodewise
 
 import argparse
 
@@ -30,7 +30,8 @@ parser.add_argument('--n_frame', type=int, default=16)
 parser.add_argument('--n_channel', type=int, default=3)
 
 parser.add_argument('--batch_size', type=int, default=16)
-parser.add_argument('--epoch', type=int, default=30)
+# parser.add_argument('--epoch', type=int, default=30)
+parser.add_argument('--epoch', type=int, default=1)
 parser.add_argument('--save', type=int, default=1)
 
 parser.add_argument('--ks', type=int, default=4)
@@ -46,10 +47,10 @@ parser.add_argument('--opt', type=str, default='RMSProp')
 parser.add_argument('--dropout', type=float, default=0)
 
 parser.add_argument('--graph', type=str, default='./dataset/highSchool/data/graph/highSchool.edgelist')
-parser.add_argument('--seq', type=str, default='./dataset/highSchool/data/SIR/SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16_entire.pickle')
+parser.add_argument('--seq', type=str, default='./dataset/highSchool/data/SIR/SIR_nsrc3_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16_entire.pickle')
 
 parser.add_argument('--pred', type=str, default='./output/models/highSchool/pred_highSchool_nf16.pickle') # file to save predictions
-parser.add_argument('--exp_name', type=str, default='SIR_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16') 
+parser.add_argument('--exp_name', type=str, default='SIR_nsrc3_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16') 
 # the name of the experiment. e.g., SIR_Rzero${Rzero}_beta${beta}_gamma${gamma}_T${T}_ls${ns}_nf${nf}
 
 
@@ -63,6 +64,9 @@ parser.add_argument('--random', type=int, default=0)
 
 parser.add_argument("--config", help="no use. just a placeholder", default="xx")
 
+parser.add_argument('--pos_weight', type=float, default=100)
+parser.add_argument('--no_train', action='store_false', help='Flag to disable training (default: True)')
+# if do not want train then just write --no_train in the command line.
 args = parser.parse_args()
 print(f'Training configs: {args}')
 
@@ -70,6 +74,8 @@ n, n_frame = args.n_node, args.n_frame
 Ks, Kt = args.ks, args.kt
 
 sconv = args.sconv
+
+no_train = args.no_train
 
 # blocks: settings of channel size in st_conv_blocks / bottleneck design
 blocks = [[3, 36, 144], [144, 36, 72]]
@@ -123,7 +129,8 @@ dataset = data_gen(sfile, n, n_frame, train_pct, val_pct)
 
 if __name__ == '__main__':
 
-    model_train(dataset, blocks, args, save_path=save_path)
-    model_test(dataset, args, load_path=load_path, save_test_path=save_test_path)
+    if not no_train:
+        model_train_nodewise(dataset, blocks, args, save_path=save_path)
+    model_test_nodewise(dataset, args, load_path=load_path, save_test_path=save_test_path)
 
 

@@ -81,5 +81,68 @@ def model_test(inputs, args, load_path='./output/models/', save_test_path=None):
         print(f'{acc_test:.3f} {mrr_test:.3f} {hit_5:.3f} {hit_10:.3f} {hit_20:.3f}')
 
 
+def model_test_nodewise(inputs, args, load_path='./output/models/', save_test_path=None):
+    '''
+    Load and test saved model from the checkpoint.
+    inputs: instance of class Dataset, data source for test.
+    args: instance of class argparse, args for training.
+    load_path: str, the path of loaded model.
+    '''
+    n_frame = args.n_frame
+    num_node = args.n_node
+    n_channel = args.n_channel
+
+    batch_size = args.batch_size
+
+    start, end = args.start, args.end
+
+    random = args.random
+
+    model_path = tf.train.get_checkpoint_state(load_path).model_checkpoint_path
+
+    test_graph = tf.Graph()
+
+    with test_graph.as_default():
+        saver = tf.compat.v1.train.import_meta_graph(pjoin(f'{model_path}.meta'))
+
+    all_inputs = []
+    all_pred_results = []
+    all_y_test = []
+
+    with tf.compat.v1.Session(graph=test_graph) as test_sess:
+        saver.restore(test_sess, tf.train.latest_checkpoint(load_path))
+        print(f'>> Loading saved model from {model_path} ...')
+
+        pred = test_graph.get_collection('y_pred')[0]
 
 
+        acc_test_list = []
+        prec_test_list = []
+        recall_test_list = []
+        for (x_test, y_test) in gen_xy_batch(inputs.get_data('test'), batch_size,\
+        dynamic_batch=True, shuffle=False):
+            x_test_ = onehot(iteration2snapshot(x_test, n_frame, start=start, end=end, random=random),n_channel)
+            y_test_ = snapshot_to_labels(y_test, num_node)
+            pred_test = test_sess.run(pred, feed_dict={'data_input:0': x_test_, 'data_label:0': y_test_, 'keep_prob:0': 1.0})
+
+            acc_test_list.append(batch_acc_nodewise(pred_test, y_test_))
+            prec_test_list.append(batch_prec_nodewise(pred_test, y_test_))
+            recall_test_list.append(batch_recall_nodewise(pred_test, y_test_))
+
+            if save_test_path:
+                x_test_array = np.array([list(x_test_[i][0]) for i in range(len(x_test_))])
+                all_inputs.append(x_test_array[:, :, 1]) # only use the infected status
+                all_pred_results.append(pred_test)
+                all_y_test.append(y_test_)
+        
+        if save_test_path:
+            res = {'predictions': all_pred_results, 'ground_truth': all_y_test, 'inputs': all_inputs}
+            with open(save_test_path + 'res.pickle', 'wb') as f:
+                pickle.dump(res, f)
+            print(f'>> Test results saved to {save_test_path}')
+
+        acc_test = np.mean(acc_test_list)
+        prec_test = np.mean(prec_test_list)
+        recall_test = np.mean(recall_test_list)
+        
+        print(f'{acc_test:.3f} {prec_test:.3f} {recall_test:.3f}')
