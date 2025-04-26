@@ -26,6 +26,7 @@ def extract_validation_accuracy(filepath):
 def main():
     # Define default parameters
     Rzero = 2.5  # simulation R0
+    nsrc = 3 # number of sources
     beta = 0.3   # beta
     gamma = 0    # simulation gamma
     ns = 21200    # num of sequences
@@ -38,7 +39,6 @@ def main():
     end = -1     # the sampled snapshots will end at (skip + n_frame)-th snapshot
     T = 30       # simulation time steps
     random = 0   # randomly sample n_frame snapshots?
-    run_on_cloud = 0 # run on cloud platform? if yes, the data will be read from the cloud.
     train_pct = 0.9434
     val_pct = 0.0189
 
@@ -47,6 +47,7 @@ def main():
     learning_rates = [1e-3]  # learning rate
     spatio_kernel_sizes = [4]  # spatio kernel size
     temporal_kernel_sizes = [1]  # temporal kernel size
+    pos_weights = [5, 50, 500] # weight for positive nodes
 
     # Parse command-line arguments (optional overrides)
     parser = argparse.ArgumentParser(description="Run SIR model with specified parameters.")
@@ -73,23 +74,11 @@ def main():
     random = args.random
 
     # Construct paths
-    local_graph_path = f"./dataset/{gt}/data/graph/{gt}.edgelist"
-    local_seq_path = f"./dataset/{gt}/data/SIR/SIR_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}_entire.pickle"
-    if run_on_cloud:
-        graph_path = f"/home/featurize/data/CP_source_det/dataset/{gt}/data/graph/{gt}.edgelist"
-        seq_path = f"/home/featurize/data/CP_source_det/dataset/{gt}/data/SIR/SIR_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}_entire.pickle"
-        if not os.path.exists(local_graph_path):
-            os.makedirs(os.path.dirname(local_graph_path), exist_ok=True)
-            subprocess.run(["cp", graph_path, local_graph_path])
-        if not os.path.exists(local_seq_path):
-            os.makedirs(os.path.dirname(local_seq_path), exist_ok=True)
-            subprocess.run(["cp", seq_path, local_seq_path])
-    else:
-        graph_path = local_graph_path
-        seq_path = local_seq_path
+    graph_path = f"./dataset/{gt}/data/graph/{gt}.edgelist"
+    seq_path = f"./dataset/{gt}/data/SIR/SIR_nsrc{nsrc}_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}_entire.pickle"
     
     pred_path = f"./output/models/{gt}/pred_{gt}_nf{nf}.pickle"
-    exp_name = f"SIR_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}"
+    exp_name = f"SIR_nsrc{nsrc}_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}"
 
     # Directory to store results
     results_dir = "./para_tune_res/" + exp_name
@@ -100,11 +89,11 @@ def main():
     best_params = None
 
     # Grid search over all parameter combinations
-    for bs, lr, ks, kt in itertools.product(batch_sizes, learning_rates, spatio_kernel_sizes, temporal_kernel_sizes):
-        print(f"Testing parameters: batch_size={bs}, lr={lr}, ks={ks}, kt={kt}")
+    for bs, lr, ks, kt, pos_weight in itertools.product(batch_sizes, learning_rates, spatio_kernel_sizes, temporal_kernel_sizes, pos_weights):
+        print(f"Testing parameters: batch_size={bs}, lr={lr}, ks={ks}, kt={kt}, pos_weight={pos_weight}")
 
         # Construct the filename for this parameter combination
-        filename = f"params_bs{bs}_lr{lr}_ks{ks}_kt{kt}.txt"
+        filename = f"params_bs{bs}_lr{lr}_ks{ks}_kt{kt}_pos_weight{pos_weight}.txt"
         filepath = os.path.join(results_dir, filename)
 
         # Check if the result file already exists
@@ -133,6 +122,7 @@ def main():
                 "--random", str(random),
                 "--lr", str(lr),
                 "--valid", "1",
+                "--pos_weight", str(pos_weight),
             ]
 
             # Print the command for debugging
@@ -143,7 +133,7 @@ def main():
 
             # Write the parameter combination and output to a .txt file
             with open(filepath, "w") as f:
-                f.write(f"Parameters: batch_size={bs}, lr={lr}, ks={ks}, kt={kt}\n\n")
+                f.write(f"Parameters: batch_size={bs}, lr={lr}, pos_weight={pos_weight}, ks={ks}, kt={kt}\n\n")
                 f.write("Output:\n")
                 f.write(result.stdout)  # Write the standard output
                 if result.stderr:
@@ -161,6 +151,7 @@ def main():
                 "learning_rate": lr,
                 "spatio_kernel_size": ks,
                 "temporal_kernel_size": kt,
+                "pos_weight": pos_weight,
                 "validation_accuracy": validation_accuracy,
             }
 

@@ -244,6 +244,35 @@ def sample_from_iteration(iteration, num_frames, start, end=-1, random=1):
 def iteration2snapshot(iterations, num_frames, start, end, random=True):
     return np.array([sample_from_iteration(x, num_frames, start, end, random) for x in iterations])
 
+# convert y labels to one-hot labels.
+def snapshot_to_labels(y_batch, n_node):
+    '''
+    Convert y_batch to one-hot node labels.
+    
+    Args:
+        y_batch: 
+            Case 1: list/array of integers (each integer is a node index)
+            Case 2: list/array of list of integers (each list: node indices with label=1)
+        n_node: int, total number of nodes
+    
+    Returns:
+        labels: np.ndarray of shape [batch_size, n_node] with entries {0, 1}
+    '''
+    batch_size = len(y_batch)
+    labels = np.zeros((batch_size, n_node), dtype=np.int32)
+    
+    for i in range(batch_size):
+        entry = y_batch[i]
+        
+        if isinstance(entry, (list, np.ndarray)):
+            # Case 2: list of integers (multiple positive nodes)
+            for idx in entry:
+                labels[i, idx] = 1
+        else:
+            # Case 1: single integer
+            labels[i, entry] = 1
+    
+    return labels
 
 def onehot(a, n, axis=-1, dtype=int):
     pos = axis if axis >= 0 else a.ndim + axis + 1
@@ -255,6 +284,53 @@ def onehot(a, n, axis=-1, dtype=int):
     ind.insert(pos, a)
     out[tuple(ind)] = True
     return out
+
+
+# def onehot(x, n_channel=None, dtype=int):
+#     """
+#     Unified one-hot encoder.
+    
+#     Handles:
+#     1. labels (int or list of ints) → one-hot / multi-hot, shape [B, n]
+#     2. state tensors (e.g. [B, T, N]) → one-hot per element, shape [B, T, N, C]
+    
+#     Args:
+#         x: list[int], list[list[int]], or ndarray[int]
+#         n_channel: number of categories (e.g. n_nodes for label, or state count for input feature)
+#         dtype: output type (int by default)
+    
+#     Returns:
+#         np.ndarray
+#     """
+#     x = np.array(x, dtype=object if isinstance(x[0], (list, np.ndarray)) else int)
+
+#     # Case 1: input is shape [batch_size] of ints (single-source labels)
+#     if x.ndim == 1 and np.issubdtype(x.dtype, np.integer):
+#         if n_channel is None:
+#             raise ValueError("n_channel must be provided for one-hot encoding.")
+#         out = np.zeros((x.shape[0], n_channel), dtype=dtype)
+#         out[np.arange(x.shape[0]), x] = 1
+#         return out
+
+#     # Case 2: input is shape [batch_size] of lists (multi-source labels)
+#     elif x.ndim == 1 and x.dtype == object and isinstance(x[0], (list, np.ndarray)):
+#         if n_channel is None:
+#             raise ValueError("n_channel must be provided for multi-hot encoding.")
+#         out = np.zeros((len(x), n_channel), dtype=dtype)
+#         for i, indices in enumerate(x):
+#             out[i, indices] = 1
+#         return out
+
+#     # Case 3: input is a state matrix [B, T, N] of ints (model input)
+#     elif x.ndim >= 3 and np.issubdtype(x.dtype, np.integer):
+#         if n_channel is None:
+#             n_channel = int(x.max()) + 1
+#         return np.eye(n_channel, dtype=dtype)[x]  # returns [B, T, N, C]
+
+#     else:
+#         raise ValueError(f"Unsupported input shape or type: {x.shape}, {x.dtype}")
+
+
 
 
 # ------------------------
@@ -287,6 +363,5 @@ def single_data_gen(file_path, n_node, n_frame):
 
 
 if __name__=='__main__':
-    x = np.array([1,2,3])
-    print(x.shape)
-    print(one_hot(x,4))
+    x=[[0,1],[3],[2,3]]
+    print(onehot(x,4))

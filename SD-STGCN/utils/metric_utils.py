@@ -21,6 +21,80 @@ def batch_acc(y_pred, y):
     y_pred_ = np.argmax(y_pred,axis=1)
     return accuracy_score(y,y_pred_,normalize=True)
 
+def batch_acc_nodewise(pred_batch, y_batch):
+    '''
+    Compute node-wise precision, recall, F1 for a batch.
+    pred_batch: predicted softmax outputs, shape [batch_size, n_node, 2]
+    y_batch: true labels, shape [batch_size, n_node], values {0, 1}
+    
+    Returns:
+        f1, precision, recall
+    '''
+    pred_labels = np.argmax(pred_batch, axis=-1)  # [batch_size, n_node]
+
+    # Flatten everything
+    pred_labels = pred_labels.flatten()
+    y_batch = y_batch.flatten()
+
+    true_positives = np.sum((pred_labels == 1) & (y_batch == 1))
+    false_positives = np.sum((pred_labels == 1) & (y_batch == 0))
+    false_negatives = np.sum((pred_labels == 0) & (y_batch == 1))
+
+    precision = true_positives / (true_positives + false_positives + 1e-8)
+    recall = true_positives / (true_positives + false_negatives + 1e-8)
+    f1 = 2 * precision * recall / (precision + recall + 1e-8)
+
+    # return f1, precision, recall
+    return f1
+
+def batch_prec_nodewise(pred_batch, y_batch):
+    '''
+    Compute node-wise precision for a batch.
+    pred_batch: predicted softmax outputs, shape [batch_size, n_node, 2]
+    y_batch: true labels, shape [batch_size, n_node], values {0, 1}
+    
+    Returns:
+        precision
+    '''
+    pred_labels = np.argmax(pred_batch, axis=-1)  # [batch_size, n_node]
+
+    # Flatten everything
+    pred_labels = pred_labels.flatten()
+    y_batch = y_batch.flatten()
+
+    true_positives = np.sum((pred_labels == 1) & (y_batch == 1))
+    false_positives = np.sum((pred_labels == 1) & (y_batch == 0))
+    false_negatives = np.sum((pred_labels == 0) & (y_batch == 1))
+
+    precision = true_positives / (true_positives + false_positives + 1e-8)
+
+    # return precision
+    return precision
+
+def batch_recall_nodewise(pred_batch, y_batch):
+    '''
+    Compute node-wise recall for a batch.
+    pred_batch: predicted softmax outputs, shape [batch_size, n_node, 2]
+    y_batch: true labels, shape [batch_size, n_node], values {0, 1}
+    
+    Returns:
+        recall
+    '''
+    pred_labels = np.argmax(pred_batch, axis=-1)  # [batch_size, n_node]
+
+    # Flatten everything
+    pred_labels = pred_labels.flatten()
+    y_batch = y_batch.flatten()
+
+    true_positives = np.sum((pred_labels == 1) & (y_batch == 1))
+    false_positives = np.sum((pred_labels == 1) & (y_batch == 0))
+    false_negatives = np.sum((pred_labels == 0) & (y_batch == 1))
+
+    recall = true_positives / (true_positives + false_negatives + 1e-8)
+
+    # return recall
+    return recall
+
 # mean reciprocal rank
 def batch_mrr(y_pred, y):
     '''

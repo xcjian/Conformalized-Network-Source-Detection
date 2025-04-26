@@ -53,3 +53,42 @@ def APS_score_SI(pred_score, infected_nodes, ground_truth):
     APS = APS_score(pred_score_array, ground_truth)
     
     return APS
+
+def avg_score(pred_prob, ground_truth, prop_model, infected_nodes):
+    '''
+    This function computes the proposed score for a single sample.
+
+    Args:
+    pred_prob: list of float, predicted scores of nodes, representing the probability of belonging to the initial infected nodes
+    ground_truth: list of 0 and 1, one-hot vector of ground truth node
+    prop_model: str, propagation model used
+    infected_nodes: list of int, indices of infected nodes at the earlist available time step
+
+    Returns:
+    Average score: float.
+    '''
+
+    n_nodes = len(pred_prob)
+
+    # adjust the pred_prob accoding to the propagation model
+    pi_hat = np.zeros(n_nodes)
+    for node in range(n_nodes):
+        if prop_model == 'SI' and node not in infected_nodes:
+            pi_hat = 0
+        else:
+            pi_hat = pred_prob[node]
+    
+    # find the smallest pi_hat inside the ground truth
+    min_pi_hat = np.inf
+    for node in range(n_nodes):
+        if ground_truth[node] == 1:
+            min_pi_hat = min(min_pi_hat, pi_hat[node])
+    
+    # find all the nodes with pi_hat >= min_pi_hat
+    indices = np.where(pi_hat >= min_pi_hat)[0]
+
+    # compute the average score inside the indices
+    pred_score = np.mean(pred_prob[indices])
+    pred_score = - pred_score # Note that in this case, small score implies good prediction.
+    
+    return pred_score

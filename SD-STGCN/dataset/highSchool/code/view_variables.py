@@ -1,8 +1,9 @@
 import pickle
+import os
 
-gpath = 'SD-STGCN/dataset/highSchool/data/SIR/'
+gpath = os.path.dirname(os.getcwd())
 
-with open(gpath + 'SIR_Rzero2.5_beta0.3_gamma0_T30_ls4000_nf16_entire.pickle', 'rb') as f:
+with open(gpath + '/data/SIR/SIR_nsrc3_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16_entire.pickle', 'rb') as f:
     data = pickle.load(f)
 
 print(data[0][0])

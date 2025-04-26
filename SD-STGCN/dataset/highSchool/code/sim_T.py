@@ -16,10 +16,12 @@ parser.add_argument('--gamma', type=float, default=0.4) # If gamma <= 0, then se
 parser.add_argument('--alpha', type=float, default=0.5)
 parser.add_argument('--f0', type=float, default=0.02)
 parser.add_argument('--T', type=int, default=30)
+parser.add_argument('--n_sources', type=int, default=3)
 
 args = parser.parse_args()
 
 T = args.T
+n_sources = args.n_sources
 
 sim_type = args.sim_type # simulation type
 
@@ -52,11 +54,11 @@ else:
     gamma = 0
     beta = args.beta
 if sim_type == 'SIR':
-    sim_file = '%s_Rzero%s_beta%s_gamma%s_T%s_ls%s_nf%s_entire.pickle' %\
-    (sim_type,R0,beta,gamma,T,len_seq,num_frames)
+    sim_file = '%s_nsrc%s_Rzero%s_beta%s_gamma%s_T%s_ls%s_nf%s_entire.pickle' %\
+    (sim_type,n_sources,R0,beta,gamma,T,len_seq,num_frames)
 elif sim_type == 'SEIR':
-    sim_file = '%s_Rzero%s_beta%s_gamma%s_alpha%s_T%s_ls%s_nf%s_entire.pickle' %\
-    (sim_type,R0,beta,gamma,alpha,T,len_seq,num_frames)
+    sim_file = '%s_nsrc%s_Rzero%s_beta%s_gamma%s_alpha%s_T%s_ls%s_nf%s_entire.pickle' %\
+    (sim_type,n_sources,R0,beta,gamma,alpha,T,len_seq,num_frames)
 else:
     raise Exception('unknown simulation type')
 
@@ -69,7 +71,8 @@ i = 0
 sim_length = []
 while i < len_seq:
     if sim_type == 'SIR':
-        sim = SIR(N, g, beta, gamma, min_outbreak_frac=f0)
+        # sim = SIR(N, g, beta, gamma, min_outbreak_frac=f0)
+        sim = MultiSIR(N, g, beta, gamma, num_sources=n_sources, min_outbreak_frac=f0)
     elif sim_type == 'SEIR':
         sim = SEIR(N, g, beta, gamma, alpha, min_outbreak_frac=f0)
     else:

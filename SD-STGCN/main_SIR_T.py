@@ -17,8 +17,8 @@ tf.compat.v1.Session(config=config)
 
 from utils.math_graph import *
 from data_loader.data_utils import *
-from models.trainer import model_train
-from models.tester import model_test
+from models.trainer import model_train_nodewise
+from models.tester import model_test_nodewise
 
 import argparse
 
@@ -64,6 +64,10 @@ parser.add_argument('--random', type=int, default=1)
 parser.add_argument('--train_pct', type=float, default=0.8)
 parser.add_argument('--val_pct', type=float, default=0.1)
 
+parser.add_argument('--pos_weight', type=float, default=10)
+parser.add_argument('--train_flag', action='store_false', help='Flag to disable training (default: True)')
+# if do not want train then just write --train_flag in the command line.
+
 args = parser.parse_args()
 print(f'Training configs: {args}')
 
@@ -71,6 +75,9 @@ n, n_frame = args.n_node, args.n_frame
 Ks, Kt = args.ks, args.kt
 
 sconv = args.sconv
+
+train_flag = args.train_flag
+print(str(train_flag))
 
 # blocks: settings of channel size in st_conv_blocks / bottleneck design
 blocks = [[3, 36, 144], [144, 36, 72]]
@@ -124,7 +131,7 @@ dataset = data_gen(sfile, n, n_frame, train_pct, val_pct)
 
 if __name__ == '__main__':
 
-    model_train(dataset, blocks, args, save_path=save_path)
-    model_test(dataset, args, load_path=load_path, save_test_path=save_test_path)
+    model_train_nodewise(dataset, blocks, args, save_path=save_path)
+    model_test_nodewise(dataset, args, load_path=load_path, save_test_path=save_test_path)
 
 

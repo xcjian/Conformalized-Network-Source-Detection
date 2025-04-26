@@ -269,6 +269,28 @@ def fully_con_layer(x, n, channel, scope):
     b = tf.compat.v1.get_variable(name=f'b_{scope}', initializer=tf.zeros([n, 1]), dtype=tf.float32)
     return tf.nn.conv2d(input=x, filters=w, strides=[1, 1, 1, 1], padding='SAME') + b
 
+def fully_con_layer_nodewise(x, n, out_channels, scope):
+    '''
+    Fully connected layer: maps multi-channels to multiple outputs per node.
+    
+    x: tensor, [batch_size, 1, N, channel].
+    n: int, number of nodes / size of graph.
+    out_channels: int, desired output channels (e.g., 2 for nodewise classification)
+    scope: str, variable scope.
+    
+    return: tensor, [batch_size, 1, N, out_channels].
+    '''
+    _, _, _, in_channels = x.get_shape().as_list()
+    
+    w = tf.compat.v1.get_variable(name=f'w_{scope}', shape=[1, 1, in_channels, out_channels], dtype=tf.float32)
+    tf.compat.v1.add_to_collection(name='weight_decay', value=tf.nn.l2_loss(w))
+    b = tf.compat.v1.get_variable(name=f'b_{scope}', initializer=tf.zeros([n, out_channels]), dtype=tf.float32)
+    
+    # Conv2d: [batch, height=1, width=N, in_channels] -> [batch, 1, N, out_channels]
+    x_out = tf.nn.conv2d(input=x, filters=w, strides=[1, 1, 1, 1], padding='SAME') + tf.expand_dims(b, axis=1)
+    
+    return x_out
+
 
 def output_layer(x, T, scope, act_func='GLU'):
     '''
@@ -294,6 +316,70 @@ def output_layer(x, T, scope, act_func='GLU'):
     # reshape [-1, n]
     x_fc = tf.reshape(x_fc, [-1,n])
     return x_fc
+
+# def output_layer_nodewise(x, T, scope, act_func='GLU'):
+#     '''
+#     Output layer: temporal convolution layers attach with one fully connected layer,
+#     which map outputs of the last st_conv block to a two-class (not-label, label) prediction per node.
+    
+#     x: tensor, [batch_size, time_step, n_node, channel].
+#     T: int, kernel size of temporal convolution.
+#     scope: str, variable scope.
+#     act_func: str, activation function.
+    
+#     return: tensor, [batch_size, n_node, 2].
+#     '''
+#     _, _, n, channel = x.get_shape().as_list()
+
+#     # maps multi-steps to one.
+#     with tf.compat.v1.variable_scope(f'{scope}_in'):
+#         x_i = temporal_conv_layer(x, T, channel, channel, act_func=act_func)
+
+#     x_ln = layer_norm(x_i, f'layer_norm_{scope}')
+    
+#     with tf.compat.v1.variable_scope(f'{scope}_out'):
+#         x_o = temporal_conv_layer(x_ln, 1, channel, channel, act_func='sigmoid')
+
+#     # ---- CHANGED: Fully connected layer to output 2 classes instead of 1 ----
+#     x_o = tf.compat.v1.Print(x_o, [tf.shape(x_o)], message='x_o shape: ')
+#     x_fc = fully_con_layer_nodewise(x_o, n, 2, scope)  # output 2 channels per node
+
+#     # Reshape to [-1, n, 2]
+#     x_fc = tf.reshape(x_fc, [-1, n, 2])
+    
+#     return x_fc
+
+def output_layer_nodewise(x, T, scope, act_func='GLU'):
+    '''
+    Output layer: temporal convolution layers attach with one fully connected layer twice,
+    mapping outputs to two classes (not-label, label) prediction per node.
+    '''
+    _, _, n, channel = x.get_shape().as_list()
+
+    with tf.compat.v1.variable_scope(f'{scope}_in'):
+        x_i = temporal_conv_layer(x, T, channel, channel, act_func=act_func)
+
+    x_ln = layer_norm(x_i, f'layer_norm_{scope}')
+
+    with tf.compat.v1.variable_scope(f'{scope}_out'):
+        x_o = temporal_conv_layer(x_ln, 1, channel, channel, act_func='sigmoid')
+
+    # ---- Collapse time dimension ----
+    x_o = tf.reduce_mean(x_o, axis=1, keepdims=True)  # [batch_size, 1, n_node, channel]
+
+    # ---- Apply fully_con_layer twice ----
+    with tf.compat.v1.variable_scope(f'{scope}_class0'):
+        out0 = fully_con_layer(x_o, n, channel, f'{scope}_class0')  # shape [batch_size, 1, n_node, 1]
+    with tf.compat.v1.variable_scope(f'{scope}_class1'):
+        out1 = fully_con_layer(x_o, n, channel, f'{scope}_class1')  # shape [batch_size, 1, n_node, 1]
+
+    # Concatenate along the last axis (class dimension)
+    logits = tf.concat([out0, out1], axis=-1)  # shape [batch_size, 1, n_node, 2]
+
+    # Squeeze the singleton time dimension
+    logits = tf.squeeze(logits, axis=1)  # shape [batch_size, n_node, 2]
+
+    return logits
 
 
 def variable_summaries(var, v_name):

@@ -99,6 +99,28 @@ class SIR(Epidemic):
 
         self.model.set_initial_status(config)
 
+# multisource SIR
+class MultiSIR(Epidemic):
+    def __init__(self, N, g, beta, gamma, num_sources=3, min_outbreak_frac=0.02):
+        super().__init__(N, g, min_outbreak_frac)
+        self.beta = beta
+        self.gamma = gamma
+        self.num_sources = num_sources
+
+    def init(self):
+        self.src = np.random.choice(self.N, size=self.num_sources, replace=False).tolist()
+
+        self.model = ep.SIRModel(self.g)
+
+        config = mc.Configuration()
+        config.add_model_parameter('beta', self.beta)
+        config.add_model_parameter('gamma', self.gamma)
+        config.add_model_initial_configuration('Infected', self.src)
+
+        self.model.set_initial_status(config)
+#e.g. multi_sir = MultiSIR(N=200, g=g, beta=0.03, gamma=0.01, src=[0, 5, 99])
+
+
 
 class SEIR(Epidemic):
     def __init__(self, N, g, beta, gamma, alpha, min_outbreak_frac=0.02):
