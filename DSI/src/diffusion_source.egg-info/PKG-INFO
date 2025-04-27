@@ -1,4 +1,4 @@
-Metadata-Version: 2.2
+Metadata-Version: 2.1
 Name: diffusion_source
 Version: 1.0
 Summary: package for computing confidence sets on diffusion source procedures
@@ -17,13 +17,6 @@ Requires-Dist: numpy
 Requires-Dist: scipy
 Requires-Dist: matplotlib
 Requires-Dist: pandas
-Dynamic: author
-Dynamic: author-email
-Dynamic: description
-Dynamic: home-page
-Dynamic: license
-Dynamic: requires-dist
-Dynamic: summary
 
 # Diffusion Source Identification  on Networks with Statistical Confidence
 
