@@ -67,6 +67,7 @@ parser.add_argument("--config", help="no use. just a placeholder", default="xx")
 parser.add_argument('--pos_weight', type=float, default=100)
 parser.add_argument('--no_train', action='store_false', help='Flag to disable training (default: True)')
 # if do not want train then just write --no_train in the command line.
+parser.add_argument('--prop_model', type=str, default='SIR') # can also be 'SI'.
 args = parser.parse_args()
 print(f'Training configs: {args}')
 

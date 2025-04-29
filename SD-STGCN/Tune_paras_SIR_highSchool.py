@@ -23,19 +23,29 @@ def extract_validation_accuracy(filepath):
                     return float(numbers[0])
     return -1
 
+def dynamic_float_or_int(x):
+    try:
+        f = float(x)
+        if f.is_integer():
+            return int(f)
+        return f
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"{x} is not a valid float or int")
+
 def main():
     # Define default parameters
     Rzero = 2.5  # simulation R0
-    nsrc = 3 # number of sources
+    nsrc = 1 # number of sources
     beta = 0.3   # beta
     gamma = 0    # simulation gamma
     ns = 21200    # num of sequences
     nf = 16      # num of frames
     N = 774      # num of nodes in graph
     gt = "highSchool"  # graph type
-    ep = 50       # num of epochs
+    # ep = 50       # num of epochs
+    ep = 10 # num of epochs
     save = 1     # save every # of epochs
-    skip = 1     # start from skip-th snapshot
+    skip = 2     # start from skip-th snapshot
     end = -1     # the sampled snapshots will end at (skip + n_frame)-th snapshot
     T = 30       # simulation time steps
     random = 0   # randomly sample n_frame snapshots?
@@ -43,23 +53,33 @@ def main():
     val_pct = 0.0189
 
     # Define parameter ranges for grid search
-    batch_sizes = [16]  # batch_size
-    learning_rates = [1e-3]  # learning rate
-    spatio_kernel_sizes = [4]  # spatio kernel size
-    temporal_kernel_sizes = [1]  # temporal kernel size
-    pos_weights = [5, 50, 500] # weight for positive nodes
+    # batch_sizes = [16]  # batch_size
+    # learning_rates = [1e-3]  # learning rate
+    # spatio_kernel_sizes = [4]  # spatio kernel size
+    # temporal_kernel_sizes = [1]  # temporal kernel size
+    # pos_weights = [0.5, 1, 3, 5] # weight for positive nodes
 
     # Parse command-line arguments (optional overrides)
     parser = argparse.ArgumentParser(description="Run SIR model with specified parameters.")
     parser.add_argument("--Rzero", type=float, default=Rzero, help="Simulation R0 (default: 2.5)")
     parser.add_argument("--beta", type=float, default=beta, help="Beta (default: 0.1)")
-    parser.add_argument("--gamma", type=float, default=gamma, help="Gamma (default: 0.4)")
+    parser.add_argument("--gamma", type=dynamic_float_or_int, default=gamma, help="Gamma (default: 0.4)")
     parser.add_argument("--ns", type=int, default=ns, help="Number of sequences (default: 4000)")
     parser.add_argument("--nf", type=int, default=nf, help="Number of frames (default: 16)")
     parser.add_argument("--ep", type=int, default=ep, help="Number of epochs (default: 3)")
     parser.add_argument("--save", type=int, default=save, help="Save every # of epochs (default: 1)")
     parser.add_argument("--skip", type=int, default=skip, help="Start from skip-th snapshot (default: 1)")
     parser.add_argument("--random", type=int, default=random, help="Randomly sample n_frame snapshots (default: 0)")
+
+    parser.add_argument("--nsrc", type=int, default=nsrc)
+    parser.add_argument("--prop_model", type=str, default='SIR')
+
+    parser.add_argument("--batch_sizes", type=int, nargs='+', default=[16])
+    parser.add_argument("--learning_rates", type=float, nargs='+', default=[1e-3])
+    parser.add_argument("--spatio_kernel_sizes", type=int, nargs='+', default=[4])
+    parser.add_argument("--temporal_kernel_sizes", type=int, nargs='+', default=[1])
+    parser.add_argument("--pos_weights", type=float, nargs='+', default=[5])
+
     args = parser.parse_args()
 
     # Update parameters with command-line arguments
@@ -72,6 +92,15 @@ def main():
     save = args.save
     skip = args.skip
     random = args.random
+
+    nsrc = args.nsrc
+    prop_model = args.prop_model
+
+    batch_sizes = args.batch_sizes
+    learning_rates = args.learning_rates
+    spatio_kernel_sizes = args.spatio_kernel_sizes
+    temporal_kernel_sizes = args.temporal_kernel_sizes
+    pos_weights = args.pos_weights
 
     # Construct paths
     graph_path = f"./dataset/{gt}/data/graph/{gt}.edgelist"
@@ -105,6 +134,7 @@ def main():
             command = [
                 "python", "main_SIR_T.py",
                 "--gt", gt,
+                "--prop_model", prop_model,
                 "--n_node", str(N),
                 "--n_frame", str(nf),
                 "--batch_size", str(bs),
@@ -123,6 +153,8 @@ def main():
                 "--lr", str(lr),
                 "--valid", "1",
                 "--pos_weight", str(pos_weight),
+                "--train_pct", str(train_pct),
+                "--val_pct", str(val_pct),
             ]
 
             # Print the command for debugging

@@ -4,16 +4,17 @@ import math
 
 # This code is used to split the data such that it will not exceed the size of git commit.
 prop_model = 'SIR'
-Rzero = 2.5  # simulation R0
-beta = 0.3   # beta
-gamma = 0    # simulation gamma
+Rzero = 43.44  # simulation R0
+nsrc = 14
+beta = 0.25   # beta
+gamma = 0.15    # simulation gamma
 ns = 21200    # num of sequences
 nf = 16      # num of frames
 gt = "highSchool"  # graph type
 T = 30       # simulation time steps
 
 data_path = f"../data/{prop_model}/"
-file_name = f"{prop_model}_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}_entire.pickle"
+file_name = f"{prop_model}_nsrc{nsrc}_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}_entire.pickle"
 
 with open(data_path + file_name, 'rb') as f:
     data = pickle.load(f)

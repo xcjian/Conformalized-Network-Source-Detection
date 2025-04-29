@@ -93,7 +93,7 @@ def build_model_SI(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv):
 
     return train_loss, y_pred
 
-def build_model_SI_nodewise(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv, pos_weight):
+def build_model_SI_nodewise(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv, pos_weight, prop_model='SIR'):
     '''
     Build the base model for node-wise binary classification (label vs not label).
     x: placeholder features, shape [-1, n_frame, n_node, n_channel]
@@ -123,20 +123,26 @@ def build_model_SI_nodewise(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv, pos
     else:
         raise ValueError(f'ERROR: kernel size Ko must be greater than 1, but received "{Ko}".')
 
-    # ---- Apply SI propagation constraints ----
-    # Infection status: select feature at time=0, feature=1
-    infection_status = Input[:, 0, :, 1]  # shape: [batch_size, n_node]
+    if prop_model == 'SI':
+        # ---- Apply SI propagation constraints ----
+        # Infection status: select feature at time=0, feature=1
+        infection_status = Input[:, 0, :, 1]  # shape: [batch_size, n_node]
 
-    # Create infected mask
-    infected_mask = tf.cast(infection_status > 0, tf.float32)  # [batch_size, n_node]
+        # Create infected mask
+        infected_mask = tf.cast(infection_status > 0, tf.float32)  # [batch_size, n_node]
+        non_infected_mask = tf.cast(infection_status == 0, tf.float32)  # [batch_size, n_node]
 
-    # Expand and tile to match logits shape
-    infected_mask = tf.expand_dims(infected_mask, axis=-1)     # [batch_size, n_node, 1]
-    infected_mask = tf.tile(infected_mask, [1, 1, 2])           # [batch_size, n_node, 2]
+        # Expand and tile to match logits shape
+        infected_mask = tf.expand_dims(infected_mask, axis=-1)     # [batch_size, n_node, 1]
+        infected_mask = tf.tile(infected_mask, [1, 1, 2])           # [batch_size, n_node, 2]
 
-    # Set logits to very negative for non-infected nodes (both classes)
+        # Set logits to very negative for non-infected nodes (both classes)
 
-    logits = logits * infected_mask + (1.0 - infected_mask) * (-1e9)
+        # logits = logits * infected_mask + (1.0 - infected_mask) * (-1e9)
+        infected_fill_class0 = tf.ones_like(infected_mask[:, :, 0:1]) * 1e9
+        infected_fill_class1 = tf.ones_like(infected_mask[:, :, 0:1]) * -1e9
+        infected_fill = tf.concat([infected_fill_class0, infected_fill_class1], axis=-1)
+        logits = logits * infected_mask + (1.0 - infected_mask) * infected_fill
 
     # ---- Compute Weighted Loss ----
 

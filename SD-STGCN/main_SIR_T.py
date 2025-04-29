@@ -67,6 +67,7 @@ parser.add_argument('--val_pct', type=float, default=0.1)
 parser.add_argument('--pos_weight', type=float, default=10)
 parser.add_argument('--train_flag', action='store_false', help='Flag to disable training (default: True)')
 # if do not want train then just write --train_flag in the command line.
+parser.add_argument('--prop_model', type=str, default='SIR') # can also be 'SI'.
 
 args = parser.parse_args()
 print(f'Training configs: {args}')

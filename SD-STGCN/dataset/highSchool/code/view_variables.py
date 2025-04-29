@@ -3,10 +3,11 @@ import os
 
 gpath = os.path.dirname(os.getcwd())
 
-with open(gpath + '/data/SIR/SIR_nsrc3_Rzero2.5_beta0.3_gamma0_T30_ls13600_nf16_entire.pickle', 'rb') as f:
+with open(gpath + '/data/SIR/SIR_nsrc10_Rzero2.5_beta0.25_gamma0_T30_ls10_nf16_entire.pickle', 'rb') as f:
     data = pickle.load(f)
 
-print(data[0][0])
+for i in range(6):
+    print(data[0][0][i]['node_count'])
 print(data[1][0])
 
 print('ok')

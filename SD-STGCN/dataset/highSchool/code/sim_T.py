@@ -8,7 +8,7 @@ np.random.seed(42)
 parser = argparse.ArgumentParser()
 parser.add_argument('--n_frame', type=int, default=16)
 parser.add_argument('--len_seq', type=int, default=2000)
-parser.add_argument('--graph_type', type=str, default='ER')
+parser.add_argument('--graph_type', type=str, default='highSchool')
 parser.add_argument('--sim_type', type=str, default='SIR')
 parser.add_argument('--R0', type=float, default=2.5)
 parser.add_argument('--beta', type=float, default=-1) # If gamma > 0, then ignore this input variable.
@@ -50,6 +50,8 @@ A = nx.adjacency_matrix(g).todense().astype(float)
 lambda_max = eigs(A, k=1, which='LR')[0][0].real
 if gamma > 0:
     beta = round(R0 * gamma / lambda_max, 3)
+    print(lambda_max)
+    print(beta)
 else:
     gamma = 0
     beta = args.beta
