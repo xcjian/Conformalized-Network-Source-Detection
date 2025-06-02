@@ -2,7 +2,6 @@ import time
 import numpy as np
 import pandas as pd
 import pickle
-import tensorflow as tf
 
 
 np.random.seed(42)
@@ -284,54 +283,6 @@ def onehot(a, n, axis=-1, dtype=int):
     ind.insert(pos, a)
     out[tuple(ind)] = True
     return out
-
-
-# def onehot(x, n_channel=None, dtype=int):
-#     """
-#     Unified one-hot encoder.
-    
-#     Handles:
-#     1. labels (int or list of ints) → one-hot / multi-hot, shape [B, n]
-#     2. state tensors (e.g. [B, T, N]) → one-hot per element, shape [B, T, N, C]
-    
-#     Args:
-#         x: list[int], list[list[int]], or ndarray[int]
-#         n_channel: number of categories (e.g. n_nodes for label, or state count for input feature)
-#         dtype: output type (int by default)
-    
-#     Returns:
-#         np.ndarray
-#     """
-#     x = np.array(x, dtype=object if isinstance(x[0], (list, np.ndarray)) else int)
-
-#     # Case 1: input is shape [batch_size] of ints (single-source labels)
-#     if x.ndim == 1 and np.issubdtype(x.dtype, np.integer):
-#         if n_channel is None:
-#             raise ValueError("n_channel must be provided for one-hot encoding.")
-#         out = np.zeros((x.shape[0], n_channel), dtype=dtype)
-#         out[np.arange(x.shape[0]), x] = 1
-#         return out
-
-#     # Case 2: input is shape [batch_size] of lists (multi-source labels)
-#     elif x.ndim == 1 and x.dtype == object and isinstance(x[0], (list, np.ndarray)):
-#         if n_channel is None:
-#             raise ValueError("n_channel must be provided for multi-hot encoding.")
-#         out = np.zeros((len(x), n_channel), dtype=dtype)
-#         for i, indices in enumerate(x):
-#             out[i, indices] = 1
-#         return out
-
-#     # Case 3: input is a state matrix [B, T, N] of ints (model input)
-#     elif x.ndim >= 3 and np.issubdtype(x.dtype, np.integer):
-#         if n_channel is None:
-#             n_channel = int(x.max()) + 1
-#         return np.eye(n_channel, dtype=dtype)[x]  # returns [B, T, N, C]
-
-#     else:
-#         raise ValueError(f"Unsupported input shape or type: {x.shape}, {x.dtype}")
-
-
-
 
 # ------------------------
 # for real world cases

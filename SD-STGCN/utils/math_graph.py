@@ -94,7 +94,7 @@ def weight_matrix(file_path, sigma2=0.1, epsilon=0.5, scaling=True):
         #W = pd.read_csv(file_path, header=None).values
         print(file_path)
         g = nx.read_edgelist(file_path)
-        W = np.array(nx.adjacency_matrix(g).todense())
+        W = nx.adjacency_matrix(g).toarray()
     except FileNotFoundError:
         print(f'ERROR: input file was not found in {file_path}.')
 

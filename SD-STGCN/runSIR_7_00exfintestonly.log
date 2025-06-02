@@ -1,0 +1,11 @@
+Training configs: Namespace(n_node=774, n_frame=16, n_channel=3, batch_size=64, epoch=20, save=1, ks=6, kt=3, sconv='gcn', lr=0.001, opt='RMSProp', dropout=0, graph='./dataset/highSchool/data/graph/highSchool.edgelist', seq='./dataset/highSchool/data/SIR/SIR_nsrc7_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_entire.pickle', pred='default', exp_name='SIR_nsrc7_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_00exfin', start=1, end=-1, gt='highSchool', valid=1, random=0, train_pct=0.9434, val_pct=0.0189, pos_weight=5.0, train_flag=False, prop_model='SIR')
+False
+./dataset/highSchool/data/graph/highSchool.edgelist
+\SD-STGCN\utils\math_graph.py:97: FutureWarning: adjacency_matrix will return a scipy.sparse array instead of a matrix in Networkx 3.0.
+  W = nx.adjacency_matrix(g).toarray()
+The input graph is a 0/1 matrix; set "scaling" to False.
+Loading model from: ./output/models/highSchool/SIR_nsrc7_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_00exfin/STGCN_step7_pytorch.pt
+Test F1: 0.2386
+Test Prec: 0.1634
+Test Recall: 0.4657
+Saved test result to ./output/test_res/highSchool/SIR_nsrc7_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_00exfin/res.pickle

@@ -1,0 +1,40 @@
+{
+  "n_node": 774,
+  "n_frame": 16,
+  "n_channel": 3,
+  "batch_size": 64,
+  "epoch": 3,
+  "save": 1,
+  "ks": 6,
+  "kt": 3,
+  "sconv": "gcn",
+  "lr": 0.001,
+  "opt": "RMSProp",
+  "dropout": 0,
+  "graph": "./dataset/highSchool/data/graph/highSchool.edgelist",
+  "seq": "./dataset/highSchool/data/SIR/SIR_nsrc7_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_entire.pickle",
+  "pred": "default",
+  "exp_name": "SIR_nsrc7_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_00exfin",
+  "start": 1,
+  "end": -1,
+  "gt": "highSchool",
+  "valid": 1,
+  "random": 0,
+  "train_pct": 0.9434,
+  "val_pct": 0.0189,
+  "pos_weight": 5.0,
+  "train_flag": false,
+  "prop_model": "SIR",
+  "blocks": [
+    [
+      3,
+      36,
+      144
+    ],
+    [
+      144,
+      36,
+      72
+    ]
+  ]
+}

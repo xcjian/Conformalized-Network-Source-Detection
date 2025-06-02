@@ -1,229 +1,247 @@
-import tensorflow as tf
 
-# -------------------
-# gconv
-# --------------------
-# graph convolution using chebyshev polynomials
-#
-def gconv(x, theta, Ks, c_in, c_out):
-    '''
-    Spectral-based graph convolution function.
-    x: tensor, [batch_size, N, c_in].
-    theta: tensor, [Ks*c_in, c_out], trainable kernel parameters.
-    Ks: int, kernel size of graph convolution.
-    c_in: int, size of input channel.
-    c_out: int, size of output channel.
-    return: tensor, [batch_size, N, c_out].
-    '''
-    # graph kernel: tensor, [N, Ks*N]
-    kernel = tf.compat.v1.get_collection('graph_kernel')[0]
-    n = tf.shape(input=kernel)[0]
-    # x -> [batch_size, c_in, N] -> [batch_size*c_in, N]
-    x_tmp = tf.reshape(tf.transpose(a=x, perm=[0, 2, 1]), [-1, n])
-    # x_mul = x_tmp * ker -> [batch_size*c_in, Ks*N] -> [batch_size, c_in, Ks, N]
-    x_mul = tf.reshape(tf.matmul(x_tmp, kernel), [-1, c_in, Ks, n])
-    # x_ker -> [batch_size, N, c_in, K_s] -> [batch_size*N, c_in*Ks]
-    x_ker = tf.reshape(tf.transpose(a=x_mul, perm=[0, 3, 1, 2]), [-1, c_in * Ks])
-    # x_gconv -> [batch_size*N, c_out] -> [batch_size, N, c_out]
-    x_gconv = tf.reshape(tf.matmul(x_ker, theta), [-1, n, c_out])
-    return x_gconv
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
 
+def gconv(x, theta, Ks, c_in, c_out, Lk):
+    batch_time, N, _ = x.shape
+    x_g = []
+    for k in range(Ks):
+        T_k = Lk[k].to(x.device)  # [N, N] tensor
+        x1 = torch.einsum("ij,bjc->bic", T_k, x)
+        x_g.append(x1)
+    x_g = torch.cat(x_g, dim=-1)  # [B*T, N, Ks*c_in]
+    x_theta = torch.matmul(x_g, theta)  # [B*T, N, c_out]
+    return x_theta
 
-# -----------------------
-# gcn
-# ----------------------
-# gcn (kipf)
-#
-def gcn(x, Ks, C_0):
-    '''
-    x: tensor, [batch_size, n, C_0]
-    Ks: int, kernel size of graph convolution
-    C_0: int, num of channels
-    return: tensor, [batch_size, n, C_0]
-    '''
+def gcn(x, Ks, c_out, Lk):
+    # simplified gcn: only first-order approximation assumed
+    # Lk[0] assumed to be the normalized adjacency matrix
+    T_k = Lk[0].to(x.device) 
+    return torch.einsum("ij,bjc->bic", T_k, x)
 
-    # kernel -> [n, n]
-    kernel = tf.compat.v1.get_collection('graph_kernel')[0]
-    n = tf.shape(input=kernel)[0]
-
-    x_gconv = x
-
-    for i in range(Ks):
-        ws = tf.compat.v1.get_variable(name='ws%d' % (i), shape=[C_0, C_0], dtype=tf.float32)
-
-        # weight decay for the 1st layer
-        if (i == 0):
-            tf.compat.v1.add_to_collection(name='weight_decay%d' % (i), value=tf.nn.l2_loss(ws))
-
-        #variable_summaries(ws, 'theta%d' % (i))
-        bs = tf.compat.v1.get_variable(name='bs%d' % (i), initializer=tf.zeros([C_0]), dtype=tf.float32)
-
-        # [batch_size, n, C_0] -> [batch_size*n, C_0]
-        x_a = tf.reshape(x_gconv, [-1, C_0])
-        # [batch_size*n, C_0] -> [batch_size, n, C_0]
-        x_b = tf.reshape(tf.matmul(x_a, ws), [-1, n, C_0])
-        # [batch_size, n, C_0] -> [batch_size, C_0, n] -> [batch_size*C_0, n]
-        x_c = tf.reshape(tf.transpose(a=x_b, perm=[0,2,1]), [-1, n])
-        # [batch_size*C_0, n] -> [batch_size, C_0, n]
-        x_d = tf.reshape(tf.matmul(x_c, kernel), [-1, C_0, n])
-        # [batch_size, C_0, n] -> [batch_size, n, C_0]
-        x_e = tf.transpose(a=x_d, perm=[0,2,1])
-
-        if i < (Ks-1):
-            x_gconv = tf.nn.relu(x_e + bs)
-        else:
-            x_gconv = x_e + bs
-
-    return x_gconv
-
-
-
-def layer_norm(x, scope):
+def layer_norm(x):
     '''
     Layer normalization function.
     x: tensor, [batch_size, time_step, N, channel].
     scope: str, variable scope.
     return: tensor, [batch_size, time_step, N, channel].
     '''
-    _, _, N, C = x.get_shape().as_list()
-    mu, sigma = tf.nn.moments(x=x, axes=[2, 3], keepdims=True)
-
-    with tf.compat.v1.variable_scope(scope):
-        gamma = tf.compat.v1.get_variable('gamma', initializer=tf.ones([1, 1, N, C]))
-        beta = tf.compat.v1.get_variable('beta', initializer=tf.zeros([1, 1, N, C]))
-        _x = (x - mu) / tf.sqrt(sigma + 1e-6) * gamma + beta
+    _, _, N, C = x.shape
+    mu = x.mean(dim=(2, 3), keepdim=True)
+    sigma = x.var(dim=(2, 3), keepdim=True, unbiased=False)
+    gamma = torch.ones(1, 1, N, C, device=x.device)
+    beta = torch.zeros(1, 1, N, C, device=x.device)
+    _x = (x - mu) / torch.sqrt(sigma + 1e-6) * gamma + beta
     return _x
 
 
-def temporal_conv_layer(x, Kt, c_in, c_out, act_func='relu'):
-    '''
-    Temporal convolution layer.
-    x: tensor, [batch_size, time_step, N, c_in].
-    Kt: int, kernel size of temporal convolution.
-    c_in: int, size of input channel.
-    c_out: int, size of output channel.
-    act_func: str, activation function.
-    return: tensor, [batch_size, time_step-Kt+1, N, c_out].
-    '''
-    _, T, n, _ = x.get_shape().as_list()
+class TemporalConv(nn.Module):
+    def __init__(self, Kt, c_in, c_out, act_func='relu'):
+        super().__init__()
+        self.Kt = Kt
+        self.c_in = c_in
+        self.c_out = c_out
+        self.act_func = act_func
 
-    if c_in > c_out:
-        w_input = tf.compat.v1.get_variable('wt_input', shape=[1, 1, c_in, c_out], dtype=tf.float32)
-        tf.compat.v1.add_to_collection(name='weight_decay', value=tf.nn.l2_loss(w_input))
-        x_input = tf.nn.conv2d(input=x, filters=w_input, strides=[1, 1, 1, 1], padding='SAME')
-    elif c_in < c_out:
-        # if the size of input channel is less than the output,
-        # padding x to the same size of output channel.
-        # Note, _.get_shape() cannot convert a partially known TensorShape to a Tensor.
-        x_input = tf.concat([x, tf.zeros([tf.shape(input=x)[0], T, n, c_out - c_in])], axis=3)
-    else:
-        x_input = x
-
-    # keep the original input for residual connection.
-    x_input = x_input[:, Kt - 1:T, :, :]
-
-
-    if act_func == 'GLU':
-        # gated linear unit
-        wt = tf.compat.v1.get_variable(name='wt', shape=[Kt, 1, c_in, 2 * c_out], dtype=tf.float32)
-        tf.compat.v1.add_to_collection(name='weight_decay', value=tf.nn.l2_loss(wt))
-        bt = tf.compat.v1.get_variable(name='bt', initializer=tf.zeros([2 * c_out]), dtype=tf.float32)
-        x_conv = tf.nn.conv2d(input=x, filters=wt, strides=[1, 1, 1, 1], padding='VALID') + bt
-        return (x_conv[:, :, :, 0:c_out] + x_input) * tf.nn.sigmoid(x_conv[:, :, :, -c_out:])
-    else:
-        wt = tf.compat.v1.get_variable(name='wt', shape=[Kt, 1, c_in, c_out], dtype=tf.float32)
-        tf.compat.v1.add_to_collection(name='weight_decay', value=tf.nn.l2_loss(wt))
-        bt = tf.compat.v1.get_variable(name='bt', initializer=tf.zeros([c_out]), dtype=tf.float32)
-        x_conv = tf.nn.conv2d(input=x, filters=wt, strides=[1, 1, 1, 1], padding='VALID') + bt
-        if act_func == 'linear':
-            return x_conv
-        elif act_func == 'sigmoid':
-            return tf.nn.sigmoid(x_conv)
-        elif act_func == 'relu':
-            return tf.nn.relu(x_conv + x_input)
+        if act_func == 'GLU':
+            self.conv = nn.Conv2d(c_in, 2 * c_out, kernel_size=(Kt, 1))
         else:
-            raise ValueError(f'ERROR: activation function "{act_func}" is not defined.')
+            self.conv = nn.Conv2d(c_in, c_out, kernel_size=(Kt, 1))
 
-# ------------------------------
-# spato_conv_layer_cheb
-# ------------------------------
-# spatio convolution using Chebyshev polynomials
-#
-def spatio_conv_layer_cheb(x, Ks, c_in, c_out):
-    '''
-    Spatial graph convolution layer.
-    x: tensor, [batch_size, time_step, N, c_in].
-    Ks: int, kernel size of spatial convolution.
-    c_in: int, size of input channel.
-    c_out: int, size of output channel.
-    return: tensor, [batch_size, time_step, N, c_out].
-    '''
-    _, T, n, _ = x.get_shape().as_list()
+        if c_in > c_out:
+            self.downsample = nn.Conv2d(c_in, c_out, kernel_size=1)
+        else:
+            self.downsample = None
 
-    if c_in > c_out:
-        # bottleneck down-sampling
-        w_input = tf.compat.v1.get_variable('ws_input', shape=[1, 1, c_in, c_out], dtype=tf.float32)
-        tf.compat.v1.add_to_collection(name='weight_decay', value=tf.nn.l2_loss(w_input))
-        x_input = tf.nn.conv2d(input=x, filters=w_input, strides=[1, 1, 1, 1], padding='SAME')
-    elif c_in < c_out:
-        # if the size of input channel is less than the output,
-        # padding x to the same size of output channel.
-        # Note, _.get_shape() cannot convert a partially known TensorShape to a Tensor.
-        x_input = tf.concat([x, tf.zeros([tf.shape(input=x)[0], T, n, c_out - c_in])], axis=3)
-    else:
-        x_input = x
+    def forward(self, x):
+        B, T, N, _ = x.shape
+        x = x.permute(0, 3, 1, 2)  # [B, C_in, T, N]
+        if self.downsample:
+            x_input = self.downsample(x)
+        elif self.c_in < self.c_out:
+            pad = torch.zeros(x.size(0), self.c_out - self.c_in, x.size(2), x.size(3), device=x.device)
+            x_input = torch.cat([x, pad], dim=1)
+        else:
+            x_input = x
 
-    ws = tf.compat.v1.get_variable(name='ws', shape=[Ks * c_in, c_out], dtype=tf.float32)
-    tf.compat.v1.add_to_collection(name='weight_decay', value=tf.nn.l2_loss(ws))
-    variable_summaries(ws, 'theta')
-    bs = tf.compat.v1.get_variable(name='bs', initializer=tf.zeros([c_out]), dtype=tf.float32)
-    # x -> [batch_size*time_step, N, c_in] -> [batch_size*time_step, N, c_out]
-    x_gconv = gconv(tf.reshape(x_input, [-1, n, c_in]), ws, Ks, c_in, c_out) + bs
-    # x_g -> [batch_size, time_step, N, c_out]
-    x_gc = tf.reshape(x_gconv, [-1, T, n, c_out])
-    return tf.nn.relu(x_gc[:, :, :, 0:c_out] + x_input)
+        x_input = x_input[:, :, self.Kt - 1:T, :]
+        x_conv = self.conv(x)
 
+        if self.act_func == 'GLU':
+            x_conv1, x_conv2 = x_conv.chunk(2, dim=1)
+            out = (x_conv1 + x_input) * torch.sigmoid(x_conv2)
+        elif self.act_func == 'linear':
+            out = x_conv
+        elif self.act_func == 'sigmoid':
+            out = torch.sigmoid(x_conv)
+        elif self.act_func == 'relu':
+            out = F.relu(x_conv + x_input)
+        else:
+            raise ValueError(f'Unknown activation function: {self.act_func}')
 
-# ------------------------------
-# spatio_conv_layer_gcn
-# ------------------------------
-# spatio convolution using gcn
-# ----------------------------
-def spatio_conv_layer_gcn(x, Ks, c_in, c_out):
-    '''
-    Spatial graph convolution layer.
-    :param x: tensor, [batch_size, time_step, n, c_in].
-    :param Ks: int, kernel size of spatial convolution.
-    :param c_in: int, size of input channel.
-    :param c_out: int, size of output channel.
-    :return: tensor, [batch_size, time_step, n, c_out].
-    '''
-    _, T, n, _ = x.get_shape().as_list()
+        return out.permute(0, 2, 3, 1)
 
-    if c_in > c_out:
-        # bottleneck down-sampling
-        w_input = tf.compat.v1.get_variable('ws_input', shape=[1, 1, c_in, c_out], dtype=tf.float32)
-        tf.compat.v1.add_to_collection(name='weight_decay', value=tf.nn.l2_loss(w_input))
-        x_input = tf.nn.conv2d(input=x, filters=w_input, strides=[1, 1, 1, 1], padding='SAME')
-    elif c_in < c_out:
-        # if the size of input channel is less than the output,
-        # padding x to the same size of output channel.
-        # Note, _.get_shape() cannot convert a partially known TensorShape to a Tensor.
-        x_input = tf.concat([x, tf.zeros([tf.shape(input=x)[0], T, n, c_out - c_in])], axis=3)
-    else:
-        x_input = x
+# class TemporalConv(nn.Module):
+#     def __init__(self, Kt, c_in, c_out, act_func='relu'):
+#         super().__init__()
+#         self.Kt = Kt
+#         self.c_in = c_in
+#         self.c_out = c_out
+#         self.act_func = act_func
 
-    # x -> [batch_size*time_step, n, c_in] -> [batch_size*time_step, n, c_in]
-    x_gconv = gcn(tf.reshape(x_input, [-1, n, c_in]), Ks, c_out)
+#         out_channels = 2 * c_out if act_func == 'GLU' else c_out
 
+#         # ➤ no padding here!
+#         self.conv = nn.Conv2d(c_in, out_channels, kernel_size=(Kt, 1), padding=0)
+#         self.res_proj = nn.Conv2d(c_in, c_out, kernel_size=(1, 1)) if c_in != c_out else nn.Identity()
 
-    # x_g -> [batch_size, time_step, N, c_out]
-    x_gc = tf.reshape(x_gconv, [-1, T, n, c_out])
+#     def forward(self, x):
+#         x = x.permute(0, 3, 1, 2).contiguous()  # [B, C, T, N]
 
-    return tf.nn.relu(x_gc + x_input)
+#         # ➤ causal padding done here manually, once
+#         x_padded = F.pad(x, (0, 0, self.Kt - 1, 0))  # pad time dim left
+
+#         x_conv = self.conv(x_padded)
+#         x_res = self.res_proj(x)
+
+#         # ➤ ensure alignment: crop residual to match x_conv
+#         T_conv = x_conv.shape[2]
+#         x_res = x_res[:, :, -T_conv:, :]  # align to causal output
+
+#         if self.act_func == 'GLU':
+#             x_conv1, x_conv2 = x_conv.chunk(2, dim=1)
+#             out = (x_conv1 + x_res) * torch.sigmoid(x_conv2)
+#         elif self.act_func == 'linear':
+#             out = x_conv
+#         elif self.act_func == 'sigmoid':
+#             out = torch.sigmoid(x_conv)
+#         elif self.act_func == 'relu':
+#             out = F.relu(x_conv + x_res)
+#         else:
+#             raise ValueError(f'Unknown activation function: {self.act_func}')
+
+#         return out.permute(0, 2, 3, 1).contiguous()  # [B, T, N, C_out]
 
 
-def st_conv_block(x, Ks, Kt, channels, scope, keep_prob, sconv, act_func='GLU'):
+
+
+
+
+
+class SpacialConvCheb(nn.Module):
+    def __init__(self, Ks, c_in, c_out, Lk):
+        super().__init__()
+        self.Ks = Ks
+        self.c_in = c_in
+        self.c_out = c_out
+        self.Lk = Lk
+        self.ws = nn.Parameter(torch.randn(Ks * c_in, c_out))
+        self.bs = nn.Parameter(torch.zeros(c_out))
+        if c_in > c_out:
+            self.downsample = nn.Conv2d(c_in, c_out, kernel_size=1)
+        else:
+            self.downsample = None
+
+    def forward(self, x):
+        B, T, N, _ = x.shape
+        if self.downsample:
+            x_input = self.downsample(x.permute(0, 3, 1, 2)).permute(0, 2, 3, 1)
+        elif self.c_in < self.c_out:
+            pad = torch.zeros(B, T, N, self.c_out - self.c_in, device=x.device)
+            x_input = torch.cat([x, pad], dim=-1)
+        else:
+            x_input = x
+        x_reshape = x_input.reshape(-1, N, self.c_in)
+        x_gconv = gconv(x_reshape, self.ws, self.Ks, self.c_in, self.c_out, self.Lk) + self.bs
+        x_gc = x_gconv.view(B, T, N, self.c_out)
+        return F.relu(x_gc + x_input[:, :, :, :self.c_out])
+    
+
+# class SpacialConvGCN(nn.Module):
+#     def __init__(self, Ks, c_in, c_out, Lk):
+#         '''
+#         Ks: spatial kernel size (for GCN, just used as a dummy)
+#         c_in: input channels
+#         c_out: output channels
+#         Lk: list of graph kernel matrices (expected Lk[0] = A_hat)
+#         '''
+#         super().__init__()
+#         self.Ks = Ks
+#         self.c_in = c_in
+#         self.c_out = c_out
+#         self.Lk = Lk  # Lk[0] should be [N, N] adjacency matrix
+
+#         # Linear projection layer: applies to last channel dim
+#         self.linear = nn.Linear(c_in, c_out)
+
+#         # Optional downsampling for residual
+#         if c_in > c_out:
+#             self.downsample = nn.Conv2d(c_in, c_out, kernel_size=1)
+#         else:
+#             self.downsample = None
+
+#     def forward(self, x):
+#         '''
+#         x: [B, T, N, C]
+#         returns: [B, T, N, C_out]
+#         '''
+#         B, T, N, C = x.shape
+
+#         # Residual input preparation
+#         if self.downsample:
+#             x_input = self.downsample(x.permute(0, 3, 1, 2)).permute(0, 2, 3, 1)  # [B, T, N, C_out]
+#         elif self.c_in < self.c_out:
+#             pad = torch.zeros(B, T, N, self.c_out - self.c_in, device=x.device)
+#             x_input = torch.cat([x, pad], dim=-1)
+#         else:
+#             x_input = x
+
+#         # GCN propagation: A_hat @ x
+#         A_hat = self.Lk[0].to(x.device)              # [N, N]
+#         x_prop = torch.einsum("ij,btjc->btic", A_hat, x)  # [B, T, N, C_in]
+
+#         # Linear projection over last dim: C_in → C_out
+#         x_proj = self.linear(x_prop)  # [B, T, N, C_out]
+
+#         # Residual connection + activation
+#         return F.relu(x_proj + x_input[:, :, :, :self.c_out])
+
+class SpacialConvGCN(nn.Module):
+    def __init__(self, Ks, c_in, c_out, Lk):
+        super().__init__()
+        self.Ks = Ks
+        self.c_in = c_in
+        self.c_out = c_out
+        self.Lk = Lk  # [A_hat]
+
+        self.gcn_layers = nn.ModuleList([
+            nn.Linear(c_in, c_out) for _ in range(Ks)
+        ])
+
+        self.downsample = nn.Conv2d(c_in, c_out, kernel_size=1) if c_in > c_out else None
+
+    def forward(self, x):
+        B, T, N, C = x.shape
+        A_hat = self.Lk[0].to(x.device)  # [N, N]
+        if self.downsample:
+            x_input = self.downsample(x.permute(0, 3, 1, 2)).permute(0, 2, 3, 1)
+        elif self.c_in < self.c_out:
+            pad = torch.zeros(B, T, N, self.c_out - self.c_in, device=x.device)
+            x_input = torch.cat([x, pad], dim=-1)
+        else:
+            x_input = x
+
+        out = 0
+        for k in range(self.Ks):
+            x_k = torch.einsum("ij,btjc->btic", A_hat, x)  # A_hat @ x
+            out += F.relu(self.gcn_layers[k](x_k))  # Linear + ReLU
+
+        return F.relu(out + x_input[:, :, :, :self.c_out])
+
+
+
+class STConvBlock(nn.Module):
     '''
     Spatio-temporal convolutional block, which contains two temporal gated convolution layers
     and one spatial graph convolution layer in the middle.
@@ -237,167 +255,139 @@ def st_conv_block(x, Ks, Kt, channels, scope, keep_prob, sconv, act_func='GLU'):
     act_func: str, activation function.
     return: tensor, [batch_size, time_step, N, c_out].
     '''
-    c_si, c_t, c_oo = channels
-
-    with tf.compat.v1.variable_scope(f'stn_block_{scope}_in'):
-        x_s = temporal_conv_layer(x, Kt, c_si, c_t, act_func=act_func)
+    def __init__(self, Ks, Kt, channels, keep_prob, sconv, Lk, act_func='GLU', n_node=None):
+        super().__init__()
+        c_si, c_t, c_oo = channels
+        self.temporal1 = TemporalConv(Kt, c_si, c_t, act_func=act_func)
         if sconv == 'cheb':
-            x_t = spatio_conv_layer_cheb(x_s, Ks, c_t, c_t)
+            self.spatial = SpacialConvCheb(Ks, c_t, c_t, Lk)
         elif sconv == 'gcn':
-            x_t = spatio_conv_layer_gcn(x_s, Ks, c_t, c_t)
+            self.spatial = SpacialConvGCN(Ks, c_t, c_t, Lk)
         else:
-            raise Exception('unknown spatio-conv method')
-
-    with tf.compat.v1.variable_scope(f'stn_block_{scope}_out'):
-        x_o = temporal_conv_layer(x_t, Kt, c_t, c_oo)
-
-    x_ln = layer_norm(x_o, f'layer_norm_{scope}')
-    return tf.nn.dropout(x_ln, 1 - (keep_prob))
+            raise ValueError(f"Unknown spatio-conv method: {sconv}")
+        self.temporal2 = TemporalConv(Kt, c_t, c_oo)
+        self.keep_prob = keep_prob
+        self.n_node = n_node or 774
+        self.layer_norm = nn.LayerNorm([self.n_node, c_oo])
 
 
-def fully_con_layer(x, n, channel, scope):
-    '''
-    Fully connected layer: maps multi-channels to one.
-    x: tensor, [batch_size, 1, N, channel].
-    n: int, number of nodes / size of graph.
-    channel: channel size of input x.
-    scope: str, variable scope.
-    return: tensor, [batch_size, 1, N, 1].
-    '''
-    w = tf.compat.v1.get_variable(name=f'w_{scope}', shape=[1, 1, channel, 1], dtype=tf.float32)
-    tf.compat.v1.add_to_collection(name='weight_decay', value=tf.nn.l2_loss(w))
-    b = tf.compat.v1.get_variable(name=f'b_{scope}', initializer=tf.zeros([n, 1]), dtype=tf.float32)
-    return tf.nn.conv2d(input=x, filters=w, strides=[1, 1, 1, 1], padding='SAME') + b
+    def forward(self, x):
+        x = self.temporal1(x)
+        x = self.spatial(x)
+        x = self.temporal2(x)
+        x = self.layer_norm(x)
 
-def fully_con_layer_nodewise(x, n, out_channels, scope):
-    '''
-    Fully connected layer: maps multi-channels to multiple outputs per node.
-    
-    x: tensor, [batch_size, 1, N, channel].
-    n: int, number of nodes / size of graph.
-    out_channels: int, desired output channels (e.g., 2 for nodewise classification)
-    scope: str, variable scope.
-    
-    return: tensor, [batch_size, 1, N, out_channels].
-    '''
-    _, _, _, in_channels = x.get_shape().as_list()
-    
-    w = tf.compat.v1.get_variable(name=f'w_{scope}', shape=[1, 1, in_channels, out_channels], dtype=tf.float32)
-    tf.compat.v1.add_to_collection(name='weight_decay', value=tf.nn.l2_loss(w))
-    b = tf.compat.v1.get_variable(name=f'b_{scope}', initializer=tf.zeros([n, out_channels]), dtype=tf.float32)
-    
-    # Conv2d: [batch, height=1, width=N, in_channels] -> [batch, 1, N, out_channels]
-    x_out = tf.nn.conv2d(input=x, filters=w, strides=[1, 1, 1, 1], padding='SAME') + tf.expand_dims(b, axis=1)
-    
-    return x_out
+        return F.dropout(x, p=1 - self.keep_prob)
+
+class FullyConv(nn.Module):
+    def __init__(self, n, channel, scope=None):
+        '''
+        Fully connected layer: maps multi-channels to one.
+        :param n: int, number of nodes / size of graph (not used).
+        :param channel: int, number of input channels.
+        :param scope: str, unused in PyTorch version but kept for compatibility.
+        '''
+        super(FullyConv, self).__init__()
+        self.fc = nn.Conv2d(channel, 1, kernel_size=1)
+
+    def forward(self, x):
+        '''
+        x: tensor, [batch_size, 1, N, channel]
+        return: tensor, [batch_size, 1, N, 1]
+        '''
+        x = x.permute(0, 3, 1, 2)       # [B, C, 1, N]
+        x_fc = self.fc(x)               # [B, 1, 1, N]
+        x_fc = x_fc.permute(0, 2, 3, 1) # [B, 1, N, 1]
+        return x_fc
 
 
-def output_layer(x, T, scope, act_func='GLU'):
-    '''
-    Output layer: temporal convolution layers attach with one fully connected layer,
-    which map outputs of the last st_conv block to a single-step prediction.
-    x: tensor, [batch_size, time_step, n_node, channel].
-    T: int, kernel size of temporal convolution.
-    scope: str, variable scope.
-    act_func: str, activation function.
-    return: tensor, [batch_size, n_node].
-    '''
-    _, _, n, channel = x.get_shape().as_list()
+class FullyConv_nodewise(nn.Module):
+    def __init__(self, n, out_channels, in_channels=None, scope=None):
+        '''
+        Fully connected layer: maps multi-channels to multiple outputs per node.
+        n: int, number of nodes.
+        out_channels: int, number of output channels (e.g., 2).
+        in_channels: int, number of input channels. (optional if known dynamically)
+        scope: unused, kept for compatibility.
+        '''
+        super(FullyConv_nodewise, self).__init__()
+        self.out_channels = out_channels
+        self.n = n
+        self.scope = scope
 
-    # maps multi-steps to one.
-    with tf.compat.v1.variable_scope(f'{scope}_in'):
-        x_i = temporal_conv_layer(x, T, channel, channel, act_func=act_func)
-    x_ln = layer_norm(x_i, f'layer_norm_{scope}')
-    with tf.compat.v1.variable_scope(f'{scope}_out'):
-        x_o = temporal_conv_layer(x_ln, 1, channel, channel, act_func='sigmoid')
-    # maps multi-channels to one.
-    x_fc = fully_con_layer(x_o, n, channel, scope)
+        # Placeholder for Conv2d, to be built on first forward if in_channels not provided
+        self.fc = None
+        self.in_channels = in_channels
 
-    # reshape [-1, n]
-    x_fc = tf.reshape(x_fc, [-1,n])
-    return x_fc
+        # Bias: [N, out_channels], register as parameter
+        self.b = nn.Parameter(torch.zeros(n, out_channels))  # [N, C_out]
 
-# def output_layer_nodewise(x, T, scope, act_func='GLU'):
-#     '''
-#     Output layer: temporal convolution layers attach with one fully connected layer,
-#     which map outputs of the last st_conv block to a two-class (not-label, label) prediction per node.
-    
-#     x: tensor, [batch_size, time_step, n_node, channel].
-#     T: int, kernel size of temporal convolution.
-#     scope: str, variable scope.
-#     act_func: str, activation function.
-    
-#     return: tensor, [batch_size, n_node, 2].
-#     '''
-#     _, _, n, channel = x.get_shape().as_list()
+    def build_fc(self, in_channels):
+        self.in_channels = in_channels
+        self.fc = nn.Conv2d(in_channels, self.out_channels, kernel_size=1)
 
-#     # maps multi-steps to one.
-#     with tf.compat.v1.variable_scope(f'{scope}_in'):
-#         x_i = temporal_conv_layer(x, T, channel, channel, act_func=act_func)
+    def forward(self, x):
+        '''
+        x: [batch_size, 1, N, in_channels]
+        return: [batch_size, 1, N, out_channels]
+        '''
+        B, _, N, C_in = x.shape
+        if self.fc is None:
+            self.build_fc(C_in)
 
-#     x_ln = layer_norm(x_i, f'layer_norm_{scope}')
-    
-#     with tf.compat.v1.variable_scope(f'{scope}_out'):
-#         x_o = temporal_conv_layer(x_ln, 1, channel, channel, act_func='sigmoid')
+        # [B, 1, N, C_in] → [B, C_in, 1, N]
+        x_ = x.permute(0, 3, 1, 2)
+        x_out = self.fc(x_)  # → [B, C_out, 1, N]
+        x_out = x_out.permute(0, 2, 3, 1)  # → [B, 1, N, C_out]
 
-#     # ---- CHANGED: Fully connected layer to output 2 classes instead of 1 ----
-#     x_o = tf.compat.v1.Print(x_o, [tf.shape(x_o)], message='x_o shape: ')
-#     x_fc = fully_con_layer_nodewise(x_o, n, 2, scope)  # output 2 channels per node
+        # Add bias [N, C_out] → [1, 1, N, C_out]
+        x_out = x_out + self.b.unsqueeze(0).unsqueeze(0)
 
-#     # Reshape to [-1, n, 2]
-#     x_fc = tf.reshape(x_fc, [-1, n, 2])
-    
-#     return x_fc
-
-def output_layer_nodewise(x, T, scope, act_func='GLU'):
-    '''
-    Output layer: temporal convolution layers attach with one fully connected layer twice,
-    mapping outputs to two classes (not-label, label) prediction per node.
-    '''
-    _, _, n, channel = x.get_shape().as_list()
-
-    with tf.compat.v1.variable_scope(f'{scope}_in'):
-        x_i = temporal_conv_layer(x, T, channel, channel, act_func=act_func)
-
-    x_ln = layer_norm(x_i, f'layer_norm_{scope}')
-
-    with tf.compat.v1.variable_scope(f'{scope}_out'):
-        x_o = temporal_conv_layer(x_ln, 1, channel, channel, act_func='sigmoid')
-
-    # ---- Collapse time dimension ----
-    x_o = tf.reduce_mean(x_o, axis=1, keepdims=True)  # [batch_size, 1, n_node, channel]
-
-    # ---- Apply fully_con_layer twice ----
-    with tf.compat.v1.variable_scope(f'{scope}_class0'):
-        out0 = fully_con_layer(x_o, n, channel, f'{scope}_class0')  # shape [batch_size, 1, n_node, 1]
-    with tf.compat.v1.variable_scope(f'{scope}_class1'):
-        out1 = fully_con_layer(x_o, n, channel, f'{scope}_class1')  # shape [batch_size, 1, n_node, 1]
-
-    # Concatenate along the last axis (class dimension)
-    logits = tf.concat([out0, out1], axis=-1)  # shape [batch_size, 1, n_node, 2]
-
-    # Squeeze the singleton time dimension
-    logits = tf.squeeze(logits, axis=1)  # shape [batch_size, n_node, 2]
-
-    return logits
+        return x_out
 
 
-def variable_summaries(var, v_name):
-    '''
-    Attach summaries to a Tensor (for TensorBoard visualization).
-    Ref: https://zhuanlan.zhihu.com/p/33178205
-    var: tf.Variable().
-    v_name: str, name of the variable.
-    '''
-    with tf.compat.v1.name_scope('summaries'):
-        mean = tf.reduce_mean(input_tensor=var)
-        tf.compat.v1.summary.scalar(f'mean_{v_name}', mean)
+class OutputLayer(nn.Module):
+    def __init__(self, T, C, act_func='GLU'):
+        super().__init__()
+        self.temporal1 = TemporalConv(T, C, C, act_func=act_func)
+        self.temporal2 = TemporalConv(1, C, C, act_func='sigmoid')
+        self.fc = nn.Conv2d(C, 1, kernel_size=1)
 
-        with tf.compat.v1.name_scope(f'stddev_{v_name}'):
-            stddev = tf.sqrt(tf.reduce_mean(input_tensor=tf.square(var - mean)))
-        tf.compat.v1.summary.scalar(f'stddev_{v_name}', stddev)
+    def forward(self, x):
+        x = self.temporal1(x)
+        x = layer_norm(x)
+        x = self.temporal2(x)
+        x_fc = self.fc(x.permute(0, 3, 1, 2))  # [B, 1, T, N]
+        x_fc = x_fc.permute(0, 2, 3, 1)        # [B, T, N, 1]
+        return x_fc[:, 0, :, 0]                # [B, N]
 
-        tf.compat.v1.summary.scalar(f'max_{v_name}', tf.reduce_max(input_tensor=var))
-        tf.compat.v1.summary.scalar(f'min_{v_name}', tf.reduce_min(input_tensor=var))
+class OutputLayer_nodewise(nn.Module):
+    def __init__(self, T, n_node, channel, act_func='GLU'):
+        '''
+        Output layer: temporal convolution layers + FCs for nodewise 2-class classification.
+        :param T: int, temporal kernel size for first conv
+        :param n_node: int, number of nodes
+        :param channel: int, input & hidden channel size
+        :param act_func: activation function, e.g., 'GLU'
+        '''
+        super(OutputLayer_nodewise, self).__init__()
+        self.temporal_in = TemporalConv(T, channel, channel, act_func)
+        self.temporal_out = TemporalConv(1, channel, channel, act_func='sigmoid')
+        self.layer_norm = nn.LayerNorm([n_node, channel])
+        self.fc0 = FullyConv(n_node, channel)
+        self.fc1 = FullyConv(n_node, channel)
 
-        tf.compat.v1.summary.histogram(f'histogram_{v_name}', var)
+    def forward(self, x):
+        '''
+        :param x: tensor, shape [B, T, N, C]
+        :return: tensor, shape [B, N, 2]
+        '''
+        x_i = self.temporal_in(x)                      # [B, T', N, C]
+        x_ln = self.layer_norm(x_i)              # [B, T', N, C]
+        x_o = self.temporal_out(x_ln)                  # [B, T'', N, C]
+        x_o = torch.mean(x_o, dim=1, keepdim=True)     # [B, 1, N, C]
+        out0 = self.fc0(x_o)                           # [B, 1, N, 1]
+        out1 = self.fc1(x_o)                           # [B, 1, N, 1]
+        logits = torch.cat([out0, out1], dim=-1)       # [B, 1, N, 2]
+        logits = logits.squeeze(1)                     # [B, N, 2]
+        return logits

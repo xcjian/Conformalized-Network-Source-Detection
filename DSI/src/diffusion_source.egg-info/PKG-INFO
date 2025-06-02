@@ -1,5 +1,5 @@
-Metadata-Version: 2.4
-Name: diffusion_source
+Metadata-Version: 2.1
+Name: diffusion-source
 Version: 1.0
 Summary: package for computing confidence sets on diffusion source procedures
 Home-page: https://github.com/lab-sigma/Diffusion-Source-Identification
@@ -12,18 +12,6 @@ Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Requires-Python: >=3.6
 Description-Content-Type: text/markdown
-Requires-Dist: networkx
-Requires-Dist: numpy
-Requires-Dist: scipy
-Requires-Dist: matplotlib
-Requires-Dist: pandas
-Dynamic: author
-Dynamic: author-email
-Dynamic: description
-Dynamic: home-page
-Dynamic: license
-Dynamic: requires-dist
-Dynamic: summary
 
 # Diffusion Source Identification  on Networks with Statistical Confidence
 
