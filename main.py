@@ -12,8 +12,9 @@ from DSI.src.diffusion_source.discrepancies import ADiT_h
 # Set parameters
 
 ## Parameters for propagation model
+nsrc = 7 # number of sources
 Rzero = 2.5
-beta = 0.3
+beta = 0.25
 gamma = 0
 T = 30
 ls = 21200
@@ -31,7 +32,7 @@ n_alpha = len(confi_levels)
 
 ## Parameters for Conformal Prediction
 proposed_method = True
-ADiT_DSI = True
+ADiT_DSI = False
 calib_ratio = 0.5
 
 ## Parameters for ADiT-DSI
@@ -44,7 +45,7 @@ m_p = 5
 # graph_path = 'SD-STGCN/dataset/highSchool/data/graph/highSchool.edgelist'
 # data_path = 'SD-STGCN/output/test_res/highSchool/exp1/res.pickle'
 
-exp_name = f"SIR_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ls}_nf{nf}"
+exp_name = f"SIR_nsrc{nsrc}_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ls}_nf{nf}"
 graph_extract_path = 'SD-STGCN/dataset/' + graph + '/data/graph/highSchool.edgelist'
 data_extract_path = 'SD-STGCN/output/test_res/' + graph + '/' + exp_name + '/res.pickle'
 
@@ -111,9 +112,8 @@ if proposed_method:
   cfscore_calib = []
   for i in range(n_calibration):
     infected_nodes_ = np.nonzero(inputs_calib[i])[0]
-    ground_truth_one_hot_ = np.zeros(n_nodes)
-    ground_truth_one_hot_[ground_truths_calib[i]] = 1
-    score_ = avg_score(pred_scores_calib[i], ground_truth_one_hot_, prop_model, infected_nodes_)
+    ground_truth_one_hot_ = ground_truths_calib[i]
+    score_ = avg_score(pred_scores_calib[i][:, 1], ground_truth_one_hot_, prop_model, infected_nodes_)
     cfscore_calib.append(score_)
   cfscore_calib = np.array(cfscore_calib)
 
@@ -121,11 +121,7 @@ if proposed_method:
   cfscore_test = []
   for i in range(n_test):
     infected_nodes_ = np.nonzero(inputs_test[i])[0]
-    cfscore_ = np.ones(n_nodes)
-    for j in range(n_nodes):
-      indicator_ = np.zeros(n_nodes)
-      indicator_[j] = 1
-      cfscore_[j] = avg_score(pred_scores_test[i], indicator_, prop_model, infected_nodes_)
+    cfscore_ = avg_score_gtunknown(pred_scores_test[i][:, 1], prop_model, infected_nodes_)
     cfscore_test.append(cfscore_)
   cfscore_test = np.array(cfscore_test)
   print('Conformity scores computed. shape of test:' + str(cfscore_test.shape))
@@ -151,7 +147,9 @@ if proposed_method:
     print('Prediction sets computed. index:', i)
 
     for j, alpha in enumerate(confi_levels):
-      if ground_truths_test[i] in pred_sets[str(alpha)]:
+      ground_truth_source = np.nonzero(ground_truths_test[i])[0]
+      inclusion_flag = np.isin(ground_truth_source, list(pred_sets[str(alpha)])).all() 
+      if inclusion_flag:
         coverage[j] = coverage[j] + 1
       
       avg_size[j] = avg_size[j] + len(pred_sets[str(alpha)])    
