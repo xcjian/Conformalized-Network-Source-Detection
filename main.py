@@ -35,6 +35,8 @@ proposed_method = True
 ADiT_DSI = False
 calib_ratio = 0.5
 pow_expected = 0.5
+start_freq = 10
+end_freq = 30
 
 ## Parameters for ADiT-DSI
 discrepancies = [ADiT_h] # discrepancy function
@@ -67,6 +69,17 @@ n_nodes = G.number_of_nodes()
 print('Number of nodes:', G.number_of_nodes())
 print('Number of edges:', G.number_of_edges())
 
+# Compute the Laplacian matrix (D - A)
+L = nx.laplacian_matrix(G).astype(float)  # Returns a SciPy sparse matrix
+L = L.toarray()  # Convert to dense NumPy array if needed
+Gfreq, Gfb = np.linalg.eigh(L)
+
+# define high pass filter
+freq_response = np.zeros(n_nodes)
+freq_response[start_freq: end_freq] = 1
+score_filter = Gfb @ np.diag(freq_response) @ Gfb.T
+
+
 with open(data_path, 'rb') as f:
     data = pickle.load(f)
 
@@ -88,7 +101,9 @@ for i in range(len(pred_scores_raw)):
 """
 for i in range(len(pred_scores_raw)):
   inputs.append(inputs_raw[i])
-  pred_scores.append(pred_scores_raw[i])
+  # pred_scores_filtered_ = score_filter @ pred_scores_raw[i]
+  pred_scores_filtered_ = pred_scores_raw[i]
+  pred_scores.append(pred_scores_filtered_)
   ground_truths.append(ground_truths_raw[i])
 
 ## partition the data
