@@ -138,3 +138,25 @@ def avg_score_gtunknown(pred_prob, prop_model, infected_nodes):
     pred_scores = - pred_scores # Note that in this case, small score implies good prediction.
     
     return pred_scores
+
+def set_truncate(set_onehot, prob, pow):
+    """
+    This function truncate the input set containing the largest pow proportion probabilites.
+
+    Args:
+    set_onehot: the one-hot vector representing the original set that you want to truncate.
+    prob: the predicted probability that this entry should be included.
+    pow: the proportion of elements you want to retain in the truncated set.
+
+    Returns:
+    the one-hot vector for the truncated set.
+    """
+
+    set_origin = np.nonzero(np.array(set_onehot))[0]
+    prob_quantile = np.quantile(prob[set_origin], 1 - pow)
+
+    set_truncated = np.array(set_onehot)
+    set_truncated[np.where(prob < prob_quantile)[0]] = 0
+
+    return set_truncated
+

@@ -34,6 +34,7 @@ n_alpha = len(confi_levels)
 proposed_method = True
 ADiT_DSI = False
 calib_ratio = 0.5
+pow_expected = 0.3
 
 ## Parameters for ADiT-DSI
 discrepancies = [ADiT_h] # discrepancy function
@@ -45,7 +46,7 @@ m_p = 5
 # graph_path = 'SD-STGCN/dataset/highSchool/data/graph/highSchool.edgelist'
 # data_path = 'SD-STGCN/output/test_res/highSchool/exp1/res.pickle'
 
-exp_name = f"SIR_nsrc{nsrc}_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ls}_nf{nf}"
+exp_name = f"SIR_nsrc{nsrc}_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ls}_nf{nf}_00exfin"
 graph_extract_path = 'SD-STGCN/dataset/' + graph + '/data/graph/highSchool.edgelist'
 data_extract_path = 'SD-STGCN/output/test_res/' + graph + '/' + exp_name + '/res.pickle'
 
@@ -74,15 +75,21 @@ pred_scores_raw = data['predictions']
 ground_truths_raw = data['ground_truth']
 
 # Prepare the data
-## unzipe the data
+## unzip the data
 inputs = []
 pred_scores = []
 ground_truths = []
+"""
 for i in range(len(pred_scores_raw)):
   for j in range(len(pred_scores_raw[i])):
     inputs.append(inputs_raw[i][j])
     pred_scores.append(pred_scores_raw[i][j])
     ground_truths.append(ground_truths_raw[i][j])
+"""
+for i in range(len(pred_scores_raw)):
+  inputs.append(inputs_raw[i])
+  pred_scores.append(pred_scores_raw[i])
+  ground_truths.append(ground_truths_raw[i])
 
 ## partition the data
 n_samples = len(pred_scores)
@@ -112,8 +119,10 @@ if proposed_method:
   cfscore_calib = []
   for i in range(n_calibration):
     infected_nodes_ = np.nonzero(inputs_calib[i])[0]
+    pred_prob_ = pred_scores_calib[i][:, 1]
     ground_truth_one_hot_ = ground_truths_calib[i]
-    score_ = avg_score(pred_scores_calib[i][:, 1], ground_truth_one_hot_, prop_model, infected_nodes_)
+    ground_truth_part_one_hot_ = set_truncate(ground_truth_one_hot_, pred_prob_, pow_expected)
+    score_ = avg_score(pred_prob_, ground_truth_part_one_hot_, prop_model, infected_nodes_)
     cfscore_calib.append(score_)
   cfscore_calib = np.array(cfscore_calib)
 
@@ -148,11 +157,20 @@ if proposed_method:
 
     for j, alpha in enumerate(confi_levels):
       ground_truth_source = np.nonzero(ground_truths_test[i])[0]
-      inclusion_flag = np.isin(ground_truth_source, list(pred_sets[str(alpha)])).all() 
-      if inclusion_flag:
+      predicted_set = list(pred_sets[str(alpha)])
+
+      # Compute intersection between ground truth and predicted set
+      intersection_ = np.intersect1d(ground_truth_source, predicted_set)
+
+      # Calculate power as the ratio of correctly detected true signals
+      power = len(intersection_) / len(ground_truth_source) if len(ground_truth_source) > 0 else 0.0
+
+      # Create power flag based on comparison with expected power
+      power_flag = power >= pow_expected
+      if power_flag:
         coverage[j] = coverage[j] + 1
       
-      avg_size[j] = avg_size[j] + len(pred_sets[str(alpha)])    
+      avg_size[j] = avg_size[j] + len(predicted_set)    
   
   coverage = coverage / n_test
   avg_size = avg_size / n_test
