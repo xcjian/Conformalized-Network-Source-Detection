@@ -6,7 +6,7 @@ import numpy as np
 import time
 from matplotlib import pyplot as plt
 from utils.score_convert import *
-from DSI.src.diffusion_source.infection_model import FixedTSI
+# from DSI.src.diffusion_source.infection_model import FixedTSI
 from DSI.src.diffusion_source.discrepancies import ADiT_h
 
 # Set parameters
@@ -34,7 +34,7 @@ n_alpha = len(confi_levels)
 proposed_method = True
 ADiT_DSI = False
 calib_ratio = 0.5
-pow_expected = 0.3
+pow_expected = 0.5
 
 ## Parameters for ADiT-DSI
 discrepancies = [ADiT_h] # discrepancy function
@@ -118,7 +118,8 @@ if proposed_method:
   ## Compute conformity scores on the calibration set
   cfscore_calib = []
   for i in range(n_calibration):
-    infected_nodes_ = np.nonzero(inputs_calib[i])[0]
+    # infected_nodes_ = np.nonzero(inputs_calib[i])[0]
+    infected_nodes_ = np.nonzero(inputs_calib[i][0, :])[0]
     pred_prob_ = pred_scores_calib[i][:, 1]
     ground_truth_one_hot_ = ground_truths_calib[i]
     ground_truth_part_one_hot_ = set_truncate(ground_truth_one_hot_, pred_prob_, pow_expected)
@@ -129,7 +130,8 @@ if proposed_method:
   ## Compute conformity scores on the test set
   cfscore_test = []
   for i in range(n_test):
-    infected_nodes_ = np.nonzero(inputs_test[i])[0]
+    # infected_nodes_ = np.nonzero(inputs_test[i])[0]
+    infected_nodes_ = np.nonzero(inputs_test[i][0, :])[0]
     cfscore_ = avg_score_gtunknown(pred_scores_test[i][:, 1], prop_model, infected_nodes_)
     cfscore_test.append(cfscore_)
   cfscore_test = np.array(cfscore_test)
@@ -184,7 +186,8 @@ if proposed_method:
   ### To compare, comute the average size of infected set.
   infected_num = 0
   for i in range(n_test):
-    infected_nodes_ = np.nonzero(inputs_test[i])[0]
+    # infected_nodes_ = np.nonzero(inputs_test[i])[0]
+    infected_nodes_ = np.nonzero(inputs_test[i][0, :])[0]
     infected_num = infected_num + len(infected_nodes_)
   avg_infected_num = infected_num / n_test
   print('average infected size:', avg_infected_num)
