@@ -9,6 +9,7 @@ from utils.score_convert import *
 # from DSI.src.diffusion_source.infection_model import FixedTSI
 from DSI.src.diffusion_source.discrepancies import ADiT_h
 
+np.random.seed(42)
 # Set parameters
 
 ## Parameters for propagation model
@@ -34,9 +35,9 @@ n_alpha = len(confi_levels)
 proposed_method = True
 ADiT_DSI = False
 calib_ratio = 0.5
-pow_expected = 0.5
-start_freq = 10
-end_freq = 30
+pow_expected = 0.7
+start_freq = 0
+end_freq = 774
 
 ## Parameters for ADiT-DSI
 discrepancies = [ADiT_h] # discrepancy function
@@ -48,7 +49,7 @@ m_p = 5
 # graph_path = 'SD-STGCN/dataset/highSchool/data/graph/highSchool.edgelist'
 # data_path = 'SD-STGCN/output/test_res/highSchool/exp1/res.pickle'
 
-exp_name = f"SIR_nsrc{nsrc}_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ls}_nf{nf}_00exfin"
+exp_name = f"SIR_nsrc{nsrc}_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ls}_nf{nf}"
 graph_extract_path = 'SD-STGCN/dataset/' + graph + '/data/graph/highSchool.edgelist'
 data_extract_path = 'SD-STGCN/output/test_res/' + graph + '/' + exp_name + '/res.pickle'
 
@@ -92,11 +93,13 @@ ground_truths_raw = data['ground_truth']
 inputs = []
 pred_scores = []
 ground_truths = []
-"""
+
 for i in range(len(pred_scores_raw)):
   for j in range(len(pred_scores_raw[i])):
     inputs.append(inputs_raw[i][j])
-    pred_scores.append(pred_scores_raw[i][j])
+    pred_scores_filtered_ = score_filter @ pred_scores_raw[i][j]
+    pred_scores.append(pred_scores_filtered_)
+    # pred_scores.append(pred_scores_raw[i][j])
     ground_truths.append(ground_truths_raw[i][j])
 """
 for i in range(len(pred_scores_raw)):
@@ -105,6 +108,7 @@ for i in range(len(pred_scores_raw)):
   pred_scores_filtered_ = pred_scores_raw[i]
   pred_scores.append(pred_scores_filtered_)
   ground_truths.append(ground_truths_raw[i])
+"""
 
 ## partition the data
 n_samples = len(pred_scores)
@@ -133,21 +137,21 @@ if proposed_method:
   ## Compute conformity scores on the calibration set
   cfscore_calib = []
   for i in range(n_calibration):
-    # infected_nodes_ = np.nonzero(inputs_calib[i])[0]
-    infected_nodes_ = np.nonzero(inputs_calib[i][0, :])[0]
+    infected_nodes_ = np.nonzero(inputs_calib[i])[0]
+    # infected_nodes_ = np.nonzero(inputs_calib[i][0, :])[0]
     pred_prob_ = pred_scores_calib[i][:, 1]
     ground_truth_one_hot_ = ground_truths_calib[i]
     ground_truth_part_one_hot_ = set_truncate(ground_truth_one_hot_, pred_prob_, pow_expected)
-    score_ = avg_score(pred_prob_, ground_truth_part_one_hot_, prop_model, infected_nodes_)
+    score_ = F1_comb_score(pred_prob_, ground_truth_part_one_hot_, prop_model, infected_nodes_)
     cfscore_calib.append(score_)
   cfscore_calib = np.array(cfscore_calib)
 
   ## Compute conformity scores on the test set
   cfscore_test = []
   for i in range(n_test):
-    # infected_nodes_ = np.nonzero(inputs_test[i])[0]
-    infected_nodes_ = np.nonzero(inputs_test[i][0, :])[0]
-    cfscore_ = avg_score_gtunknown(pred_scores_test[i][:, 1], prop_model, infected_nodes_)
+    infected_nodes_ = np.nonzero(inputs_test[i])[0]
+    # infected_nodes_ = np.nonzero(inputs_test[i][0, :])[0]
+    cfscore_ = F1_comb_score_gtunknown(pred_scores_test[i][:, 1], prop_model, infected_nodes_)
     cfscore_test.append(cfscore_)
   cfscore_test = np.array(cfscore_test)
   print('Conformity scores computed. shape of test:' + str(cfscore_test.shape))
@@ -201,8 +205,8 @@ if proposed_method:
   ### To compare, comute the average size of infected set.
   infected_num = 0
   for i in range(n_test):
-    # infected_nodes_ = np.nonzero(inputs_test[i])[0]
-    infected_nodes_ = np.nonzero(inputs_test[i][0, :])[0]
+    infected_nodes_ = np.nonzero(inputs_test[i])[0]
+    # infected_nodes_ = np.nonzero(inputs_test[i][0, :])[0]
     infected_num = infected_num + len(infected_nodes_)
   avg_infected_num = infected_num / n_test
   print('average infected size:', avg_infected_num)
