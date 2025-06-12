@@ -41,6 +41,7 @@ class STGCN_SI_Nodewise(nn.Module):
         training: bool, if True return (logits, loss), else only logits
         """
         x_infect = x[:, 0, :, 1]  # infection status at t=0, ch=1 → [B, N]
+        x_recover = x[:, 0, :, -1] # recover status, when SIR is in place; = infection status when SI is in place.
 
         for block in self.st_blocks:
             x = block(x)
@@ -54,7 +55,7 @@ class STGCN_SI_Nodewise(nn.Module):
             logits_flat = logits.view(-1, 2)         # [B*N, 2]
             y_flat = y.view(-1).long()               # [B*N]
 
-            infected_mask = (x_infect > 0).float().view(-1)  # [B*N]
+            infected_mask = (x_infect + x_recover > 0).float().view(-1)  # [B*N]
             valid_indices = infected_mask.nonzero(as_tuple=False).squeeze()
 
             if valid_indices.numel() == 0:

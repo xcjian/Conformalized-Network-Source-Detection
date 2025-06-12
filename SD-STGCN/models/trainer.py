@@ -272,6 +272,11 @@ def model_train_pytorch_nodewise(inputs, blocks, args, save_path='./output/model
     else:
         raise ValueError(f'ERROR: optimizer "{opt}" is not defined.')
 
+    # decay_steps = 500
+    # decay_rate = 0.7
+ 
+    # lr_lambda = lambda step: decay_rate ** (step // decay_steps)
+    # scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.7)
 
     best_val_acc = 0.0

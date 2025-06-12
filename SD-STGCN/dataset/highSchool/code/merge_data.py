@@ -4,17 +4,18 @@ import glob
 
 # Configuration (should match your splitting script)
 prop_model = 'SIR'
-Rzero = 2.5    # simulation R0
-beta = 0.3     # beta
-gamma = 0      # simulation gamma
-ns = 21200     # num of sequences
-nf = 16        # num of frames
-T = 30         # simulation time steps
+Rzero = 2.5      # simulation R0
+beta = 0.25      # beta
+gamma = 0        # simulation gamma
+ns = 21200       # number of sequences
+nf = 16          # number of frames
+T = 30           # simulation time steps
+nsrc = 7        # << add this line manually
 
 # Path configuration
 data_path = f"../data/{prop_model}/"
 split_folder = f"../data/{prop_model}/split/"
-base_filename = f"{prop_model}_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}_entire"
+base_filename = f"{prop_model}_nsrc{nsrc}_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}_entire"
 
 # Find all split files matching the pattern
 split_files = sorted(glob.glob(os.path.join(split_folder, f"{base_filename}_*.pickle")))
