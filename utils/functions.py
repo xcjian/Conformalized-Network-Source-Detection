@@ -4,48 +4,61 @@ import itertools
 
 from collections import defaultdict
 
-def fit_model(Y, S, edges, num_iters=10, lr=1.0):
-    """Newton solver with exact gradient and Hessian."""
+def fit_model(Y, S, edges, num_iters=1000, lr=10 ** (-3)):
+    """Gradient descent solver.
+    
+    Arguements:
+    Y: (n_samples x n_labels) array, with {-1, 1} elements.
+    S: (n_samples x n_labels) array. The (i, k)-th entry is the score s_k over the i-th sample.
+    edges: a list of tuples.
+    """
     n_samples, K = Y.shape
+    n_edge = len(edges)
+    C = np.array([
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1],
+        [-1, -1, -1],
+    ])
+
     alpha = {k: np.zeros(2) for k in range(K)}
     beta = {(k, l): np.zeros(4) for (k, l) in edges}
+    beta_tilde = {(k, l): np.zeros(3) for (k, l) in edges}
+
+    alpha_vec = np.concatenate([alpha[k] for k in range(K)])
+    beta_vec = np.concatenate([beta[edge] for edge in edges])
+    beta_tilde_vec = np.concatenate([beta_tilde[edge] for edge in edges])
     
     for it in range(num_iters):
-        grad_alpha, grad_beta = compute_gradient(alpha, beta, Y, S, edges)
-        H = compute_hessian(alpha, beta, Y, S, edges)
-        
-        # Flatten gradient
-        grad = []
-        for k in sorted(alpha.keys()):
-            grad.append(grad_alpha[k])
-        for (k, l) in sorted(edges):
-            grad.append(grad_beta[(k, l)])
-        grad = np.concatenate(grad)
-        
-        # Newton step
-        delta = np.linalg.solve(H + 1e-6*np.eye(H.shape[0]), -grad)
+        grad_alpha_vec, grad_beta_tilde_vec = compute_gradient(alpha, beta, Y, S, edges)
         
         # Update parameters
-        param_vec = []
-        for k in sorted(alpha.keys()):
-            param_vec.append(alpha[k])
-        for (k,l) in sorted(edges):
-            param_vec.append(beta[(k,l)])
-        param_vec = np.concatenate(param_vec)
+        alpha_vec = alpha_vec + lr * grad_alpha_vec
+        beta_tilde_vec = beta_tilde_vec + lr * grad_beta_tilde_vec
+
+        # print the gradient norm
+        grad_norm = (np.linalg.norm(grad_alpha_vec) ** 2 + np.linalg.norm(grad_beta_tilde_vec) ** 2) ** (1/2)
+        print("gradient norm:", grad_norm)
         
-        new_param_vec = param_vec + lr * delta
-        alpha, beta = unflatten_params(new_param_vec, K, edges)
-        
-        obj = compute_function_value(alpha, beta, Y, S, edges)
-        print(f"Iter {it}: Objective = {obj:.4f}")
+        # evaluate the objective function
+        beta_vec = np.reshape(np.reshape(beta_tilde_vec, (n_edge, 3)) @ C.T, n_edge * 4)
+        alpha, beta = unflatten_params(alpha_vec, beta_vec, K, edges)
+        # obj = compute_function_value(alpha, beta, Y, S, edges)
+        # print(f"Iter {it}: Objective = {obj:.4f}")
     
     return alpha, beta
 
 def compute_gradient(alpha, beta, Y, S, edges):
-    """Compute gradient with expectation subtracted."""
+    """Compute gradient with expectation subtracted.
+    
+    In this function, the constraint sum(beta) = 0 is imposed.
+    In other words, assume beta = C @ beta_tilde. then beta_tilde is 3-dim.
+    We only compute the gradient w.r.t. beta_tilde.
+    """
     n_samples, K = Y.shape
     grad_alpha = {k: np.zeros(2) for k in range(K)}
     grad_beta = {(k, l): np.zeros(4) for (k, l) in edges}
+    grad_beta_tilde = {(k, l): np.zeros(3) for (k, l) in edges}
     
     for i in range(n_samples):
         # Get model expectations
@@ -55,7 +68,7 @@ def compute_gradient(alpha, beta, Y, S, edges):
         for k in range(K):
             grad_alpha[k] += phi_func(Y[i, k], S[i, k])
         for (k, l) in edges:
-            grad_beta[(k, l)] += psi_func(Y[i, l], Y[i, k])
+            grad_beta[(k, l)] += psi_func(Y[i, k], Y[i, l])
 
         # Subtract expected terms
         for k in range(K):
@@ -63,7 +76,21 @@ def compute_gradient(alpha, beta, Y, S, edges):
         for (k, l) in edges:
             grad_beta[(k, l)] -= E_psi[(k,l)]
     
-    return grad_alpha, grad_beta
+    # compute the gradient w.r.t. beta_tilde
+    C = np.array([
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1],
+        [-1, -1, -1],
+    ])
+    for (k, l) in edges:
+        grad_beta_tilde[(k, l)] = C.T @ grad_beta[(k, l)]
+
+    # Concatenate to obtain the gradient vectors
+    grad_alpha_vec = np.concatenate([grad_alpha[k] for k in range(K)])
+    grad_beta_tilde_vec = np.concatenate([grad_beta_tilde[edge] for edge in edges])
+
+    return grad_alpha_vec, grad_beta_tilde_vec
 
 def compute_model_expectations(alpha, beta, s, edges):
     """Compute E[phi(Y_k)] and E[psi(Y_k, Y_l)] from marginals."""
@@ -83,11 +110,11 @@ def compute_model_expectations(alpha, beta, s, edges):
     for (k, l) in edges:
         probs = p_pair[(k, l)]  # shape (2,2), p(Y_k, Y_l)
         # psi: dimension 4
-        # map (Y_l, Y_k): (-1,-1), (1,-1), (-1,1), (1,1) → index 0,1,2,3
-        E_psi[(k,l)][0] = probs[0,0]  # Y_l = -1, Y_k = -1
-        E_psi[(k,l)][1] = probs[1,0]  # Y_l = 1,  Y_k = -1
-        E_psi[(k,l)][2] = probs[0,1]  # Y_l = -1, Y_k = 1
-        E_psi[(k,l)][3] = probs[1,1]  # Y_l = 1,  Y_k = 1
+        # map (Y_k, Y_l): (-1,-1), (1,-1), (-1,1), (1,1) → index 0,1,2,3
+        E_psi[(k,l)][0] = probs[0,0]  # Y_k = -1, Y_l = -1
+        E_psi[(k,l)][1] = probs[1,0]  # Y_k = 1,  Y_l = -1
+        E_psi[(k,l)][2] = probs[0,1]  # Y_k = -1, Y_l = 1
+        E_psi[(k,l)][3] = probs[1,1]  # Y_k = 1,  Y_l = 1
         
     return E_phi, E_psi
 
@@ -321,19 +348,27 @@ def compute_model_marginals_bf(alpha, beta, s, edges):
 
     return p_single, p_pair
 
-def unflatten_params(vec, K, edges):
+def unflatten_params(alpha_vec, beta_vec, K, edges):
     """ Unflatten parameter vector into alpha, beta dictionaries. """
     alpha = {}
     beta = {}
     idx = 0
     for k in range(K):
-        alpha[k] = vec[idx:idx+2]
+        alpha[k] = alpha_vec[idx:idx+2]
         idx += 2
+    idx = 0
     for (k, l) in edges:
-        beta[(k, l)] = vec[idx:idx+4]
+        beta[(k, l)] = beta_vec[idx:idx+4]
         idx += 4
     return alpha, beta
 
+def vectorize_params(alpha_dict, beta_dict, K, edges):
+    "concatenate parameter in dictionaries to alpha, beta vectors."
+
+    alpha_vec = np.concatenate([alpha_dict[k] for k in range(K)])
+    beta_vec = np.concatenate([beta_dict[edge] for edge in edges])
+
+    return alpha_vec, beta_vec
 
 def psi_func(y_l, y_k):
     """Corrected: map (y_l, y_k) into 4-dim one-hot vector, matching order."""
