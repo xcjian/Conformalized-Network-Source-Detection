@@ -60,7 +60,7 @@ n_labels = len(s)
 p_single, p_pair = compute_model_marginals(alpha, beta, s, edges)
 
 # generate Y:
-n_samples = 400
+n_samples = 1000
 S = np.zeros((n_samples, n_labels))
 for k in range(n_labels):
     S[:, k] = s[k]
@@ -85,8 +85,13 @@ p_flat = p_pair[(0,1)].flatten()  # Reshape to 1D probability vector
 indices = np.random.choice(len(outcomes), size=n_samples, p=p_flat)
 Y = outcomes[indices]
 
-alpha_hat, beta_hat = fit_model(Y, S, edges, num_iters=2000, lr=10 ** (-3))
+alpha_hat, beta_hat = fit_model(Y, S, edges, num_iters=1000, lr=10 ** (-3))
 print("alpha:", alpha, "alpha_hat:", alpha_hat)
 print("beta:", beta, "beta_hat:", beta_hat)
+
+p_single_hat, p_pair_hat = compute_model_marginals(alpha_hat, beta_hat, s, edges)
+
+print("p_single:", p_single, "p_pair:", p_pair)
+print("p_single_hat:", p_single_hat, "p_pair_hat:", p_pair_hat)
 
 print('ok')
