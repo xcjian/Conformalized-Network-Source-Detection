@@ -1,4 +1,32 @@
 import numpy as np
+from utils.functions import *
+
+def nodewise_APS_score(pred_prob, ground_truth, infected_nodes, prop_model = 'SIR'):
+    """
+    This function computes the nodewise APS score.
+
+    Args:
+    pred_prob: (n_nodes x 2) array of prediction probabilities that each node is the source or not.
+    ground_truth: (n_nodes) one-hot array of ground truth source vertices.
+    infected_nodes: (int list) a list of infected nodes in the first observed snapshot.
+
+    Returns:
+    APS: (n_nodes) array of non-conformity score for each vertex.
+    """
+    n_node = pred_prob.shape[0]
+
+    if prop_model == 'SI':
+        non_infected_nodes = np.setdiff1d(np.arange(n_node), infected_nodes)
+        pred_prob[non_infected_nodes, 0] = 1
+        pred_prob[non_infected_nodes, 1] = 0
+
+    APS = np.zeros(n_node)
+    for node_ in range(n_node):
+        pred_prob_ = pred_prob[node_, :]
+        ground_truth_ = ground_truth[node_]
+        APS[node_] = APS_score(pred_prob_, ground_truth_)
+            
+    return APS
 
 def APS_score(pred_score, ground_truth):
     '''
@@ -285,3 +313,46 @@ def F1_comb_score_gtunknown(pred_prob, prop_model, infected_nodes):
     comb_score = rec_score * lam + prec_score * (1 - lam)
 
     return comb_score
+
+def PGMscore(Y, S, edges, alpha, beta):
+    """
+    This function computes the score of any given set, represented by Y.
+
+    Arguments:
+    Y: a n_label array with {-1, 1} entries.
+    S: a n_label array with non-conformity scores.
+    edges, alpha, beta: the maximum spanning tree and associated parameters learned by PGMTree.
+
+    Return:
+    score: the score of the subset.
+    """
+
+    n_node = len(Y)
+
+    # summation over the edges
+    edge_score = 0
+    for edge_ in edges:
+
+        beta_ = beta[edge_]
+        l_ = edge_[0]
+        k_ = edge_[1]
+        Y_l_ = Y[l_]
+        Y_k_ = Y[k_]
+
+        psi_ = psi_func(Y_l_, Y_k_)
+        edge_score = edge_score + beta_ @ psi_
+    
+    # summation over the nodes
+    node_score = 0
+    for node_ in range(n_node):
+
+        alpha_ = alpha[node_]
+        Y_k_ = Y[node_]
+        S_k_ = S[node_]
+
+        phi_ = phi_func(Y_k_, S_k_)
+        node_score = node_score + alpha_ @ phi_
+    
+    score = edge_score + node_score
+
+    return score

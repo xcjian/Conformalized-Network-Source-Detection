@@ -32,8 +32,9 @@ confi_levels = [0.02, 0.05, 0.07, 0.10, 0.15, 0.20, 0.25, 0.30]
 n_alpha = len(confi_levels)
 
 ## Parameters for Conformal Prediction
-proposed_method = True
+proposed_method = False
 ADiT_DSI = False
+PGM_CQC = True
 calib_ratio = 0.5
 pow_expected = 0.7
 start_freq = 0
@@ -44,6 +45,9 @@ discrepancies = [ADiT_h] # discrepancy function
 discrepancy_str = 'ADiT_h'
 m_l = 5
 m_p = 5
+
+## Parameters for PGM-CQC
+n_learn_tree = 200
 
 # Load data
 # graph_path = 'SD-STGCN/dataset/highSchool/data/graph/highSchool.edgelist'
@@ -247,6 +251,41 @@ if ADiT_DSI:
 
   else:
     print('SIR model is not supported by ADiT-DSI.')
+
+if PGM_CQC:
+
+  # Remark: This method require more complex partition of dataset.
+  # For example, besides the calibration set, this algorithm need another hold-out set for learning the tree structure.
+  # At current step we first simply hold out a part of calibration set for it to learn the tree.
+
+  # Conformal Prediction
+  print('computing PGM-CQC...')
+
+  # compute the score function for each vertex (i.e., label) on the calibration set
+  nodewise_score_calib = []
+  Y_calib = []
+  for i in range(n_calibration):
+    infected_nodes_ = np.nonzero(inputs_calib[i])[0]
+    # infected_nodes_ = np.nonzero(inputs_calib[i][0, :])[0]
+    pred_prob_binary_ = pred_scores_calib[i]
+    pred_prob_ = pred_prob_binary_[:, 1]
+    ground_truth_one_hot_ = ground_truths_calib[i]
+    ground_truth_part_one_hot_ = set_truncate(ground_truth_one_hot_, pred_prob_, pow_expected)
+    
+    score_ = nodewise_APS_score(pred_prob_binary_, ground_truth_part_one_hot_, infected_nodes_, prop_model)
+    nodewise_score_calib.append(score_)
+    Y_calib.append(2 * (ground_truth_part_one_hot_ - 1/2))
+  nodewise_score_calib = np.array(nodewise_score_calib)
+  Y_calib = np.array(Y_calib)
+
+  # learn the set scoring function from a set of scores
+  Y_learn_tree = Y_calib[:n_learn_tree, :]
+  score_learn_tree = nodewise_score_calib[:n_learn_tree, :]
+  tree_edges, tree_alpha, tree_beta = PGMTree(Y_learn_tree, score_learn_tree)
+
+  # Compute conformity scores on the calibration set
+
+  # Construct prediction set on the test set
 
 
 ## make plots for the results

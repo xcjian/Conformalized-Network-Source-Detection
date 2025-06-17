@@ -4,7 +4,63 @@ import itertools
 
 from collections import defaultdict
 
-def fit_model(Y, S, edges, num_iters=1000, lr=10 ** (-3)):
+def PGMTree(Y, S):
+    """
+    This function calculates the tree and parameters needed for computing the PGM score function.
+
+    Arguments:
+
+    Y: (n_samples x n_labels) array, with {-1, 1} elements.
+    S: (n_samples x n_labels) array. The (i, k)-th entry is the score s_k over the i-th sample. 
+
+    Returns: 
+    The maximum spanning tree and the corresponding weights.
+    edges: the edge list of MST.
+    alpha, beta: the parameters on nodes and edges.
+    """
+
+    n_samples, K = Y.shape
+
+    # compute the mutual information matrix
+
+    G = nx.Graph()
+    for i in range(K - 1):
+        for j in range(i + 1, K):
+            
+            Y_ = Y[:, [i, j]]
+            S_ = S[:, [i, j]]
+            edge_ = [(0, 1)]
+
+            # fit alpha, beta on this single-edge graph
+            alpha_, beta_ = fit_model(Y_, S_, edge_)
+
+            # estimate edge empirical mutual information
+            p_joint = np.zeros(n_samples)
+            p_k = np.zeros(n_samples)
+            p_l = np.zeros(n_samples)
+            for n in range(n_samples):
+                score_ = S_[n, :]
+                y_ = Y_[n, :]
+                p_single_, p_pair_ = compute_model_marginals(alpha_, beta_, score_, edge_)
+                p_joint[n] = p_pair_[(0, 1)][0 if y_[0] == -1 else 1][0 if y_[1] == -1 else 1]
+                p_k[n] = p_single_[0][0 if y_[0] == -1 else 1]
+                p_l[n] = p_single_[1][0 if y_[1] == -1 else 1]
+            I_e_hat = np.sum(np.log(p_joint / (p_k * p_l)))
+
+            G.add_edge(i, j, weight=I_e_hat)
+    
+    # learn the maximal spanning tree and the corresponding parameters
+
+    ## NetworkX computes MaxST by negating weights
+    maxst_edges = nx.maximum_spanning_edges(G, algorithm="kruskal", data=True)
+    edges =  list(maxst_edges)
+
+    ## compute the alpha and beta parameters
+    alpha, beta = fit_model(Y, S, edges, num_iters=1000, lr=10 ** (-3))
+
+    return edges, alpha, beta
+
+def fit_model(Y, S, edges, num_iters=300, lr=10 ** (-1)):
     """Gradient descent solver.
     
     Arguements:
