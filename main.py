@@ -303,12 +303,10 @@ if ArbiTree_CQC:
   for i in range(n_calibration):
     infected_nodes_ = np.nonzero(inputs_calib[i])[0]
     # infected_nodes_ = np.nonzero(inputs_calib[i][0, :])[0]
-    pred_prob_binary_ = pred_scores_calib[i]
+    pred_prob_ = pred_scores_calib[i][:, 1]
     if prop_model == 'SI':
       non_infected_nodes = np.setdiff1d(np.arange(n_nodes), infected_nodes_)
-      pred_prob_binary_[non_infected_nodes, 0] = 1
-      pred_prob_binary_[non_infected_nodes, 1] = 0
-    pred_prob_ = pred_prob_binary_[:, 1]
+      pred_prob_[non_infected_nodes] = 0
 
     ground_truth_one_hot_ = ground_truths_calib[i]
     ground_truth_part_one_hot_ = set_truncate(ground_truth_one_hot_, pred_prob_, pow_expected)
@@ -325,8 +323,73 @@ if ArbiTree_CQC:
   tree_edges, tree_alpha, tree_beta = ArbiTree(Y_learn_tree, Y_hat_learn_tree)
 
   # Compute conformity scores on the calibration set
+  cfscore_calib = []
+  for i in range(n_learn_tree, n_calibration):
+    Y_ = Y_calib[i, :]
+    Y_hat_ = Y_hat_calib[i, :]
 
+    score_ = ArbiTreescore(Y_, Y_hat_, tree_edges, tree_alpha, tree_beta)
+    cfscore_calib.append(score_)
+  cfscore_calib = np.array(cfscore_calib)
+
+  # Compute conformity scores on the test set
+  cfscore_test = []
+  for i in range(n_test):
+    infected_nodes_ = np.nonzero(inputs_test[i])[0]
+    pred_prob_ = pred_scores_test[i][:, 1]
+    if prop_model == 'SI':
+      non_infected_nodes = np.setdiff1d(np.arange(n_nodes), infected_nodes_)
+      pred_prob_[non_infected_nodes] = 0
+    Y_hat_ = (pred_prob_ - 1/2) * 2 # align with {-1, 1} Y values.
+
+    cfscore_ = MPmaxscore(Y_hat_, tree_edges, tree_alpha, tree_beta)
+    cfscore_test.append(cfscore_)
+  cfscore_test = np.array(cfscore_test)
+  
   # Construct prediction set on the test set
+  coverage = np.zeros(n_alpha)
+  avg_size = np.zeros(n_alpha)
+
+  for i in range(n_test):
+    pred_sets = {}
+    for alpha in confi_levels:
+      pred_sets[str(alpha)] = set()
+
+      ## compute the quantile
+      tail_prop = (1 - alpha) * (1 + 1 / n_calibration)
+      threshold = np.quantile(cfscore_calib, tail_prop, method = 'higher')
+
+      for j in range(n_nodes):
+        if cfscore_test[i][j] >= threshold:
+          pred_sets[str(alpha)].add(j)
+    print('Prediction sets computed. index:', i)
+
+  # evaluate the performance
+  for j, alpha in enumerate(confi_levels):
+    ground_truth_source = np.nonzero(ground_truths_test[i])[0]
+    predicted_set = list(pred_sets[str(alpha)])
+
+    # Compute intersection between ground truth and predicted set
+    intersection_ = np.intersect1d(ground_truth_source, predicted_set)
+
+    # Calculate power as the ratio of correctly detected true signals
+    power = len(intersection_) / len(ground_truth_source) if len(ground_truth_source) > 0 else 0.0
+
+    # Create power flag based on comparison with expected power
+    power_flag = power >= pow_expected
+    if power_flag:
+      coverage[j] = coverage[j] + 1
+    
+    avg_size[j] = avg_size[j] + len(predicted_set)    
+  
+  coverage = coverage / n_test
+  avg_size = avg_size / n_test
+  print('coverage:', coverage)
+  print('set size:', avg_size)
+
+  method_names.append('ArbiTree-CQC')
+  coverage_res['ArbiTree-CQC'] = coverage
+  set_size_res['ArbiTree-CQC'] = avg_size
 
 
 ## make plots for the results
