@@ -4,12 +4,62 @@ import itertools
 
 from collections import defaultdict
 
+def ArbiTree(Y, Y_hat):
+    """
+    This function calculates the tree and parameters needed for computing the ArbiTree score function.
+
+    Arguments:
+    Y: (n_samples x n_labels) array, with {-1, 1} elements.
+    Y_hat: (n_samples x n_labels) array, with {-1, 1} or real-valued elements.
+
+    Returns:
+    The maximum spanning tree and the corresponding weights.
+    edges: the edge list of MST.
+    alpha, beta: the parameters on nodes and edges.
+    """
+
+    n_sample, K = Y.shape
+
+    # learn the maximum spanning tree
+
+    ## compute the edge weights
+    edge_weights = (Y.T @ Y) ** 2 / 4 # convex conjugate
+    np.fill_diagonal(edge_weights, 0)  # Nullify diagonal
+
+    ## create a graph
+    G = nx.Graph()
+    for i in range(K):
+        for j in range(i + 1, K):  # Upper triangle to avoid duplicates
+            if edge_weights[i, j] > 0:  # Add only positive edges
+                G.add_edge(i, j, weight=edge_weights[i, j])
+    
+    ## Compute MaxST using Kruskal's algorithm
+    edges = list(nx.maximum_spanning_edges(G, algorithm="kruskal", data=True))
+    edges = [(edge_[0], edge_[1]) for edge_ in edges]
+    # maxst = nx.Graph()
+    # maxst.add_edges_from(maxst_edges)
+
+    # learn the parameters for scoring function
+
+    ## node parameters:
+    alpha_vec = np.diag(Y.T @ Y_hat) / 2
+    alpha = {}
+    for k in range(K):
+        alpha[k] = alpha_vec[k]
+
+    ## edge parameters:
+    beta_mat = Y.T @ Y / 2
+    beta = {}
+    for edge_ in edges:
+        beta[edge_] = beta_mat[edge_[0], edge_[1]]
+
+    return edges, alpha, beta
+
 def PGMTree(Y, S, from_graph = True, G = {}):
     """
     This function calculates the tree and parameters needed for computing the PGM score function.
 
     Arguments:
-
     Y: (n_samples x n_labels) array, with {-1, 1} elements.
     S: (n_samples x n_labels) array. The (i, k)-th entry is the score s_k over the i-th sample. 
     from_graph: if true, then the MST will be directly learned from a provided graph.

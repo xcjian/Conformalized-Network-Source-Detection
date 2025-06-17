@@ -34,7 +34,8 @@ n_alpha = len(confi_levels)
 ## Parameters for Conformal Prediction
 proposed_method = False
 ADiT_DSI = False
-PGM_CQC = True
+PGM_CQC = False
+ArbiTree_CQC = True
 calib_ratio = 0.5
 pow_expected = 0.7
 start_freq = 0
@@ -282,6 +283,46 @@ if PGM_CQC:
   Y_learn_tree = Y_calib[:n_learn_tree, :]
   score_learn_tree = nodewise_score_calib[:n_learn_tree, :]
   tree_edges, tree_alpha, tree_beta = PGMTree(Y_learn_tree, score_learn_tree, from_graph=True, G = G)
+
+  # Compute conformity scores on the calibration set
+
+  # Construct prediction set on the test set
+
+if ArbiTree_CQC:
+
+  # Remark: This method require more complex partition of dataset.
+  # For example, besides the calibration set, this algorithm need another hold-out set for learning the tree structure.
+  # At current step we first simply hold out a part of calibration set for it to learn the tree.
+
+  # Conformal Prediction
+  print('computing ArbiTree-CQC...')
+
+  # compute Y_hat for each vertex (i.e., label) on the calibration set
+  Y_calib = []
+  Y_hat_calib = []
+  for i in range(n_calibration):
+    infected_nodes_ = np.nonzero(inputs_calib[i])[0]
+    # infected_nodes_ = np.nonzero(inputs_calib[i][0, :])[0]
+    pred_prob_binary_ = pred_scores_calib[i]
+    if prop_model == 'SI':
+      non_infected_nodes = np.setdiff1d(np.arange(n_nodes), infected_nodes_)
+      pred_prob_binary_[non_infected_nodes, 0] = 1
+      pred_prob_binary_[non_infected_nodes, 1] = 0
+    pred_prob_ = pred_prob_binary_[:, 1]
+
+    ground_truth_one_hot_ = ground_truths_calib[i]
+    ground_truth_part_one_hot_ = set_truncate(ground_truth_one_hot_, pred_prob_, pow_expected)
+    
+    Y_hat_ = (pred_prob_ - 1/2) * 2 # align with {-1, 1} Y values.
+    Y_hat_calib.append(Y_hat_)
+    Y_calib.append(2 * (ground_truth_part_one_hot_ - 1/2))
+  Y_calib = np.array(Y_calib)
+  Y_hat_calib = np.array(Y_hat_calib)
+
+  # learn the set scoring function from a set of scores
+  Y_learn_tree = Y_calib[:n_learn_tree, :]
+  Y_hat_learn_tree = Y_hat_calib[:n_learn_tree, :]
+  tree_edges, tree_alpha, tree_beta = ArbiTree(Y_learn_tree, Y_hat_learn_tree)
 
   # Compute conformity scores on the calibration set
 

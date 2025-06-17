@@ -356,3 +356,44 @@ def PGMscore(Y, S, edges, alpha, beta):
     score = edge_score + node_score
 
     return score
+
+def ArbiTreescore(Y, Y_hat, edges, alpha, beta):
+    """
+    This function computes the score of any given set, represented by Y.
+
+    Arguments:
+    Y: a n_label array with {-1, 1} entries.
+    Y_hat: a n_label array with {-1, 1} or real entries.
+    edges, alpha, beta: the maximum spanning tree and associated parameters learned by ArbiTree.
+
+    Return:
+    score: the score of the subset.
+    """
+
+    n_node = len(Y)
+
+    # summation over the edges
+    edge_score = 0
+    for edge_ in edges:
+
+        beta_ = beta[edge_]
+        l_ = edge_[0]
+        k_ = edge_[1]
+        Y_l_ = Y[l_]
+        Y_k_ = Y[k_]
+
+        edge_score = edge_score + beta_ * Y_l_ * Y_k_
+
+    # summation over the nodes
+    node_score = 0
+    for node_ in range(n_node):
+
+        alpha_ = alpha[node_]
+        Y_k_ = Y[node_]
+        Y_hat_k_ = Y_hat[node_]
+
+        node_score = node_score + alpha_ * Y_k_ * Y_hat_k_
+    
+    score = edge_score + node_score
+
+    return score
