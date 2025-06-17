@@ -4,7 +4,7 @@ import itertools
 
 from collections import defaultdict
 
-def PGMTree(Y, S):
+def PGMTree(Y, S, from_graph = True, G = {}):
     """
     This function calculates the tree and parameters needed for computing the PGM score function.
 
@@ -12,6 +12,7 @@ def PGMTree(Y, S):
 
     Y: (n_samples x n_labels) array, with {-1, 1} elements.
     S: (n_samples x n_labels) array. The (i, k)-th entry is the score s_k over the i-th sample. 
+    from_graph: if true, then the MST will be directly learned from a provided graph.
 
     Returns: 
     The maximum spanning tree and the corresponding weights.
@@ -21,39 +22,41 @@ def PGMTree(Y, S):
 
     n_samples, K = Y.shape
 
-    # compute the mutual information matrix
+    if not from_graph:
 
-    G = nx.Graph()
-    for i in range(K - 1):
-        for j in range(i + 1, K):
-            
-            Y_ = Y[:, [i, j]]
-            S_ = S[:, [i, j]]
-            edge_ = [(0, 1)]
+        # compute the mutual information matrix
 
-            # fit alpha, beta on this single-edge graph
-            alpha_, beta_ = fit_model(Y_, S_, edge_)
+        G = nx.Graph()
+        for i in range(K - 1):
+            for j in range(i + 1, K):
+                
+                Y_ = Y[:, [i, j]]
+                S_ = S[:, [i, j]]
+                edge_ = [(0, 1)]
 
-            # estimate edge empirical mutual information
-            p_joint = np.zeros(n_samples)
-            p_k = np.zeros(n_samples)
-            p_l = np.zeros(n_samples)
-            for n in range(n_samples):
-                score_ = S_[n, :]
-                y_ = Y_[n, :]
-                p_single_, p_pair_ = compute_model_marginals(alpha_, beta_, score_, edge_)
-                p_joint[n] = p_pair_[(0, 1)][0 if y_[0] == -1 else 1][0 if y_[1] == -1 else 1]
-                p_k[n] = p_single_[0][0 if y_[0] == -1 else 1]
-                p_l[n] = p_single_[1][0 if y_[1] == -1 else 1]
-            I_e_hat = np.sum(np.log(p_joint / (p_k * p_l)))
+                # fit alpha, beta on this single-edge graph
+                alpha_, beta_ = fit_model(Y_, S_, edge_)
 
-            G.add_edge(i, j, weight=I_e_hat)
+                # estimate edge empirical mutual information
+                p_joint = np.zeros(n_samples)
+                p_k = np.zeros(n_samples)
+                p_l = np.zeros(n_samples)
+                for n in range(n_samples):
+                    score_ = S_[n, :]
+                    y_ = Y_[n, :]
+                    p_single_, p_pair_ = compute_model_marginals(alpha_, beta_, score_, edge_)
+                    p_joint[n] = p_pair_[(0, 1)][0 if y_[0] == -1 else 1][0 if y_[1] == -1 else 1]
+                    p_k[n] = p_single_[0][0 if y_[0] == -1 else 1]
+                    p_l[n] = p_single_[1][0 if y_[1] == -1 else 1]
+                I_e_hat = np.sum(np.log(p_joint / (p_k * p_l)))
+
+                G.add_edge(i, j, weight=I_e_hat)
     
     # learn the maximal spanning tree and the corresponding parameters
 
     ## NetworkX computes MaxST by negating weights
     maxst_edges = nx.maximum_spanning_edges(G, algorithm="kruskal", data=True)
-    edges =  list(maxst_edges)
+    edges = [(e[0], e[1]) for e in list(maxst_edges)]
 
     ## compute the alpha and beta parameters
     alpha, beta = fit_model(Y, S, edges, num_iters=1000, lr=10 ** (-3))

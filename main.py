@@ -281,7 +281,7 @@ if PGM_CQC:
   # learn the set scoring function from a set of scores
   Y_learn_tree = Y_calib[:n_learn_tree, :]
   score_learn_tree = nodewise_score_calib[:n_learn_tree, :]
-  tree_edges, tree_alpha, tree_beta = PGMTree(Y_learn_tree, score_learn_tree)
+  tree_edges, tree_alpha, tree_beta = PGMTree(Y_learn_tree, score_learn_tree, from_graph=True, G = G)
 
   # Compute conformity scores on the calibration set
 
