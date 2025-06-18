@@ -356,32 +356,32 @@ if ArbiTree_CQC:
       pred_sets[str(alpha)] = set()
 
       ## compute the quantile
-      tail_prop = (1 - alpha) * (1 + 1 / n_calibration)
-      threshold = np.quantile(cfscore_calib, tail_prop, method = 'higher')
+      tail_prop = 1 - (1 - alpha) * (1 + 1 / (n_calibration - n_learn_tree))
+      threshold = np.quantile(cfscore_calib, tail_prop)
 
       for j in range(n_nodes):
         if cfscore_test[i][j] >= threshold:
           pred_sets[str(alpha)].add(j)
     print('Prediction sets computed. index:', i)
 
-  # evaluate the performance
-  for j, alpha in enumerate(confi_levels):
-    ground_truth_source = np.nonzero(ground_truths_test[i])[0]
-    predicted_set = list(pred_sets[str(alpha)])
+    # evaluate the performance
+    for j, alpha in enumerate(confi_levels):
+      ground_truth_source = np.nonzero(ground_truths_test[i])[0]
+      predicted_set = list(pred_sets[str(alpha)])
 
-    # Compute intersection between ground truth and predicted set
-    intersection_ = np.intersect1d(ground_truth_source, predicted_set)
+      # Compute intersection between ground truth and predicted set
+      intersection_ = np.intersect1d(ground_truth_source, predicted_set)
 
-    # Calculate power as the ratio of correctly detected true signals
-    power = len(intersection_) / len(ground_truth_source) if len(ground_truth_source) > 0 else 0.0
+      # Calculate power as the ratio of correctly detected true signals
+      power = len(intersection_) / len(ground_truth_source) if len(ground_truth_source) > 0 else 0.0
 
-    # Create power flag based on comparison with expected power
-    power_flag = power >= pow_expected
-    if power_flag:
-      coverage[j] = coverage[j] + 1
+      # Create power flag based on comparison with expected power
+      power_flag = power >= pow_expected
+      if power_flag:
+        coverage[j] = coverage[j] + 1
+      
+      avg_size[j] = avg_size[j] + len(predicted_set)    
     
-    avg_size[j] = avg_size[j] + len(predicted_set)    
-  
   coverage = coverage / n_test
   avg_size = avg_size / n_test
   print('coverage:', coverage)

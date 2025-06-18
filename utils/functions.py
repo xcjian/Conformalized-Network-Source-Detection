@@ -6,27 +6,26 @@ from collections import defaultdict
 
 def MPmaxscore(Y_hat, edges, alpha, beta):
     """
-    This function efficiently computes the set S_+ in eq.(18) in the paper
-    Cauchois, M., Gupta, S., & Duchi, J. C. (2021). Knowing what you know: valid and validated confidence sets in multiclass and multilabel prediction. Journal of machine learning research, 22(81), 1-42.
-    i.e., for each k in [K], compute max{s(y): y_k = 1}.
-
+    Efficiently computes maximum scores using two-phase message passing.
+    
     Arguments:
-    edges, alpha, beta: Tree structure and parameters learned by ArbiTree.
-    Y_hat: (n_labels) array, with {-1, 1} or real-valued elements.
-
+        Y_hat: (K,) array with {-1, 1} or real-valued elements
+        edges: List of tuples representing undirected edges in the tree
+        alpha: Dictionary of node potentials (alpha[k] for node k)
+        beta: Dictionary of edge potentials (beta[(k,l)] for edge (k,l))
+        
     Returns:
-    maxscores: (n_labels) array.
+        maxscores: (K,) array of maximum scores for each y_k=1
     """
-
     K = len(Y_hat)
-
+    
     # 1. Build tree structure and select root
     neighbors = defaultdict(list)
     for k, l in edges:
         neighbors[k].append(l)
         neighbors[l].append(k)
     root = 0  # Arbitrarily choose node 0 as root
-
+    
     # 2. Compute node potentials
     phi_vals = {}
     for k in range(K):
@@ -38,56 +37,32 @@ def MPmaxscore(Y_hat, edges, alpha, beta):
         k, l = edge
         psi_vals[edge] = beta[edge] * np.array([[1, -1], [-1, 1]])
         psi_vals[(l, k)] = psi_vals[edge].T  # Add reverse direction
-
-    # 4. Downward pass (root to leaves)
-    down_msgs = {}
-    stack = [(root, None)]  # (node, parent)
-    visited = set()
-
-    while stack:
-        node, parent = stack.pop(0)
-        visited.add(node)
-
-        # Compute message from parent to node (downward)
-        if parent is not None:
-            msg = np.zeros(2)
-            for y_tilde in [0, 1]:  # y_tilde: 0=-1, 1=1
-                max_val = -np.inf
-                for y_parent in [0, 1]:
-                    term = phi_vals[parent][y_parent]
-                    term += psi_vals[(parent, node)][y_parent, y_tilde]
-                    for grand_parent in neighbors[parent]:
-                        if (grand_parent, parent) in down_msgs:
-                            term += down_msgs[(grand_parent, parent)][y_parent]
-                    max_val = max(max_val, term)
-                msg[y_tilde] = max_val
-            down_msgs[(parent, node)] = msg
-        
-        # Push children to stack
-        for child in neighbors[node]:
-            if child != parent and child not in visited:
-                stack.append((child, node))
-
-    # 5. Upward pass (leaves to root)
+    
+    # 4. Upward pass (leaves to root)
     up_msgs = {}
-    # Initialize with leaves (nodes with only one neighbor except root)
-    queue = []
-    for k in range(K):
-        if len(neighbors[k]) == 1 and k != root:
-            queue.append(k)
+    
+    # Identify leaves (nodes with only one connection that aren't root)
+    leaves = [k for k in range(K) if len(neighbors[k]) == 1 and k != root]
+    
+    # Initialize queue with leaves
+    queue = leaves.copy()
+    visited = set(queue)
     
     while queue:
         node = queue.pop(0)
-        parent = neighbors[node][0]  # Only one neighbor for leaves
+
+        for parent in neighbors[node]:
+            if (parent, node) not in up_msgs:
+                break
         
-        # Compute message from node to parent (upward)
+        # Compute upward message from node to parent
         msg = np.zeros(2)
-        for y_parent in [0, 1]:
+        for y_parent in [0, 1]:  # y_tilde in message formula
             max_val = -np.inf
-            for y_node in [0, 1]:
+            for y_node in [0, 1]:  # y_l in message formula
                 term = phi_vals[node][y_node]
                 term += psi_vals[(node, parent)][y_node, y_parent]
-                # Add messages from node's children
+                # Sum messages from children (in upward direction)
                 for child in neighbors[node]:
                     if child != parent and (child, node) in up_msgs:
                         term += up_msgs[(child, node)][y_node]
@@ -95,14 +70,55 @@ def MPmaxscore(Y_hat, edges, alpha, beta):
             msg[y_parent] = max_val
         up_msgs[(node, parent)] = msg
         
-        # Add parent to queue if all children have sent messages
-        all_children_done = True
+        # Add parent to queue if all its children have sent messages
+        n_remained_neighbor = len(neighbors[parent])
         for child in neighbors[parent]:
-            if child != node and (child, parent) not in up_msgs:
-                all_children_done = False
-                break
-        if all_children_done and parent != root:
+            if (child, parent) in up_msgs:
+                n_remained_neighbor = n_remained_neighbor - 1
+        if n_remained_neighbor == 1 or (n_remained_neighbor == 0 and parent == root):
+            parent_ready = True
+        else:
+            parent_ready = False
+        
+        if parent_ready and parent != root and parent not in visited:
             queue.append(parent)
+            visited.add(parent)
+    
+    # 5. Downward pass (root to leaves)
+    down_msgs = {}
+    queue = [root]
+    
+    while queue:
+        node = queue.pop(0)
+        
+        for child in neighbors[node]:
+
+            if (child, node) not in down_msgs:
+                # Compute downward message from node to child
+                msg = np.zeros(2)
+                for y_child in [0, 1]:  # y_tilde in message formula
+                    max_val = -np.inf
+                    for y_node in [0, 1]:  # y_l in message formula
+                        term = phi_vals[node][y_node]
+                        term += psi_vals[(node, child)][y_node, y_child]
+                        # Sum all incoming messages except from child
+                        for neighbor in neighbors[node]:
+                            if neighbor != child:
+                                # Use upward message if coming from below
+                                if (neighbor, node) in up_msgs:
+                                    term += up_msgs[(neighbor, node)][y_node]
+                                # Use downward message if coming from above
+                                if (neighbor, node) in down_msgs:
+                                    term += down_msgs[(neighbor, node)][y_node]
+                        max_val = max(max_val, term)
+                    msg[y_child] = max_val
+                down_msgs[(node, child)] = msg
+                queue.append(child)
+    
+    # print messages
+    # print("up messages:", up_msgs)
+    # print("down messages:", down_msgs)
+
 
     # 6. Compute max scores for each y_k=1
     maxscores = np.zeros(K)
@@ -110,15 +126,15 @@ def MPmaxscore(Y_hat, edges, alpha, beta):
         # Start with node potential for y_k=1
         total = phi_vals[k][1]
         
-        # Add all incoming messages
+        # Sum all incoming messages
         for neighbor in neighbors[k]:
-            if (neighbor, k) in down_msgs:
-                total += down_msgs[(neighbor, k)][1]
             if (neighbor, k) in up_msgs:
                 total += up_msgs[(neighbor, k)][1]
+            if (neighbor, k) in down_msgs:
+                total += down_msgs[(neighbor, k)][1]
         
         maxscores[k] = total
-
+    
     return maxscores
 
 def ArbiTree(Y, Y_hat):
