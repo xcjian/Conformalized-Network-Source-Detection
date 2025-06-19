@@ -7,16 +7,16 @@ np.random.seed(42)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--n_frame', type=int, default=16)
-parser.add_argument('--len_seq', type=int, default=2000)
+parser.add_argument('--len_seq', type=int, default=400)
 parser.add_argument('--graph_type', type=str, default='highSchool')
-parser.add_argument('--sim_type', type=str, default='SIR')
+parser.add_argument('--sim_type', type=str, default='MixedSIR')
 parser.add_argument('--R0', type=float, default=2.5)
-parser.add_argument('--beta', type=float, default=-1) # If gamma > 0, then ignore this input variable.
-parser.add_argument('--gamma', type=float, default=0.4) # If gamma <= 0, then set gamma = 0, the SIR model = SI model.
+parser.add_argument('--beta', type=float, default=0.3) # If gamma > 0, then ignore this input variable.
+parser.add_argument('--gamma', type=float, default=0) # If gamma <= 0, then set gamma = 0, the SIR model = SI model.
 parser.add_argument('--alpha', type=float, default=0.5)
 parser.add_argument('--f0', type=float, default=0.02)
 parser.add_argument('--T', type=int, default=30)
-parser.add_argument('--n_sources', type=int, default=3)
+parser.add_argument('--n_sources', type=str, default='[[1,0.5],[7,0.4],[10,-1]]')
 
 args = parser.parse_args()
 
@@ -56,8 +56,15 @@ else:
     gamma = 0
     beta = args.beta
 if sim_type == 'SIR':
-    sim_file = '%s_nsrc%s_Rzero%s_beta%s_gamma%s_T%s_ls%s_nf%s_entire.pickle' %\
-    (sim_type,n_sources,R0,beta,gamma,T,len_seq,num_frames)
+    sim_file = '%s_nsrc%s_Rzero%s_beta%s_gamma%s_T%s_ls%s_nf%s_entire.pickle' % \
+               (sim_type, n_sources, R0, beta, gamma, T, len_seq, num_frames)
+elif sim_type == 'MixedSIR':
+    nsrc_list = eval(args.n_sources)  # 转成 list
+    sim_file = 'MixedSIR'
+    for nsrc, ratio in nsrc_list:
+        sim_file += '_nsrc%d-ratio%s' % (nsrc, ratio)
+    sim_file += '_Rzero%s_beta%s_gamma%s_T%s_ls%s_nf%s_entire.pickle' % \
+                (R0, beta, gamma, T, len_seq, num_frames)
 elif sim_type == 'SEIR':
     sim_file = '%s_nsrc%s_Rzero%s_beta%s_gamma%s_alpha%s_T%s_ls%s_nf%s_entire.pickle' %\
     (sim_type,n_sources,R0,beta,gamma,alpha,T,len_seq,num_frames)
@@ -69,26 +76,54 @@ X = [] # features, shape [len_seq, num_frames, N, num_channels]
 y = [] # labels, i.e. source node index, shape [len_seq, 1]
 
 # simulation from different sources
-i = 0
 sim_length = []
-while i < len_seq:
-    if sim_type == 'SIR':
-        # sim = SIR(N, g, beta, gamma, min_outbreak_frac=f0)
-        sim = MultiSIR(N, g, beta, gamma, num_sources=n_sources, min_outbreak_frac=f0)
-    elif sim_type == 'SEIR':
-        sim = SEIR(N, g, beta, gamma, alpha, min_outbreak_frac=f0)
-    else:
-        raise Exception('uknown simulation type')
 
-    sim.init()
-    sim.iteration_bunch(T)
 
-    if sim.is_outbreak and len(sim.iterations) > num_frames:
-        sim_length.append(len(sim.iterations))
+if sim_type == 'MixedSIR':
+    mixed_sir = MixedSIR(N, g, beta, gamma, nsrc_ratios=eval(args.n_sources), min_outbreak_frac=f0)
+    mixed_sir.prepare_plan(len_seq)
 
-        i += 1
-        X.append(sim.iterations)
-        y.append(sim.src)
+    for i in range(len_seq):
+        if (i + 1) % 100 == 0:
+            print(f"Processing {i + 1} / {len_seq} samples")
+        mixed_sir.init()
+        mixed_sir.iteration_bunch(T)
+
+        if mixed_sir.is_outbreak and len(mixed_sir.iterations) > num_frames:
+            X.append(mixed_sir.iterations)
+            y.append(mixed_sir.src)
+            sim_length.append(len(mixed_sir.iterations))
+        else:
+            while True:
+                mixed_sir.init()
+                mixed_sir.iteration_bunch(T)
+                if mixed_sir.is_outbreak and len(mixed_sir.iterations) > num_frames:
+                    X.append(mixed_sir.iterations)
+                    y.append(mixed_sir.src)
+                    sim_length.append(len(mixed_sir.iterations))
+                    break
+else:
+    i = 0
+    while i < len_seq:
+        if (i + 1) % 100 == 0:
+            print(f"Processing {i + 1} / {len_seq} samples")
+
+        if sim_type == 'SIR':
+            sim = MultiSIR(N, g, beta, gamma, num_sources=int(n_sources), min_outbreak_frac=f0)
+        elif sim_type == 'SEIR':
+            sim = SEIR(N, g, beta, gamma, alpha, min_outbreak_frac=f0)
+        else:
+            raise Exception('unknown simulation type')
+
+        sim.init()
+        sim.iteration_bunch(T)
+
+        if sim.is_outbreak and len(sim.iterations) > num_frames:
+            X.append(sim.iterations)
+            y.append(sim.src)
+            sim_length.append(len(sim.iterations))
+            i += 1
+
 
 if not os.path.exists(spath):
     os.makedirs(spath)

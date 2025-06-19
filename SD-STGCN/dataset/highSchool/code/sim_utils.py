@@ -121,6 +121,46 @@ class MultiSIR(Epidemic):
 #e.g. multi_sir = MultiSIR(N=200, g=g, beta=0.03, gamma=0.01, src=[0, 5, 99])
 
 
+class MixedSIR(Epidemic):
+    def __init__(self, N, g, beta, gamma, nsrc_ratios, min_outbreak_frac=0.02):
+        super().__init__(N, g, min_outbreak_frac)
+        self.beta = beta
+        self.gamma = gamma
+        self.nsrc_ratios = nsrc_ratios
+        self.sample_plan = []
+        self.plan_index = 0
+
+    def prepare_plan(self, len_seq):
+        total_assigned = 0
+        plan = []
+        
+        for nsrc, ratio in self.nsrc_ratios:
+            if ratio == -1:
+                remaining = len_seq - total_assigned
+                plan.extend([nsrc] * remaining)
+            else:
+                count = int(len_seq * ratio)
+                plan.extend([nsrc] * count)
+                total_assigned += count
+        
+        np.random.shuffle(plan) 
+        self.sample_plan = plan
+
+    def init(self):
+
+        nsrc = self.sample_plan[self.plan_index]
+        self.plan_index += 1
+        
+
+        self.src = np.random.choice(self.N, size=nsrc, replace=False).tolist()
+        
+        self.model = ep.SIRModel(self.g)
+        config = mc.Configuration()
+        config.add_model_parameter('beta', self.beta)
+        config.add_model_parameter('gamma', self.gamma)
+        config.add_model_initial_configuration('Infected', self.src)
+        self.model.set_initial_status(config)
+
 
 class SEIR(Epidemic):
     def __init__(self, N, g, beta, gamma, alpha, min_outbreak_frac=0.02):
