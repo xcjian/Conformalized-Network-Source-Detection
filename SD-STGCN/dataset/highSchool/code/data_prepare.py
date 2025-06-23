@@ -17,7 +17,7 @@ add_skip = False
 # Add the number of skip for all dataset in SIR/split, because previous simulator does not have such information.
 # This step is not needed.
 
-merge_and_split = False
+merge_and_split = True
 # merge and split data for all datasets.
 
 convert_to_torch = True
