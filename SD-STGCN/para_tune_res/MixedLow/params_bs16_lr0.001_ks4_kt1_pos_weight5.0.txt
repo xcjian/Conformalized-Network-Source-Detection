@@ -1,0 +1,808 @@
+Parameters: batch_size=16, lr=0.001, pos_weight=5.0, ks=4, kt=1
+
+Output:
+Training configs: Namespace(batch_size=16, dropout=0, end=-1, epoch=4, exp_name='MixedLow', graph='./dataset/highSchool/data/graph/highSchool.edgelist', gt='highSchool', ks=4, kt=1, lr=0.001, n_channel=3, n_frame=16, n_node=774, opt='RMSProp', pos_weight=5.0, pred='./output/models/highSchool/pred_highSchool_nf16.pickle', prop_model='SI', random=0, save=1, sconv='gcn', seq='./dataset/highSchool/data/MixedSIR/MixedSIR_nsrc1-ratio0.7_nsrc7-ratio0.2_nsrc10-ratio-1_Rzero2.5_beta0.25_gamma0_T30_ls40000_nf16_entire.pickle', start=1, train_flag=True, train_pct=0.5, val_pct=0.01, valid=1)
+True
+./dataset/highSchool/data/graph/highSchool.edgelist
+The input graph is a 0/1 matrix; set "scaling" to False.
+Epoch  0, Step   0: Elapsed Time 5.594 Loss 0.056 Train Acc 0.180 Val Acc 0.136
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-1 ...
+New best model saved with validation accuracy: 0.136 at epoch 0
+Epoch  0, Step  10: Elapsed Time 10.030 Loss 0.069 Train Acc 0.120 Val Acc 0.136
+Epoch  0, Step  20: Elapsed Time 13.984 Loss 0.058 Train Acc 0.176 Val Acc 0.136
+Epoch  0, Step  30: Elapsed Time 18.058 Loss 0.053 Train Acc 0.174 Val Acc 0.136
+Epoch  0, Step  40: Elapsed Time 22.330 Loss 0.049 Train Acc 0.098 Val Acc 0.131
+Epoch  0, Step  50: Elapsed Time 26.497 Loss 0.036 Train Acc 0.113 Val Acc 0.080
+Epoch  0, Step  60: Elapsed Time 30.635 Loss 0.032 Train Acc 0.053 Val Acc 0.023
+Epoch  0, Step  70: Elapsed Time 34.831 Loss 0.038 Train Acc 0.000 Val Acc 0.006
+Epoch  0, Step  80: Elapsed Time 38.785 Loss 0.049 Train Acc 0.000 Val Acc 0.006
+Epoch  0, Step  90: Elapsed Time 43.045 Loss 0.031 Train Acc 0.000 Val Acc 0.005
+Epoch  0, Step 100: Elapsed Time 47.166 Loss 0.053 Train Acc 0.000 Val Acc 0.005
+Epoch  0, Step 110: Elapsed Time 51.378 Loss 0.045 Train Acc 0.000 Val Acc 0.002
+Epoch  0, Step 120: Elapsed Time 55.547 Loss 0.038 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 130: Elapsed Time 59.633 Loss 0.035 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 140: Elapsed Time 63.785 Loss 0.036 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 150: Elapsed Time 67.929 Loss 0.050 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 160: Elapsed Time 72.011 Loss 0.039 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 170: Elapsed Time 76.215 Loss 0.039 Train Acc 0.038 Val Acc 0.008
+Epoch  0, Step 180: Elapsed Time 80.334 Loss 0.040 Train Acc 0.000 Val Acc 0.003
+Epoch  0, Step 190: Elapsed Time 84.387 Loss 0.023 Train Acc 0.000 Val Acc 0.003
+Epoch  0, Step 200: Elapsed Time 88.600 Loss 0.042 Train Acc 0.000 Val Acc 0.008
+Epoch  0, Step 210: Elapsed Time 92.667 Loss 0.037 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 220: Elapsed Time 96.906 Loss 0.040 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 230: Elapsed Time 101.027 Loss 0.052 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 240: Elapsed Time 105.112 Loss 0.040 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 250: Elapsed Time 109.255 Loss 0.035 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 260: Elapsed Time 113.418 Loss 0.051 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 270: Elapsed Time 117.591 Loss 0.038 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 280: Elapsed Time 121.668 Loss 0.044 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 290: Elapsed Time 125.878 Loss 0.062 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 300: Elapsed Time 129.992 Loss 0.046 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 310: Elapsed Time 134.115 Loss 0.055 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 320: Elapsed Time 138.272 Loss 0.036 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 330: Elapsed Time 142.458 Loss 0.048 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 340: Elapsed Time 146.591 Loss 0.052 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 350: Elapsed Time 150.735 Loss 0.032 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 360: Elapsed Time 154.896 Loss 0.027 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 370: Elapsed Time 159.030 Loss 0.048 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 380: Elapsed Time 163.256 Loss 0.042 Train Acc 0.000 Val Acc 0.002
+Epoch  0, Step 390: Elapsed Time 167.333 Loss 0.039 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 400: Elapsed Time 171.516 Loss 0.040 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 410: Elapsed Time 175.579 Loss 0.034 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 420: Elapsed Time 179.711 Loss 0.029 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 430: Elapsed Time 183.852 Loss 0.023 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 440: Elapsed Time 187.981 Loss 0.036 Train Acc 0.000 Val Acc 0.006
+Epoch  0, Step 450: Elapsed Time 191.900 Loss 0.042 Train Acc 0.000 Val Acc 0.006
+Epoch  0, Step 460: Elapsed Time 196.130 Loss 0.046 Train Acc 0.029 Val Acc 0.012
+Epoch  0, Step 470: Elapsed Time 200.219 Loss 0.037 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 480: Elapsed Time 204.409 Loss 0.041 Train Acc 0.000 Val Acc 0.003
+Epoch  0, Step 490: Elapsed Time 208.441 Loss 0.034 Train Acc 0.083 Val Acc 0.047
+Epoch  0, Step 500: Elapsed Time 212.649 Loss 0.047 Train Acc 0.000 Val Acc 0.015
+Epoch  0, Step 510: Elapsed Time 216.950 Loss 0.043 Train Acc 0.000 Val Acc 0.009
+Epoch  0, Step 520: Elapsed Time 221.028 Loss 0.040 Train Acc 0.000 Val Acc 0.014
+Epoch  0, Step 530: Elapsed Time 225.276 Loss 0.053 Train Acc 0.023 Val Acc 0.060
+Epoch  0, Step 540: Elapsed Time 229.334 Loss 0.038 Train Acc 0.000 Val Acc 0.019
+Epoch  0, Step 550: Elapsed Time 233.565 Loss 0.034 Train Acc 0.127 Val Acc 0.107
+Epoch  0, Step 560: Elapsed Time 237.749 Loss 0.044 Train Acc 0.000 Val Acc 0.047
+Epoch  0, Step 570: Elapsed Time 242.001 Loss 0.041 Train Acc 0.105 Val Acc 0.102
+Epoch  0, Step 580: Elapsed Time 246.143 Loss 0.039 Train Acc 0.000 Val Acc 0.040
+Epoch  0, Step 590: Elapsed Time 250.460 Loss 0.038 Train Acc 0.070 Val Acc 0.029
+Epoch  0, Step 600: Elapsed Time 254.543 Loss 0.035 Train Acc 0.048 Val Acc 0.049
+Epoch  0, Step 610: Elapsed Time 258.564 Loss 0.028 Train Acc 0.062 Val Acc 0.034
+Epoch  0, Step 620: Elapsed Time 262.679 Loss 0.029 Train Acc 0.233 Val Acc 0.067
+Epoch  0, Step 630: Elapsed Time 266.881 Loss 0.032 Train Acc 0.051 Val Acc 0.041
+Epoch  0, Step 640: Elapsed Time 271.084 Loss 0.042 Train Acc 0.198 Val Acc 0.140
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-641 ...
+New best model saved with validation accuracy: 0.140 at epoch 0
+Epoch  0, Step 650: Elapsed Time 275.625 Loss 0.049 Train Acc 0.116 Val Acc 0.149
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-651 ...
+New best model saved with validation accuracy: 0.149 at epoch 0
+Epoch  0, Step 660: Elapsed Time 280.155 Loss 0.041 Train Acc 0.152 Val Acc 0.111
+Epoch  0, Step 670: Elapsed Time 284.100 Loss 0.034 Train Acc 0.174 Val Acc 0.081
+Epoch  0, Step 680: Elapsed Time 288.273 Loss 0.031 Train Acc 0.056 Val Acc 0.051
+Epoch  0, Step 690: Elapsed Time 292.181 Loss 0.045 Train Acc 0.088 Val Acc 0.103
+Epoch  0, Step 700: Elapsed Time 296.182 Loss 0.045 Train Acc 0.211 Val Acc 0.130
+Epoch  0, Step 710: Elapsed Time 300.381 Loss 0.040 Train Acc 0.000 Val Acc 0.061
+Epoch  0, Step 720: Elapsed Time 304.581 Loss 0.036 Train Acc 0.250 Val Acc 0.117
+Epoch  0, Step 730: Elapsed Time 308.779 Loss 0.032 Train Acc 0.095 Val Acc 0.081
+Epoch  0, Step 740: Elapsed Time 312.734 Loss 0.036 Train Acc 0.218 Val Acc 0.073
+Epoch  0, Step 750: Elapsed Time 316.890 Loss 0.051 Train Acc 0.151 Val Acc 0.158
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-751 ...
+New best model saved with validation accuracy: 0.158 at epoch 0
+Epoch  0, Step 760: Elapsed Time 321.287 Loss 0.031 Train Acc 0.195 Val Acc 0.107
+Epoch  0, Step 770: Elapsed Time 325.480 Loss 0.049 Train Acc 0.229 Val Acc 0.153
+Epoch  0, Step 780: Elapsed Time 329.661 Loss 0.028 Train Acc 0.053 Val Acc 0.086
+Epoch  0, Step 790: Elapsed Time 333.738 Loss 0.041 Train Acc 0.069 Val Acc 0.106
+Epoch  0, Step 800: Elapsed Time 338.021 Loss 0.048 Train Acc 0.190 Val Acc 0.178
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-801 ...
+New best model saved with validation accuracy: 0.178 at epoch 0
+Epoch  0, Step 810: Elapsed Time 342.499 Loss 0.045 Train Acc 0.192 Val Acc 0.107
+Epoch  0, Step 820: Elapsed Time 346.673 Loss 0.031 Train Acc 0.186 Val Acc 0.118
+Epoch  0, Step 830: Elapsed Time 350.721 Loss 0.043 Train Acc 0.000 Val Acc 0.068
+Epoch  0, Step 840: Elapsed Time 354.794 Loss 0.037 Train Acc 0.159 Val Acc 0.152
+Epoch  0, Step 850: Elapsed Time 358.911 Loss 0.033 Train Acc 0.200 Val Acc 0.145
+Epoch  0, Step 860: Elapsed Time 363.021 Loss 0.040 Train Acc 0.118 Val Acc 0.124
+Epoch  0, Step 870: Elapsed Time 367.096 Loss 0.026 Train Acc 0.150 Val Acc 0.137
+Epoch  0, Step 880: Elapsed Time 371.149 Loss 0.035 Train Acc 0.138 Val Acc 0.148
+Epoch  0, Step 890: Elapsed Time 375.339 Loss 0.037 Train Acc 0.138 Val Acc 0.136
+Epoch  0, Step 900: Elapsed Time 379.483 Loss 0.047 Train Acc 0.110 Val Acc 0.142
+Epoch  0, Step 910: Elapsed Time 383.611 Loss 0.038 Train Acc 0.215 Val Acc 0.160
+Epoch  0, Step 920: Elapsed Time 387.663 Loss 0.040 Train Acc 0.174 Val Acc 0.171
+Epoch  0, Step 930: Elapsed Time 391.765 Loss 0.035 Train Acc 0.179 Val Acc 0.176
+Epoch  0, Step 940: Elapsed Time 395.851 Loss 0.038 Train Acc 0.000 Val Acc 0.142
+Epoch  0, Step 950: Elapsed Time 399.936 Loss 0.026 Train Acc 0.286 Val Acc 0.148
+Epoch  0, Step 960: Elapsed Time 404.117 Loss 0.027 Train Acc 0.129 Val Acc 0.128
+Epoch  0, Step 970: Elapsed Time 408.195 Loss 0.043 Train Acc 0.175 Val Acc 0.159
+Epoch  0, Step 980: Elapsed Time 412.243 Loss 0.036 Train Acc 0.206 Val Acc 0.151
+Epoch  0, Step 990: Elapsed Time 416.334 Loss 0.040 Train Acc 0.088 Val Acc 0.166
+Epoch  0, Step 1000: Elapsed Time 420.425 Loss 0.038 Train Acc 0.215 Val Acc 0.137
+Epoch  0, Step 1010: Elapsed Time 424.481 Loss 0.034 Train Acc 0.123 Val Acc 0.158
+Epoch  0, Step 1020: Elapsed Time 428.591 Loss 0.039 Train Acc 0.185 Val Acc 0.152
+Epoch  0, Step 1030: Elapsed Time 432.681 Loss 0.054 Train Acc 0.212 Val Acc 0.172
+Epoch  0, Step 1040: Elapsed Time 436.841 Loss 0.045 Train Acc 0.147 Val Acc 0.142
+Epoch  0, Step 1050: Elapsed Time 440.975 Loss 0.027 Train Acc 0.122 Val Acc 0.162
+Epoch  0, Step 1060: Elapsed Time 445.081 Loss 0.046 Train Acc 0.141 Val Acc 0.155
+Epoch  0, Step 1070: Elapsed Time 449.261 Loss 0.038 Train Acc 0.205 Val Acc 0.169
+Epoch  0, Step 1080: Elapsed Time 453.367 Loss 0.050 Train Acc 0.198 Val Acc 0.171
+Epoch  0, Step 1090: Elapsed Time 457.341 Loss 0.042 Train Acc 0.092 Val Acc 0.164
+Epoch  0, Step 1100: Elapsed Time 461.500 Loss 0.039 Train Acc 0.102 Val Acc 0.162
+Epoch  0, Step 1110: Elapsed Time 465.660 Loss 0.037 Train Acc 0.298 Val Acc 0.170
+Epoch  0, Step 1120: Elapsed Time 469.836 Loss 0.045 Train Acc 0.161 Val Acc 0.168
+Epoch  0, Step 1130: Elapsed Time 473.953 Loss 0.045 Train Acc 0.258 Val Acc 0.169
+Epoch  0, Step 1140: Elapsed Time 478.295 Loss 0.037 Train Acc 0.253 Val Acc 0.171
+Epoch  0, Step 1150: Elapsed Time 482.424 Loss 0.040 Train Acc 0.194 Val Acc 0.170
+Epoch  0, Step 1160: Elapsed Time 486.591 Loss 0.038 Train Acc 0.187 Val Acc 0.164
+Epoch  0, Step 1170: Elapsed Time 490.908 Loss 0.044 Train Acc 0.156 Val Acc 0.158
+Epoch  0, Step 1180: Elapsed Time 495.075 Loss 0.027 Train Acc 0.067 Val Acc 0.163
+Epoch  0, Step 1190: Elapsed Time 499.213 Loss 0.021 Train Acc 0.105 Val Acc 0.125
+Epoch  0, Step 1200: Elapsed Time 503.404 Loss 0.035 Train Acc 0.000 Val Acc 0.165
+Epoch  0, Step 1210: Elapsed Time 507.551 Loss 0.030 Train Acc 0.100 Val Acc 0.162
+Epoch  0, Step 1220: Elapsed Time 511.642 Loss 0.038 Train Acc 0.175 Val Acc 0.172
+Epoch  0, Step 1230: Elapsed Time 515.866 Loss 0.032 Train Acc 0.239 Val Acc 0.164
+Epoch  0, Step 1240: Elapsed Time 519.997 Loss 0.037 Train Acc 0.260 Val Acc 0.169
+Epoch  1, Step   0: Elapsed Time 2.479 Loss 0.043 Train Acc 0.138 Val Acc 0.169
+Epoch  1, Step  10: Elapsed Time 6.489 Loss 0.038 Train Acc 0.323 Val Acc 0.169
+Epoch  1, Step  20: Elapsed Time 10.618 Loss 0.042 Train Acc 0.165 Val Acc 0.162
+Epoch  1, Step  30: Elapsed Time 14.684 Loss 0.038 Train Acc 0.260 Val Acc 0.169
+Epoch  1, Step  40: Elapsed Time 18.783 Loss 0.040 Train Acc 0.238 Val Acc 0.166
+Epoch  1, Step  50: Elapsed Time 22.984 Loss 0.041 Train Acc 0.213 Val Acc 0.165
+Epoch  1, Step  60: Elapsed Time 27.279 Loss 0.047 Train Acc 0.156 Val Acc 0.167
+Epoch  1, Step  70: Elapsed Time 31.254 Loss 0.047 Train Acc 0.196 Val Acc 0.170
+Epoch  1, Step  80: Elapsed Time 35.393 Loss 0.040 Train Acc 0.164 Val Acc 0.156
+Epoch  1, Step  90: Elapsed Time 39.561 Loss 0.040 Train Acc 0.286 Val Acc 0.174
+Epoch  1, Step 100: Elapsed Time 43.684 Loss 0.034 Train Acc 0.125 Val Acc 0.158
+Epoch  1, Step 110: Elapsed Time 47.658 Loss 0.041 Train Acc 0.114 Val Acc 0.167
+Epoch  1, Step 120: Elapsed Time 51.867 Loss 0.025 Train Acc 0.267 Val Acc 0.167
+Epoch  1, Step 130: Elapsed Time 55.985 Loss 0.040 Train Acc 0.179 Val Acc 0.165
+Epoch  1, Step 140: Elapsed Time 60.249 Loss 0.038 Train Acc 0.179 Val Acc 0.158
+Epoch  1, Step 150: Elapsed Time 64.286 Loss 0.043 Train Acc 0.313 Val Acc 0.177
+Epoch  1, Step 160: Elapsed Time 68.491 Loss 0.029 Train Acc 0.160 Val Acc 0.163
+Epoch  1, Step 170: Elapsed Time 72.637 Loss 0.041 Train Acc 0.212 Val Acc 0.172
+Epoch  1, Step 180: Elapsed Time 76.925 Loss 0.043 Train Acc 0.160 Val Acc 0.161
+Epoch  1, Step 190: Elapsed Time 81.034 Loss 0.041 Train Acc 0.222 Val Acc 0.161
+Epoch  1, Step 200: Elapsed Time 85.100 Loss 0.031 Train Acc 0.203 Val Acc 0.169
+Epoch  1, Step 210: Elapsed Time 89.060 Loss 0.032 Train Acc 0.215 Val Acc 0.163
+Epoch  1, Step 220: Elapsed Time 93.226 Loss 0.044 Train Acc 0.225 Val Acc 0.159
+Epoch  1, Step 230: Elapsed Time 97.482 Loss 0.039 Train Acc 0.207 Val Acc 0.175
+Epoch  1, Step 240: Elapsed Time 101.664 Loss 0.039 Train Acc 0.212 Val Acc 0.171
+Epoch  1, Step 250: Elapsed Time 105.881 Loss 0.027 Train Acc 0.230 Val Acc 0.169
+Epoch  1, Step 260: Elapsed Time 109.959 Loss 0.030 Train Acc 0.042 Val Acc 0.163
+Epoch  1, Step 270: Elapsed Time 114.210 Loss 0.038 Train Acc 0.143 Val Acc 0.163
+Epoch  1, Step 280: Elapsed Time 118.445 Loss 0.032 Train Acc 0.151 Val Acc 0.167
+Epoch  1, Step 290: Elapsed Time 122.539 Loss 0.043 Train Acc 0.254 Val Acc 0.175
+Epoch  1, Step 300: Elapsed Time 126.667 Loss 0.030 Train Acc 0.217 Val Acc 0.166
+Epoch  1, Step 310: Elapsed Time 130.881 Loss 0.046 Train Acc 0.202 Val Acc 0.170
+Epoch  1, Step 320: Elapsed Time 135.010 Loss 0.044 Train Acc 0.188 Val Acc 0.165
+Epoch  1, Step 330: Elapsed Time 139.257 Loss 0.042 Train Acc 0.149 Val Acc 0.163
+Epoch  1, Step 340: Elapsed Time 143.195 Loss 0.040 Train Acc 0.234 Val Acc 0.163
+Epoch  1, Step 350: Elapsed Time 147.407 Loss 0.037 Train Acc 0.200 Val Acc 0.162
+Epoch  1, Step 360: Elapsed Time 151.558 Loss 0.034 Train Acc 0.113 Val Acc 0.159
+Epoch  1, Step 370: Elapsed Time 155.479 Loss 0.028 Train Acc 0.299 Val Acc 0.168
+Epoch  1, Step 380: Elapsed Time 159.534 Loss 0.044 Train Acc 0.148 Val Acc 0.172
+Epoch  1, Step 390: Elapsed Time 163.660 Loss 0.029 Train Acc 0.300 Val Acc 0.164
+Epoch  1, Step 400: Elapsed Time 167.911 Loss 0.034 Train Acc 0.154 Val Acc 0.161
+Epoch  1, Step 410: Elapsed Time 171.893 Loss 0.045 Train Acc 0.222 Val Acc 0.165
+Epoch  1, Step 420: Elapsed Time 176.051 Loss 0.041 Train Acc 0.340 Val Acc 0.162
+Epoch  1, Step 430: Elapsed Time 180.245 Loss 0.050 Train Acc 0.153 Val Acc 0.174
+Epoch  1, Step 440: Elapsed Time 184.349 Loss 0.041 Train Acc 0.180 Val Acc 0.171
+Epoch  1, Step 450: Elapsed Time 188.520 Loss 0.037 Train Acc 0.220 Val Acc 0.182
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-1701 ...
+New best model saved with validation accuracy: 0.182 at epoch 1
+Epoch  1, Step 460: Elapsed Time 193.105 Loss 0.031 Train Acc 0.157 Val Acc 0.164
+Epoch  1, Step 470: Elapsed Time 197.320 Loss 0.042 Train Acc 0.171 Val Acc 0.164
+Epoch  1, Step 480: Elapsed Time 201.487 Loss 0.040 Train Acc 0.208 Val Acc 0.160
+Epoch  1, Step 490: Elapsed Time 205.757 Loss 0.038 Train Acc 0.039 Val Acc 0.159
+Epoch  1, Step 500: Elapsed Time 209.924 Loss 0.039 Train Acc 0.337 Val Acc 0.171
+Epoch  1, Step 510: Elapsed Time 214.040 Loss 0.034 Train Acc 0.145 Val Acc 0.171
+Epoch  1, Step 520: Elapsed Time 218.303 Loss 0.043 Train Acc 0.108 Val Acc 0.170
+Epoch  1, Step 530: Elapsed Time 222.390 Loss 0.025 Train Acc 0.171 Val Acc 0.149
+Epoch  1, Step 540: Elapsed Time 226.461 Loss 0.045 Train Acc 0.220 Val Acc 0.174
+Epoch  1, Step 550: Elapsed Time 230.634 Loss 0.057 Train Acc 0.169 Val Acc 0.174
+Epoch  1, Step 560: Elapsed Time 234.829 Loss 0.029 Train Acc 0.282 Val Acc 0.168
+Epoch  1, Step 570: Elapsed Time 239.045 Loss 0.025 Train Acc 0.056 Val Acc 0.157
+Epoch  1, Step 580: Elapsed Time 243.352 Loss 0.028 Train Acc 0.136 Val Acc 0.163
+Epoch  1, Step 590: Elapsed Time 247.488 Loss 0.040 Train Acc 0.133 Val Acc 0.163
+Epoch  1, Step 600: Elapsed Time 251.734 Loss 0.038 Train Acc 0.200 Val Acc 0.169
+Epoch  1, Step 610: Elapsed Time 255.850 Loss 0.031 Train Acc 0.301 Val Acc 0.170
+Epoch  1, Step 620: Elapsed Time 259.883 Loss 0.047 Train Acc 0.208 Val Acc 0.174
+Epoch  1, Step 630: Elapsed Time 263.894 Loss 0.044 Train Acc 0.182 Val Acc 0.163
+Epoch  1, Step 640: Elapsed Time 268.111 Loss 0.037 Train Acc 0.208 Val Acc 0.167
+Epoch  1, Step 650: Elapsed Time 272.254 Loss 0.043 Train Acc 0.252 Val Acc 0.168
+Epoch  1, Step 660: Elapsed Time 276.494 Loss 0.043 Train Acc 0.186 Val Acc 0.164
+Epoch  1, Step 670: Elapsed Time 280.710 Loss 0.043 Train Acc 0.198 Val Acc 0.164
+Epoch  1, Step 680: Elapsed Time 284.898 Loss 0.043 Train Acc 0.148 Val Acc 0.163
+Epoch  1, Step 690: Elapsed Time 289.110 Loss 0.035 Train Acc 0.151 Val Acc 0.163
+Epoch  1, Step 700: Elapsed Time 293.246 Loss 0.034 Train Acc 0.212 Val Acc 0.164
+Epoch  1, Step 710: Elapsed Time 297.396 Loss 0.052 Train Acc 0.202 Val Acc 0.179
+Epoch  1, Step 720: Elapsed Time 301.503 Loss 0.043 Train Acc 0.194 Val Acc 0.169
+Epoch  1, Step 730: Elapsed Time 305.674 Loss 0.039 Train Acc 0.195 Val Acc 0.169
+Epoch  1, Step 740: Elapsed Time 309.781 Loss 0.022 Train Acc 0.238 Val Acc 0.161
+Epoch  1, Step 750: Elapsed Time 314.016 Loss 0.030 Train Acc 0.237 Val Acc 0.172
+Epoch  1, Step 760: Elapsed Time 318.063 Loss 0.034 Train Acc 0.217 Val Acc 0.171
+Epoch  1, Step 770: Elapsed Time 322.280 Loss 0.023 Train Acc 0.327 Val Acc 0.172
+Epoch  1, Step 780: Elapsed Time 326.381 Loss 0.037 Train Acc 0.184 Val Acc 0.168
+Epoch  1, Step 790: Elapsed Time 330.485 Loss 0.045 Train Acc 0.296 Val Acc 0.172
+Epoch  1, Step 800: Elapsed Time 334.616 Loss 0.035 Train Acc 0.087 Val Acc 0.177
+Epoch  1, Step 810: Elapsed Time 338.647 Loss 0.036 Train Acc 0.138 Val Acc 0.161
+Epoch  1, Step 820: Elapsed Time 342.774 Loss 0.036 Train Acc 0.230 Val Acc 0.161
+Epoch  1, Step 830: Elapsed Time 346.950 Loss 0.044 Train Acc 0.167 Val Acc 0.162
+Epoch  1, Step 840: Elapsed Time 351.222 Loss 0.024 Train Acc 0.226 Val Acc 0.162
+Epoch  1, Step 850: Elapsed Time 355.490 Loss 0.045 Train Acc 0.206 Val Acc 0.183
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-2101 ...
+New best model saved with validation accuracy: 0.183 at epoch 1
+Epoch  1, Step 860: Elapsed Time 360.060 Loss 0.043 Train Acc 0.165 Val Acc 0.168
+Epoch  1, Step 870: Elapsed Time 364.217 Loss 0.046 Train Acc 0.149 Val Acc 0.173
+Epoch  1, Step 880: Elapsed Time 368.261 Loss 0.037 Train Acc 0.131 Val Acc 0.162
+Epoch  1, Step 890: Elapsed Time 372.408 Loss 0.037 Train Acc 0.172 Val Acc 0.173
+Epoch  1, Step 900: Elapsed Time 376.545 Loss 0.033 Train Acc 0.151 Val Acc 0.164
+Epoch  1, Step 910: Elapsed Time 380.442 Loss 0.039 Train Acc 0.129 Val Acc 0.157
+Epoch  1, Step 920: Elapsed Time 384.596 Loss 0.051 Train Acc 0.229 Val Acc 0.167
+Epoch  1, Step 930: Elapsed Time 388.763 Loss 0.033 Train Acc 0.109 Val Acc 0.160
+Epoch  1, Step 940: Elapsed Time 392.927 Loss 0.028 Train Acc 0.000 Val Acc 0.148
+Epoch  1, Step 950: Elapsed Time 397.141 Loss 0.036 Train Acc 0.085 Val Acc 0.163
+Epoch  1, Step 960: Elapsed Time 401.265 Loss 0.032 Train Acc 0.235 Val Acc 0.176
+Epoch  1, Step 970: Elapsed Time 405.224 Loss 0.039 Train Acc 0.174 Val Acc 0.168
+Epoch  1, Step 980: Elapsed Time 409.344 Loss 0.034 Train Acc 0.078 Val Acc 0.167
+Epoch  1, Step 990: Elapsed Time 413.571 Loss 0.031 Train Acc 0.241 Val Acc 0.171
+Epoch  1, Step 1000: Elapsed Time 417.656 Loss 0.048 Train Acc 0.196 Val Acc 0.168
+Epoch  1, Step 1010: Elapsed Time 421.845 Loss 0.039 Train Acc 0.190 Val Acc 0.165
+Epoch  1, Step 1020: Elapsed Time 426.049 Loss 0.044 Train Acc 0.289 Val Acc 0.167
+Epoch  1, Step 1030: Elapsed Time 430.174 Loss 0.053 Train Acc 0.250 Val Acc 0.179
+Epoch  1, Step 1040: Elapsed Time 434.366 Loss 0.035 Train Acc 0.211 Val Acc 0.165
+Epoch  1, Step 1050: Elapsed Time 438.479 Loss 0.040 Train Acc 0.169 Val Acc 0.163
+Epoch  1, Step 1060: Elapsed Time 442.574 Loss 0.046 Train Acc 0.130 Val Acc 0.160
+Epoch  1, Step 1070: Elapsed Time 446.746 Loss 0.025 Train Acc 0.195 Val Acc 0.163
+Epoch  1, Step 1080: Elapsed Time 450.865 Loss 0.048 Train Acc 0.252 Val Acc 0.179
+Epoch  1, Step 1090: Elapsed Time 455.025 Loss 0.047 Train Acc 0.188 Val Acc 0.172
+Epoch  1, Step 1100: Elapsed Time 459.203 Loss 0.041 Train Acc 0.179 Val Acc 0.166
+Epoch  1, Step 1110: Elapsed Time 463.338 Loss 0.029 Train Acc 0.136 Val Acc 0.159
+Epoch  1, Step 1120: Elapsed Time 467.477 Loss 0.043 Train Acc 0.143 Val Acc 0.165
+Epoch  1, Step 1130: Elapsed Time 471.555 Loss 0.043 Train Acc 0.184 Val Acc 0.179
+Epoch  1, Step 1140: Elapsed Time 475.648 Loss 0.038 Train Acc 0.109 Val Acc 0.164
+Epoch  1, Step 1150: Elapsed Time 479.801 Loss 0.032 Train Acc 0.314 Val Acc 0.164
+Epoch  1, Step 1160: Elapsed Time 483.941 Loss 0.038 Train Acc 0.250 Val Acc 0.171
+Epoch  1, Step 1170: Elapsed Time 488.052 Loss 0.037 Train Acc 0.250 Val Acc 0.168
+Epoch  1, Step 1180: Elapsed Time 492.331 Loss 0.041 Train Acc 0.120 Val Acc 0.176
+Epoch  1, Step 1190: Elapsed Time 496.444 Loss 0.041 Train Acc 0.176 Val Acc 0.176
+Epoch  1, Step 1200: Elapsed Time 500.560 Loss 0.042 Train Acc 0.297 Val Acc 0.160
+Epoch  1, Step 1210: Elapsed Time 504.714 Loss 0.049 Train Acc 0.298 Val Acc 0.170
+Epoch  1, Step 1220: Elapsed Time 508.675 Loss 0.039 Train Acc 0.156 Val Acc 0.175
+Epoch  1, Step 1230: Elapsed Time 512.851 Loss 0.041 Train Acc 0.118 Val Acc 0.162
+Epoch  1, Step 1240: Elapsed Time 516.902 Loss 0.027 Train Acc 0.128 Val Acc 0.163
+Epoch  2, Step   0: Elapsed Time 2.364 Loss 0.042 Train Acc 0.241 Val Acc 0.162
+Epoch  2, Step  10: Elapsed Time 6.445 Loss 0.027 Train Acc 0.062 Val Acc 0.160
+Epoch  2, Step  20: Elapsed Time 10.521 Loss 0.052 Train Acc 0.234 Val Acc 0.181
+Epoch  2, Step  30: Elapsed Time 14.635 Loss 0.037 Train Acc 0.176 Val Acc 0.167
+Epoch  2, Step  40: Elapsed Time 18.772 Loss 0.034 Train Acc 0.149 Val Acc 0.172
+Epoch  2, Step  50: Elapsed Time 22.985 Loss 0.036 Train Acc 0.189 Val Acc 0.155
+Epoch  2, Step  60: Elapsed Time 27.247 Loss 0.035 Train Acc 0.125 Val Acc 0.165
+Epoch  2, Step  70: Elapsed Time 31.368 Loss 0.035 Train Acc 0.237 Val Acc 0.165
+Epoch  2, Step  80: Elapsed Time 35.487 Loss 0.039 Train Acc 0.240 Val Acc 0.164
+Epoch  2, Step  90: Elapsed Time 39.502 Loss 0.038 Train Acc 0.194 Val Acc 0.163
+Epoch  2, Step 100: Elapsed Time 43.732 Loss 0.037 Train Acc 0.118 Val Acc 0.151
+Epoch  2, Step 110: Elapsed Time 47.686 Loss 0.041 Train Acc 0.198 Val Acc 0.168
+Epoch  2, Step 120: Elapsed Time 51.880 Loss 0.039 Train Acc 0.238 Val Acc 0.168
+Epoch  2, Step 130: Elapsed Time 56.014 Loss 0.036 Train Acc 0.215 Val Acc 0.161
+Epoch  2, Step 140: Elapsed Time 60.051 Loss 0.032 Train Acc 0.151 Val Acc 0.159
+Epoch  2, Step 150: Elapsed Time 64.167 Loss 0.029 Train Acc 0.314 Val Acc 0.174
+Epoch  2, Step 160: Elapsed Time 68.332 Loss 0.041 Train Acc 0.190 Val Acc 0.166
+Epoch  2, Step 170: Elapsed Time 72.463 Loss 0.026 Train Acc 0.163 Val Acc 0.171
+Epoch  2, Step 180: Elapsed Time 76.558 Loss 0.039 Train Acc 0.189 Val Acc 0.169
+Epoch  2, Step 190: Elapsed Time 80.671 Loss 0.028 Train Acc 0.105 Val Acc 0.161
+Epoch  2, Step 200: Elapsed Time 84.775 Loss 0.053 Train Acc 0.149 Val Acc 0.177
+Epoch  2, Step 210: Elapsed Time 89.015 Loss 0.038 Train Acc 0.250 Val Acc 0.168
+Epoch  2, Step 220: Elapsed Time 93.220 Loss 0.036 Train Acc 0.140 Val Acc 0.171
+Epoch  2, Step 230: Elapsed Time 97.539 Loss 0.032 Train Acc 0.303 Val Acc 0.173
+Epoch  2, Step 240: Elapsed Time 101.723 Loss 0.041 Train Acc 0.244 Val Acc 0.169
+Epoch  2, Step 250: Elapsed Time 105.827 Loss 0.052 Train Acc 0.250 Val Acc 0.170
+Epoch  2, Step 260: Elapsed Time 109.929 Loss 0.032 Train Acc 0.267 Val Acc 0.169
+Epoch  2, Step 270: Elapsed Time 113.931 Loss 0.042 Train Acc 0.339 Val Acc 0.177
+Epoch  2, Step 280: Elapsed Time 117.933 Loss 0.044 Train Acc 0.202 Val Acc 0.171
+Epoch  2, Step 290: Elapsed Time 122.112 Loss 0.041 Train Acc 0.194 Val Acc 0.174
+Epoch  2, Step 300: Elapsed Time 126.325 Loss 0.039 Train Acc 0.301 Val Acc 0.170
+Epoch  2, Step 310: Elapsed Time 130.285 Loss 0.038 Train Acc 0.237 Val Acc 0.172
+Epoch  2, Step 320: Elapsed Time 134.527 Loss 0.047 Train Acc 0.299 Val Acc 0.171
+Epoch  2, Step 330: Elapsed Time 138.625 Loss 0.028 Train Acc 0.150 Val Acc 0.167
+Epoch  2, Step 340: Elapsed Time 142.737 Loss 0.033 Train Acc 0.309 Val Acc 0.174
+Epoch  2, Step 350: Elapsed Time 146.972 Loss 0.042 Train Acc 0.156 Val Acc 0.167
+Epoch  2, Step 360: Elapsed Time 151.214 Loss 0.039 Train Acc 0.176 Val Acc 0.172
+Epoch  2, Step 370: Elapsed Time 155.304 Loss 0.032 Train Acc 0.152 Val Acc 0.171
+Epoch  2, Step 380: Elapsed Time 159.458 Loss 0.023 Train Acc 0.143 Val Acc 0.155
+Epoch  2, Step 390: Elapsed Time 163.599 Loss 0.048 Train Acc 0.165 Val Acc 0.173
+Epoch  2, Step 400: Elapsed Time 167.702 Loss 0.041 Train Acc 0.194 Val Acc 0.170
+Epoch  2, Step 410: Elapsed Time 172.076 Loss 0.040 Train Acc 0.136 Val Acc 0.170
+Epoch  2, Step 420: Elapsed Time 176.134 Loss 0.057 Train Acc 0.198 Val Acc 0.174
+Epoch  2, Step 430: Elapsed Time 180.292 Loss 0.028 Train Acc 0.167 Val Acc 0.175
+Epoch  2, Step 440: Elapsed Time 184.342 Loss 0.037 Train Acc 0.255 Val Acc 0.180
+Epoch  2, Step 450: Elapsed Time 188.564 Loss 0.047 Train Acc 0.182 Val Acc 0.179
+Epoch  2, Step 460: Elapsed Time 192.661 Loss 0.036 Train Acc 0.179 Val Acc 0.170
+Epoch  2, Step 470: Elapsed Time 196.725 Loss 0.048 Train Acc 0.154 Val Acc 0.178
+Epoch  2, Step 480: Elapsed Time 200.825 Loss 0.041 Train Acc 0.204 Val Acc 0.176
+Epoch  2, Step 490: Elapsed Time 204.930 Loss 0.048 Train Acc 0.168 Val Acc 0.176
+Epoch  2, Step 500: Elapsed Time 209.053 Loss 0.028 Train Acc 0.140 Val Acc 0.169
+Epoch  2, Step 510: Elapsed Time 213.167 Loss 0.052 Train Acc 0.189 Val Acc 0.176
+Epoch  2, Step 520: Elapsed Time 217.354 Loss 0.052 Train Acc 0.195 Val Acc 0.173
+Epoch  2, Step 530: Elapsed Time 221.543 Loss 0.044 Train Acc 0.103 Val Acc 0.170
+Epoch  2, Step 540: Elapsed Time 225.633 Loss 0.035 Train Acc 0.192 Val Acc 0.172
+Epoch  2, Step 550: Elapsed Time 229.792 Loss 0.055 Train Acc 0.194 Val Acc 0.174
+Epoch  2, Step 560: Elapsed Time 233.940 Loss 0.042 Train Acc 0.171 Val Acc 0.175
+Epoch  2, Step 570: Elapsed Time 238.069 Loss 0.038 Train Acc 0.135 Val Acc 0.171
+Epoch  2, Step 580: Elapsed Time 242.086 Loss 0.027 Train Acc 0.074 Val Acc 0.123
+Epoch  2, Step 590: Elapsed Time 246.232 Loss 0.043 Train Acc 0.278 Val Acc 0.175
+Epoch  2, Step 600: Elapsed Time 250.492 Loss 0.040 Train Acc 0.271 Val Acc 0.177
+Epoch  2, Step 610: Elapsed Time 254.646 Loss 0.048 Train Acc 0.165 Val Acc 0.173
+Epoch  2, Step 620: Elapsed Time 258.614 Loss 0.039 Train Acc 0.193 Val Acc 0.167
+Epoch  2, Step 630: Elapsed Time 262.765 Loss 0.038 Train Acc 0.200 Val Acc 0.174
+Epoch  2, Step 640: Elapsed Time 266.819 Loss 0.046 Train Acc 0.200 Val Acc 0.177
+Epoch  2, Step 650: Elapsed Time 270.829 Loss 0.041 Train Acc 0.257 Val Acc 0.173
+Epoch  2, Step 660: Elapsed Time 274.986 Loss 0.036 Train Acc 0.247 Val Acc 0.181
+Epoch  2, Step 670: Elapsed Time 279.172 Loss 0.027 Train Acc 0.118 Val Acc 0.155
+Epoch  2, Step 680: Elapsed Time 283.437 Loss 0.037 Train Acc 0.250 Val Acc 0.172
+Epoch  2, Step 690: Elapsed Time 287.561 Loss 0.049 Train Acc 0.226 Val Acc 0.174
+Epoch  2, Step 700: Elapsed Time 291.686 Loss 0.022 Train Acc 0.250 Val Acc 0.156
+Epoch  2, Step 710: Elapsed Time 295.811 Loss 0.035 Train Acc 0.218 Val Acc 0.168
+Epoch  2, Step 720: Elapsed Time 299.997 Loss 0.033 Train Acc 0.136 Val Acc 0.167
+Epoch  2, Step 730: Elapsed Time 304.068 Loss 0.034 Train Acc 0.203 Val Acc 0.169
+Epoch  2, Step 740: Elapsed Time 308.240 Loss 0.025 Train Acc 0.192 Val Acc 0.179
+Epoch  2, Step 750: Elapsed Time 312.485 Loss 0.036 Train Acc 0.207 Val Acc 0.174
+Epoch  2, Step 760: Elapsed Time 316.765 Loss 0.033 Train Acc 0.286 Val Acc 0.174
+Epoch  2, Step 770: Elapsed Time 320.860 Loss 0.026 Train Acc 0.167 Val Acc 0.171
+Epoch  2, Step 780: Elapsed Time 324.962 Loss 0.041 Train Acc 0.164 Val Acc 0.173
+Epoch  2, Step 790: Elapsed Time 329.129 Loss 0.045 Train Acc 0.217 Val Acc 0.171
+Epoch  2, Step 800: Elapsed Time 333.410 Loss 0.039 Train Acc 0.303 Val Acc 0.177
+Epoch  2, Step 810: Elapsed Time 337.561 Loss 0.047 Train Acc 0.289 Val Acc 0.173
+Epoch  2, Step 820: Elapsed Time 341.711 Loss 0.041 Train Acc 0.094 Val Acc 0.167
+Epoch  2, Step 830: Elapsed Time 345.771 Loss 0.040 Train Acc 0.203 Val Acc 0.175
+Epoch  2, Step 840: Elapsed Time 349.878 Loss 0.046 Train Acc 0.174 Val Acc 0.178
+Epoch  2, Step 850: Elapsed Time 354.137 Loss 0.036 Train Acc 0.276 Val Acc 0.179
+Epoch  2, Step 860: Elapsed Time 358.313 Loss 0.038 Train Acc 0.198 Val Acc 0.178
+Epoch  2, Step 870: Elapsed Time 362.580 Loss 0.048 Train Acc 0.267 Val Acc 0.186
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-3371 ...
+New best model saved with validation accuracy: 0.186 at epoch 2
+Epoch  2, Step 880: Elapsed Time 366.948 Loss 0.039 Train Acc 0.138 Val Acc 0.166
+Epoch  2, Step 890: Elapsed Time 371.171 Loss 0.040 Train Acc 0.242 Val Acc 0.186
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-3391 ...
+New best model saved with validation accuracy: 0.186 at epoch 2
+Epoch  2, Step 900: Elapsed Time 375.720 Loss 0.020 Train Acc 0.182 Val Acc 0.136
+Epoch  2, Step 910: Elapsed Time 379.776 Loss 0.037 Train Acc 0.156 Val Acc 0.179
+Epoch  2, Step 920: Elapsed Time 383.933 Loss 0.034 Train Acc 0.303 Val Acc 0.181
+Epoch  2, Step 930: Elapsed Time 388.234 Loss 0.036 Train Acc 0.066 Val Acc 0.172
+Epoch  2, Step 940: Elapsed Time 392.466 Loss 0.038 Train Acc 0.159 Val Acc 0.161
+Epoch  2, Step 950: Elapsed Time 396.557 Loss 0.041 Train Acc 0.116 Val Acc 0.172
+Epoch  2, Step 960: Elapsed Time 400.623 Loss 0.035 Train Acc 0.322 Val Acc 0.181
+Epoch  2, Step 970: Elapsed Time 404.647 Loss 0.038 Train Acc 0.254 Val Acc 0.173
+Epoch  2, Step 980: Elapsed Time 408.735 Loss 0.037 Train Acc 0.125 Val Acc 0.173
+Epoch  2, Step 990: Elapsed Time 412.693 Loss 0.043 Train Acc 0.242 Val Acc 0.180
+Epoch  2, Step 1000: Elapsed Time 416.776 Loss 0.040 Train Acc 0.231 Val Acc 0.177
+Epoch  2, Step 1010: Elapsed Time 420.787 Loss 0.040 Train Acc 0.272 Val Acc 0.183
+Epoch  2, Step 1020: Elapsed Time 424.880 Loss 0.038 Train Acc 0.100 Val Acc 0.174
+Epoch  2, Step 1030: Elapsed Time 429.131 Loss 0.051 Train Acc 0.207 Val Acc 0.175
+Epoch  2, Step 1040: Elapsed Time 433.349 Loss 0.028 Train Acc 0.327 Val Acc 0.172
+Epoch  2, Step 1050: Elapsed Time 437.492 Loss 0.039 Train Acc 0.267 Val Acc 0.174
+Epoch  2, Step 1060: Elapsed Time 441.531 Loss 0.030 Train Acc 0.250 Val Acc 0.163
+Epoch  2, Step 1070: Elapsed Time 445.555 Loss 0.047 Train Acc 0.137 Val Acc 0.184
+Epoch  2, Step 1080: Elapsed Time 449.653 Loss 0.040 Train Acc 0.317 Val Acc 0.175
+Epoch  2, Step 1090: Elapsed Time 453.758 Loss 0.042 Train Acc 0.197 Val Acc 0.168
+Epoch  2, Step 1100: Elapsed Time 457.902 Loss 0.031 Train Acc 0.214 Val Acc 0.173
+Epoch  2, Step 1110: Elapsed Time 462.062 Loss 0.035 Train Acc 0.087 Val Acc 0.171
+Epoch  2, Step 1120: Elapsed Time 466.130 Loss 0.029 Train Acc 0.212 Val Acc 0.180
+Epoch  2, Step 1130: Elapsed Time 470.290 Loss 0.036 Train Acc 0.206 Val Acc 0.171
+Epoch  2, Step 1140: Elapsed Time 474.466 Loss 0.035 Train Acc 0.103 Val Acc 0.179
+Epoch  2, Step 1150: Elapsed Time 478.489 Loss 0.037 Train Acc 0.172 Val Acc 0.175
+Epoch  2, Step 1160: Elapsed Time 482.646 Loss 0.029 Train Acc 0.189 Val Acc 0.166
+Epoch  2, Step 1170: Elapsed Time 486.792 Loss 0.042 Train Acc 0.031 Val Acc 0.172
+Epoch  2, Step 1180: Elapsed Time 490.996 Loss 0.036 Train Acc 0.323 Val Acc 0.185
+Epoch  2, Step 1190: Elapsed Time 495.055 Loss 0.034 Train Acc 0.306 Val Acc 0.175
+Epoch  2, Step 1200: Elapsed Time 499.242 Loss 0.032 Train Acc 0.000 Val Acc 0.165
+Epoch  2, Step 1210: Elapsed Time 503.182 Loss 0.028 Train Acc 0.197 Val Acc 0.196
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-3711 ...
+New best model saved with validation accuracy: 0.196 at epoch 2
+Epoch  2, Step 1220: Elapsed Time 507.576 Loss 0.027 Train Acc 0.208 Val Acc 0.170
+Epoch  2, Step 1230: Elapsed Time 511.729 Loss 0.037 Train Acc 0.207 Val Acc 0.186
+Epoch  2, Step 1240: Elapsed Time 515.977 Loss 0.038 Train Acc 0.200 Val Acc 0.181
+Epoch  3, Step   0: Elapsed Time 2.448 Loss 0.036 Train Acc 0.383 Val Acc 0.180
+Epoch  3, Step  10: Elapsed Time 6.666 Loss 0.041 Train Acc 0.200 Val Acc 0.176
+Epoch  3, Step  20: Elapsed Time 10.902 Loss 0.041 Train Acc 0.203 Val Acc 0.164
+Epoch  3, Step  30: Elapsed Time 15.097 Loss 0.036 Train Acc 0.225 Val Acc 0.173
+Epoch  3, Step  40: Elapsed Time 19.318 Loss 0.029 Train Acc 0.208 Val Acc 0.178
+Epoch  3, Step  50: Elapsed Time 23.521 Loss 0.030 Train Acc 0.215 Val Acc 0.173
+Epoch  3, Step  60: Elapsed Time 27.742 Loss 0.037 Train Acc 0.241 Val Acc 0.178
+Epoch  3, Step  70: Elapsed Time 31.870 Loss 0.042 Train Acc 0.283 Val Acc 0.190
+Epoch  3, Step  80: Elapsed Time 35.928 Loss 0.032 Train Acc 0.293 Val Acc 0.177
+Epoch  3, Step  90: Elapsed Time 40.133 Loss 0.038 Train Acc 0.206 Val Acc 0.176
+Epoch  3, Step 100: Elapsed Time 44.386 Loss 0.038 Train Acc 0.205 Val Acc 0.178
+Epoch  3, Step 110: Elapsed Time 48.569 Loss 0.030 Train Acc 0.219 Val Acc 0.178
+Epoch  3, Step 120: Elapsed Time 52.676 Loss 0.030 Train Acc 0.182 Val Acc 0.181
+Epoch  3, Step 130: Elapsed Time 56.970 Loss 0.031 Train Acc 0.235 Val Acc 0.169
+Epoch  3, Step 140: Elapsed Time 61.160 Loss 0.040 Train Acc 0.132 Val Acc 0.187
+Epoch  3, Step 150: Elapsed Time 65.238 Loss 0.040 Train Acc 0.146 Val Acc 0.177
+Epoch  3, Step 160: Elapsed Time 69.408 Loss 0.033 Train Acc 0.208 Val Acc 0.175
+Epoch  3, Step 170: Elapsed Time 73.618 Loss 0.036 Train Acc 0.198 Val Acc 0.183
+Epoch  3, Step 180: Elapsed Time 77.633 Loss 0.040 Train Acc 0.222 Val Acc 0.178
+Epoch  3, Step 190: Elapsed Time 81.801 Loss 0.041 Train Acc 0.174 Val Acc 0.181
+Epoch  3, Step 200: Elapsed Time 86.107 Loss 0.040 Train Acc 0.286 Val Acc 0.179
+Epoch  3, Step 210: Elapsed Time 90.303 Loss 0.041 Train Acc 0.236 Val Acc 0.188
+Epoch  3, Step 220: Elapsed Time 94.436 Loss 0.035 Train Acc 0.216 Val Acc 0.171
+Epoch  3, Step 230: Elapsed Time 98.561 Loss 0.036 Train Acc 0.222 Val Acc 0.183
+Epoch  3, Step 240: Elapsed Time 102.722 Loss 0.034 Train Acc 0.176 Val Acc 0.178
+Epoch  3, Step 250: Elapsed Time 106.781 Loss 0.036 Train Acc 0.184 Val Acc 0.174
+Epoch  3, Step 260: Elapsed Time 110.902 Loss 0.039 Train Acc 0.308 Val Acc 0.182
+Epoch  3, Step 270: Elapsed Time 114.985 Loss 0.037 Train Acc 0.224 Val Acc 0.200
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-4021 ...
+New best model saved with validation accuracy: 0.200 at epoch 3
+Epoch  3, Step 280: Elapsed Time 119.434 Loss 0.039 Train Acc 0.184 Val Acc 0.176
+Epoch  3, Step 290: Elapsed Time 123.493 Loss 0.038 Train Acc 0.127 Val Acc 0.164
+Epoch  3, Step 300: Elapsed Time 127.661 Loss 0.034 Train Acc 0.324 Val Acc 0.173
+Epoch  3, Step 310: Elapsed Time 131.688 Loss 0.036 Train Acc 0.143 Val Acc 0.164
+Epoch  3, Step 320: Elapsed Time 135.793 Loss 0.046 Train Acc 0.247 Val Acc 0.174
+Epoch  3, Step 330: Elapsed Time 139.835 Loss 0.041 Train Acc 0.092 Val Acc 0.170
+Epoch  3, Step 340: Elapsed Time 144.024 Loss 0.030 Train Acc 0.143 Val Acc 0.181
+Epoch  3, Step 350: Elapsed Time 148.173 Loss 0.038 Train Acc 0.211 Val Acc 0.179
+Epoch  3, Step 360: Elapsed Time 152.317 Loss 0.041 Train Acc 0.145 Val Acc 0.179
+Epoch  3, Step 370: Elapsed Time 156.294 Loss 0.042 Train Acc 0.173 Val Acc 0.167
+Epoch  3, Step 380: Elapsed Time 160.279 Loss 0.032 Train Acc 0.197 Val Acc 0.163
+Epoch  3, Step 390: Elapsed Time 164.386 Loss 0.040 Train Acc 0.121 Val Acc 0.163
+Epoch  3, Step 400: Elapsed Time 168.460 Loss 0.050 Train Acc 0.296 Val Acc 0.193
+Epoch  3, Step 410: Elapsed Time 172.531 Loss 0.037 Train Acc 0.194 Val Acc 0.189
+Epoch  3, Step 420: Elapsed Time 176.555 Loss 0.035 Train Acc 0.293 Val Acc 0.187
+Epoch  3, Step 430: Elapsed Time 180.686 Loss 0.042 Train Acc 0.186 Val Acc 0.187
+Epoch  3, Step 440: Elapsed Time 184.886 Loss 0.032 Train Acc 0.089 Val Acc 0.165
+Epoch  3, Step 450: Elapsed Time 189.077 Loss 0.039 Train Acc 0.102 Val Acc 0.175
+Epoch  3, Step 460: Elapsed Time 193.225 Loss 0.018 Train Acc 0.263 Val Acc 0.170
+Epoch  3, Step 470: Elapsed Time 197.247 Loss 0.033 Train Acc 0.239 Val Acc 0.181
+Epoch  3, Step 480: Elapsed Time 201.433 Loss 0.037 Train Acc 0.089 Val Acc 0.160
+Epoch  3, Step 490: Elapsed Time 205.616 Loss 0.041 Train Acc 0.261 Val Acc 0.178
+Epoch  3, Step 500: Elapsed Time 209.784 Loss 0.024 Train Acc 0.150 Val Acc 0.172
+Epoch  3, Step 510: Elapsed Time 213.902 Loss 0.028 Train Acc 0.206 Val Acc 0.175
+Epoch  3, Step 520: Elapsed Time 218.040 Loss 0.031 Train Acc 0.246 Val Acc 0.163
+Epoch  3, Step 530: Elapsed Time 222.245 Loss 0.046 Train Acc 0.186 Val Acc 0.184
+Epoch  3, Step 540: Elapsed Time 226.358 Loss 0.039 Train Acc 0.125 Val Acc 0.176
+Epoch  3, Step 550: Elapsed Time 230.451 Loss 0.034 Train Acc 0.264 Val Acc 0.188
+Epoch  3, Step 560: Elapsed Time 234.612 Loss 0.041 Train Acc 0.197 Val Acc 0.181
+Epoch  3, Step 570: Elapsed Time 238.881 Loss 0.044 Train Acc 0.186 Val Acc 0.185
+Epoch  3, Step 580: Elapsed Time 243.042 Loss 0.049 Train Acc 0.238 Val Acc 0.191
+Epoch  3, Step 590: Elapsed Time 247.207 Loss 0.043 Train Acc 0.068 Val Acc 0.167
+Epoch  3, Step 600: Elapsed Time 251.350 Loss 0.038 Train Acc 0.041 Val Acc 0.178
+Epoch  3, Step 610: Elapsed Time 255.395 Loss 0.043 Train Acc 0.169 Val Acc 0.180
+Epoch  3, Step 620: Elapsed Time 259.436 Loss 0.036 Train Acc 0.147 Val Acc 0.186
+Epoch  3, Step 630: Elapsed Time 263.550 Loss 0.034 Train Acc 0.184 Val Acc 0.186
+Epoch  3, Step 640: Elapsed Time 267.683 Loss 0.042 Train Acc 0.176 Val Acc 0.175
+Epoch  3, Step 650: Elapsed Time 271.878 Loss 0.042 Train Acc 0.200 Val Acc 0.181
+Epoch  3, Step 660: Elapsed Time 275.934 Loss 0.038 Train Acc 0.125 Val Acc 0.130
+Epoch  3, Step 670: Elapsed Time 280.069 Loss 0.036 Train Acc 0.315 Val Acc 0.173
+Epoch  3, Step 680: Elapsed Time 284.295 Loss 0.036 Train Acc 0.283 Val Acc 0.185
+Epoch  3, Step 690: Elapsed Time 288.389 Loss 0.043 Train Acc 0.265 Val Acc 0.190
+Epoch  3, Step 700: Elapsed Time 292.487 Loss 0.047 Train Acc 0.170 Val Acc 0.185
+Epoch  3, Step 710: Elapsed Time 296.653 Loss 0.043 Train Acc 0.200 Val Acc 0.187
+Epoch  3, Step 720: Elapsed Time 300.812 Loss 0.035 Train Acc 0.253 Val Acc 0.182
+Epoch  3, Step 730: Elapsed Time 304.972 Loss 0.043 Train Acc 0.217 Val Acc 0.192
+Epoch  3, Step 740: Elapsed Time 309.190 Loss 0.044 Train Acc 0.304 Val Acc 0.200
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-4491 ...
+New best model saved with validation accuracy: 0.200 at epoch 3
+Epoch  3, Step 750: Elapsed Time 313.793 Loss 0.034 Train Acc 0.083 Val Acc 0.171
+Epoch  3, Step 760: Elapsed Time 318.001 Loss 0.036 Train Acc 0.438 Val Acc 0.192
+Epoch  3, Step 770: Elapsed Time 322.074 Loss 0.026 Train Acc 0.387 Val Acc 0.191
+Epoch  3, Step 780: Elapsed Time 326.203 Loss 0.046 Train Acc 0.286 Val Acc 0.193
+Epoch  3, Step 790: Elapsed Time 330.222 Loss 0.036 Train Acc 0.040 Val Acc 0.161
+Epoch  3, Step 800: Elapsed Time 334.391 Loss 0.043 Train Acc 0.295 Val Acc 0.186
+Epoch  3, Step 810: Elapsed Time 338.654 Loss 0.041 Train Acc 0.200 Val Acc 0.190
+Epoch  3, Step 820: Elapsed Time 342.968 Loss 0.034 Train Acc 0.278 Val Acc 0.174
+Epoch  3, Step 830: Elapsed Time 347.024 Loss 0.040 Train Acc 0.160 Val Acc 0.179
+Epoch  3, Step 840: Elapsed Time 351.189 Loss 0.046 Train Acc 0.296 Val Acc 0.204
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-4591 ...
+New best model saved with validation accuracy: 0.204 at epoch 3
+Epoch  3, Step 850: Elapsed Time 355.770 Loss 0.034 Train Acc 0.169 Val Acc 0.174
+Epoch  3, Step 860: Elapsed Time 360.092 Loss 0.044 Train Acc 0.255 Val Acc 0.183
+Epoch  3, Step 870: Elapsed Time 364.203 Loss 0.051 Train Acc 0.168 Val Acc 0.190
+Epoch  3, Step 880: Elapsed Time 368.354 Loss 0.032 Train Acc 0.043 Val Acc 0.163
+Epoch  3, Step 890: Elapsed Time 372.562 Loss 0.026 Train Acc 0.160 Val Acc 0.174
+Epoch  3, Step 900: Elapsed Time 376.864 Loss 0.040 Train Acc 0.225 Val Acc 0.177
+Epoch  3, Step 910: Elapsed Time 381.031 Loss 0.042 Train Acc 0.288 Val Acc 0.196
+Epoch  3, Step 920: Elapsed Time 385.201 Loss 0.039 Train Acc 0.135 Val Acc 0.181
+Epoch  3, Step 930: Elapsed Time 389.354 Loss 0.033 Train Acc 0.138 Val Acc 0.181
+Epoch  3, Step 940: Elapsed Time 393.286 Loss 0.034 Train Acc 0.247 Val Acc 0.180
+Epoch  3, Step 950: Elapsed Time 397.449 Loss 0.038 Train Acc 0.133 Val Acc 0.186
+Epoch  3, Step 960: Elapsed Time 401.601 Loss 0.035 Train Acc 0.243 Val Acc 0.186
+Epoch  3, Step 970: Elapsed Time 405.858 Loss 0.034 Train Acc 0.327 Val Acc 0.207
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-4721 ...
+New best model saved with validation accuracy: 0.207 at epoch 3
+Epoch  3, Step 980: Elapsed Time 410.307 Loss 0.044 Train Acc 0.149 Val Acc 0.184
+Epoch  3, Step 990: Elapsed Time 414.389 Loss 0.042 Train Acc 0.230 Val Acc 0.197
+Epoch  3, Step 1000: Elapsed Time 418.446 Loss 0.033 Train Acc 0.194 Val Acc 0.159
+Epoch  3, Step 1010: Elapsed Time 422.682 Loss 0.039 Train Acc 0.127 Val Acc 0.175
+Epoch  3, Step 1020: Elapsed Time 426.833 Loss 0.039 Train Acc 0.139 Val Acc 0.188
+Epoch  3, Step 1030: Elapsed Time 431.119 Loss 0.036 Train Acc 0.172 Val Acc 0.160
+Epoch  3, Step 1040: Elapsed Time 435.233 Loss 0.038 Train Acc 0.276 Val Acc 0.199
+Epoch  3, Step 1050: Elapsed Time 439.622 Loss 0.045 Train Acc 0.216 Val Acc 0.184
+Epoch  3, Step 1060: Elapsed Time 443.590 Loss 0.031 Train Acc 0.207 Val Acc 0.181
+Epoch  3, Step 1070: Elapsed Time 447.629 Loss 0.035 Train Acc 0.219 Val Acc 0.179
+Epoch  3, Step 1080: Elapsed Time 451.663 Loss 0.041 Train Acc 0.331 Val Acc 0.208
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-4831 ...
+New best model saved with validation accuracy: 0.208 at epoch 3
+Epoch  3, Step 1090: Elapsed Time 456.201 Loss 0.035 Train Acc 0.154 Val Acc 0.176
+Epoch  3, Step 1100: Elapsed Time 460.387 Loss 0.050 Train Acc 0.194 Val Acc 0.211
+<< Saving model to ./output/models/highSchool/MixedLow/STGCN-4851 ...
+New best model saved with validation accuracy: 0.211 at epoch 3
+Epoch  3, Step 1110: Elapsed Time 465.051 Loss 0.050 Train Acc 0.252 Val Acc 0.204
+Epoch  3, Step 1120: Elapsed Time 469.317 Loss 0.042 Train Acc 0.236 Val Acc 0.209
+Epoch  3, Step 1130: Elapsed Time 473.502 Loss 0.031 Train Acc 0.218 Val Acc 0.186
+Epoch  3, Step 1140: Elapsed Time 477.558 Loss 0.035 Train Acc 0.042 Val Acc 0.169
+Epoch  3, Step 1150: Elapsed Time 481.594 Loss 0.049 Train Acc 0.202 Val Acc 0.200
+Epoch  3, Step 1160: Elapsed Time 485.878 Loss 0.048 Train Acc 0.245 Val Acc 0.180
+Epoch  3, Step 1170: Elapsed Time 490.164 Loss 0.041 Train Acc 0.248 Val Acc 0.200
+Epoch  3, Step 1180: Elapsed Time 494.420 Loss 0.034 Train Acc 0.187 Val Acc 0.180
+Epoch  3, Step 1190: Elapsed Time 498.625 Loss 0.036 Train Acc 0.038 Val Acc 0.176
+Epoch  3, Step 1200: Elapsed Time 502.820 Loss 0.040 Train Acc 0.149 Val Acc 0.178
+Epoch  3, Step 1210: Elapsed Time 507.008 Loss 0.042 Train Acc 0.137 Val Acc 0.194
+Epoch  3, Step 1220: Elapsed Time 511.108 Loss 0.028 Train Acc 0.217 Val Acc 0.180
+Epoch  3, Step 1230: Elapsed Time 515.066 Loss 0.041 Train Acc 0.167 Val Acc 0.153
+Epoch  3, Step 1240: Elapsed Time 519.259 Loss 0.030 Train Acc 0.312 Val Acc 0.189
+Final model saved with best validation accuracy: 0.211
+Training model finished!
+>> Loading saved model from ./output/models/highSchool/MixedLow/STGCN-4851 ...
+>> Test results saved to ./output/test_res/highSchool/MixedLow/
+0.219 0.190 0.267
+
+Errors:
+2025-06-23 04:40:17.698967: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2025-06-23 04:40:18.531613: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN)to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-06-23 04:40:18.561755: I tensorflow/core/platform/profile_utils/cpu_utils.cc:104] CPU Frequency: 3600000000 Hz
+2025-06-23 04:40:18.562613: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55a423d0ba20 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2025-06-23 04:40:18.562652: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2025-06-23 04:40:18.567150: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcuda.so.1
+2025-06-23 04:40:18.651205: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55a423d8f350 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2025-06-23 04:40:18.651244: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): NVIDIA GeForce RTX 2080 Ti, Compute Capability 7.5
+2025-06-23 04:40:18.651650: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:65:00.0 name: NVIDIA GeForce RTX 2080 Ti computeCapability: 7.5
+coreClock: 1.545GHz coreCount: 68 deviceMemorySize: 10.76GiB deviceMemoryBandwidth: 573.69GiB/s
+2025-06-23 04:40:18.651699: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2025-06-23 04:40:18.653809: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2025-06-23 04:40:18.656151: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2025-06-23 04:40:18.656638: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2025-06-23 04:40:18.659316: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2025-06-23 04:40:18.660939: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
+2025-06-23 04:40:18.666357: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2025-06-23 04:40:18.666720: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2025-06-23 04:40:18.666754: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2025-06-23 04:40:19.165157: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2025-06-23 04:40:19.165192: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
+2025-06-23 04:40:19.165199: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
+2025-06-23 04:40:19.165657: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3313 MB memory) -> physical GPU (device: 0, name: NVIDIA GeForce RTX 2080 Ti, pci bus id: 0000:65:00.0, compute capability: 7.5)
+WARNING:tensorflow:From /home/twp/anaconda3/envs/tf-stgcn/lib/python3.8/site-packages/tensorflow/python/training/rmsprop.py:123: calling Ones.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+2025-06-23 04:40:28.735093: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:65:00.0 name: NVIDIA GeForce RTX 2080 Ti computeCapability: 7.5
+coreClock: 1.545GHz coreCount: 68 deviceMemorySize: 10.76GiB deviceMemoryBandwidth: 573.69GiB/s
+2025-06-23 04:40:28.735143: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2025-06-23 04:40:28.735180: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2025-06-23 04:40:28.735194: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2025-06-23 04:40:28.735208: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2025-06-23 04:40:28.735221: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2025-06-23 04:40:28.735234: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
+2025-06-23 04:40:28.735248: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2025-06-23 04:40:28.735489: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2025-06-23 04:40:28.736032: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:65:00.0 name: NVIDIA GeForce RTX 2080 Ti computeCapability: 7.5
+coreClock: 1.545GHz coreCount: 68 deviceMemorySize: 10.76GiB deviceMemoryBandwidth: 573.69GiB/s
+2025-06-23 04:40:28.736059: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2025-06-23 04:40:28.736084: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2025-06-23 04:40:28.736097: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2025-06-23 04:40:28.736111: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2025-06-23 04:40:28.736124: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2025-06-23 04:40:28.736136: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
+2025-06-23 04:40:28.736149: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2025-06-23 04:40:28.736363: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2025-06-23 04:40:28.736386: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2025-06-23 04:40:28.736392: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
+2025-06-23 04:40:28.736396: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
+2025-06-23 04:40:28.736632: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3313 MB memory) -> physical GPU (device: 0, name: NVIDIA GeForce RTX 2080 Ti, pci bus id: 0000:65:00.0, compute capability: 7.5)
+2025-06-23 04:40:29.715042: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2025-06-23 04:40:30.029518: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2025-06-23 04:40:31.579193: W tensorflow/core/common_runtime/bfc_allocator.cc:246] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.60GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2025-06-23 04:40:31.625071: W tensorflow/core/common_runtime/bfc_allocator.cc:246] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.60GiB with freed_by_count=0. The caller indicates that this is not a failure, but may mean that there could be performance gains if more memory were available.
+2025-06-23 04:40:35.110535: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 1.24G (1328349184 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:40:47.407390: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:40:47.408232: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:40:47.409090: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:40:48.229558: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:40:48.230731: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:41:13.084399: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:41:17.129886: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:41:17.130958: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:41:17.132038: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:41:24.892962: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:41:24.894504: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:41:41.891722: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:41:41.892463: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:42:15.178062: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:42:15.179015: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:42:40.100811: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:42:40.101335: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:43:16.717868: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:43:16.719378: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:43:16.721093: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:43:16.722612: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:43:50.668632: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:43:50.669672: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:44:11.696400: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:44:11.696965: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:44:18.513102: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:44:18.514701: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:44:52.957326: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:44:52.958657: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:45:25.529891: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:45:25.530416: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:45:25.530942: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:45:25.919962: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:45:25.920723: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:45:25.921488: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:45:29.958593: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:45:29.959396: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:45:47.318932: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:45:47.320330: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:45:58.849356: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:45:58.850330: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:46:29.620627: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:46:29.621152: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:47:49.939029: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:47:49.940043: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:48:20.004300: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:48:20.005323: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:48:28.264637: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:48:28.265884: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:48:28.267001: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:48:49.704265: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:48:49.705147: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:49:00.983593: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:49:00.984120: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:49:05.069458: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:49:05.070039: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:49:08.957455: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:49:08.958341: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:49:18.028213: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:49:18.028739: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:49:39.117319: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:49:39.117871: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:50:36.488995: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:50:36.489851: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:50:57.399613: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:50:57.400687: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:50:57.401790: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:51:26.302447: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:51:26.303279: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:51:26.304165: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:51:46.126091: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:51:46.126619: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:51:59.319484: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:51:59.320448: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:53:07.288327: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:53:07.288849: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:53:55.971688: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:53:55.972247: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:53:56.378807: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:53:56.379359: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:54:37.777674: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:54:37.778227: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:54:37.778838: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:54:50.043914: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:54:50.044434: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:54:50.045163: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:55:19.486609: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:55:19.487214: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:55:52.088023: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:55:52.088548: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:55:57.307516: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:55:57.308035: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:56:04.225439: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:56:04.226536: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:56:29.495619: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:56:29.496229: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:56:38.965725: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:56:38.966275: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:56:38.966810: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:56:45.675586: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:56:45.676135: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:57:27.094156: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:57:27.095659: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:57:32.431433: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:57:32.432236: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:57:32.433043: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:58:13.215871: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:58:13.216672: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:58:13.217471: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:58:13.218405: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:58:13.219221: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:59:27.763120: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:59:27.763651: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 04:59:27.764370: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:00:54.109615: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:00:54.110162: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:00:54.110689: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:01:35.972707: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:01:35.973255: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:03:06.734129: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:03:06.734964: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:03:06.735804: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:03:23.904696: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:03:23.905252: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:04:06.054211: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:04:06.055174: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:04:46.921021: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:04:46.921547: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:04:46.922089: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:05:56.551381: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:05:56.552589: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:06:51.543237: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:06:51.543781: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:06:59.142970: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:06:59.144340: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:07:15.664293: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:07:15.665093: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:07:15.666100: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:07:16.059033: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:07:16.059857: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:07:16.060697: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:07:37.225817: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:07:37.226434: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:07:38.007019: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:07:38.007823: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:07:41.605377: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:07:57.201462: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:07:57.202141: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:08:09.818643: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:08:09.819654: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:08:23.513846: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:08:23.514370: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:09:36.171682: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:09:36.172204: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:09:48.336425: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:09:48.338213: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:10:46.726732: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:10:46.727302: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:10:56.296922: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:10:56.297625: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:11:49.346768: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:11:49.347364: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:11:49.347918: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:11:50.293702: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:11:50.294461: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:12:14.373661: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:12:14.374203: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:12:14.543882: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:12:14.545019: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:12:35.850649: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:12:35.852161: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:12:47.929287: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:12:47.930568: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:13:17.612996: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:13:17.614722: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:13:26.302619: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:13:26.303139: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:13:26.668363: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:13:26.668886: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:13:51.229412: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:13:51.230206: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:14:04.604934: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:14:04.605750: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:14:46.285255: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:14:46.286116: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:14:47.033719: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:14:47.034690: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:14:47.035659: I tensorflow/stream_executor/cuda/cuda_driver.cc:775] failed to allocate 126.68M (132834816 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory
+2025-06-23 05:15:08.526591: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:65:00.0 name: NVIDIA GeForce RTX 2080 Ti computeCapability: 7.5
+coreClock: 1.545GHz coreCount: 68 deviceMemorySize: 10.76GiB deviceMemoryBandwidth: 573.69GiB/s
+2025-06-23 05:15:08.526636: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2025-06-23 05:15:08.526670: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2025-06-23 05:15:08.526685: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2025-06-23 05:15:08.526698: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2025-06-23 05:15:08.526711: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2025-06-23 05:15:08.526724: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
+2025-06-23 05:15:08.526737: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2025-06-23 05:15:08.526985: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2025-06-23 05:15:08.527013: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2025-06-23 05:15:08.527019: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
+2025-06-23 05:15:08.527024: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
+2025-06-23 05:15:08.527273: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3313 MB memory) -> physical GPU (device: 0, name: NVIDIA GeForce RTX 2080 Ti, pci bus id: 0000:65:00.0, compute capability: 7.5)

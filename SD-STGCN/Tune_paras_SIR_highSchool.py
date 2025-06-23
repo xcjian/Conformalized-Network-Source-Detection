@@ -49,8 +49,8 @@ def main():
     end = -1     # the sampled snapshots will end at (skip + n_frame)-th snapshot
     T = 30       # simulation time steps
     random = 0   # randomly sample n_frame snapshots?
-    train_pct = 0.9434
-    val_pct = 0.0189
+    # train_pct = 0.9434
+    # val_pct = 0.0189
 
     # Define parameter ranges for grid search
     # batch_sizes = [16]  # batch_size
@@ -75,10 +75,17 @@ def main():
     parser.add_argument("--prop_model", type=str, default='SIR')
 
     parser.add_argument("--batch_sizes", type=int, nargs='+', default=[16])
+    parser.add_argument("--train_pct", type=float, default=0.5)
+    parser.add_argument("--val_pct", type=float, default=0.01)
+
     parser.add_argument("--learning_rates", type=float, nargs='+', default=[1e-3])
     parser.add_argument("--spatio_kernel_sizes", type=int, nargs='+', default=[4])
     parser.add_argument("--temporal_kernel_sizes", type=int, nargs='+', default=[1])
     parser.add_argument("--pos_weights", type=float, nargs='+', default=[5])
+
+    parser.add_argument("--seq_path", type=str, default='')
+    parser.add_argument("--pred_path", type=str, default='')
+    parser.add_argument("--exp_name", type=str, default='')
 
     args = parser.parse_args()
 
@@ -97,18 +104,20 @@ def main():
     prop_model = args.prop_model
 
     batch_sizes = args.batch_sizes
+    train_pct = args.train_pct
+    val_pct = args.val_pct
     learning_rates = args.learning_rates
     spatio_kernel_sizes = args.spatio_kernel_sizes
     temporal_kernel_sizes = args.temporal_kernel_sizes
     pos_weights = args.pos_weights
 
+    seq_path = args.seq_path
+    pred_path = args.pred_path
+    exp_name = args.exp_name
+
     # Construct paths
     graph_path = f"./dataset/{gt}/data/graph/{gt}.edgelist"
-    seq_path = f"./dataset/{gt}/data/SIR/SIR_nsrc{nsrc}_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}_entire.pickle"
     
-    pred_path = f"./output/models/{gt}/pred_{gt}_nf{nf}.pickle"
-    exp_name = f"SIR_nsrc{nsrc}_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ns}_nf{nf}"
-
     # Directory to store results
     results_dir = "./para_tune_res/" + exp_name
     os.makedirs(results_dir, exist_ok=True)  # Create the directory if it doesn't exist
@@ -147,7 +156,6 @@ def main():
                 "--pred", pred_path,
                 "--seq", seq_path,
                 "--exp_name", exp_name,
-                "--start", str(skip),
                 "--end", str(end),
                 "--random", str(random),
                 "--lr", str(lr),

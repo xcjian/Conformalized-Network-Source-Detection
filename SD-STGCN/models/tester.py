@@ -119,9 +119,9 @@ def model_test_nodewise(inputs, args, load_path='./output/models/', save_test_pa
         acc_test_list = []
         prec_test_list = []
         recall_test_list = []
-        for (x_test, y_test) in gen_xy_batch(inputs.get_data('test'), batch_size,\
+        for (x_test, y_test, meta_test) in gen_xy_batch(inputs.get_data('test'), batch_size,\
         dynamic_batch=True, shuffle=False):
-            x_test_ = onehot(iteration2snapshot(x_test, n_frame, start=start, end=end, random=random),n_channel)
+            x_test_ = onehot(iteration2snapshot(x_test, n_frame, start=meta_test, end=end, random=random),n_channel)
             y_test_ = snapshot_to_labels(y_test, num_node)
             pred_test = test_sess.run(pred, feed_dict={'data_input:0': x_test_, 'data_label:0': y_test_, 'keep_prob:0': 1.0})
 

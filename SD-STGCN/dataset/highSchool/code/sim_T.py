@@ -131,6 +131,13 @@ else:
         if sim.is_outbreak and len(sim.iterations) > num_frames:
             X.append(sim.iterations)
             y.append(sim.src)
+
+            n_src_ = len(sim.src)
+            for n_src__, skip__ in skip_list:
+                if n_src__ == n_src_:
+                    skip_ = skip__
+                    break
+            meta.append([skip_])
             sim_length.append(len(sim.iterations))
             i += 1
 
@@ -138,10 +145,7 @@ else:
 if not os.path.exists(spath):
     os.makedirs(spath)
 
-if sim_type == 'MixedSIR':
-    pickle.dump((X,y,meta), open(spath+sim_file,'wb'))
-else:
-    pickle.dump((X,y), open(spath+sim_file,'wb'))
+pickle.dump((X,y,meta), open(spath+sim_file,'wb'))
 
 print('-----------------------------------------------------')
 print('mean epidemic length: %.1f' % (np.mean(sim_length)))

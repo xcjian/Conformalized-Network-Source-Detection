@@ -7,6 +7,7 @@ import numpy as np
 import time
 import os
 import shutil
+import pdb
 
 def model_train(inputs, blocks, args, save_path='./output/models/', sum_path='./output/tensorboard'):
     '''
@@ -189,10 +190,9 @@ def model_train_nodewise(inputs, blocks, args, save_path='./output/models/', sum
         for i in range(epoch):
             start_time = time.time()
 
-            for j, (x_batch, y_batch) in enumerate(
+            for j, (x_batch, y_batch, meta_batch) in enumerate(
                 gen_xy_batch(inputs.get_data('train'), batch_size, dynamic_batch=True, shuffle=True)):
-
-                x_batch_ = onehot(iteration2snapshot(x_batch, n_frame, start=start, end=end, random=random), n_channel)
+                x_batch_ = onehot(iteration2snapshot(x_batch, n_frame, start=meta_batch, end=end, random=random), n_channel)
 
                 y_batch = snapshot_to_labels(y_batch, n)
                 
@@ -209,8 +209,8 @@ def model_train_nodewise(inputs, blocks, args, save_path='./output/models/', sum
 
                     if valid:
                         acc_val_list = []
-                        for (x_val, y_val) in gen_xy_batch(inputs.get_data('val'), batch_size, dynamic_batch=True, shuffle=False):
-                            x_val_ = onehot(iteration2snapshot(x_val, n_frame, start=start, end=end, random=random), n_channel)
+                        for (x_val, y_val, meta_val) in gen_xy_batch(inputs.get_data('val'), batch_size, dynamic_batch=True, shuffle=False):
+                            x_val_ = onehot(iteration2snapshot(x_val, n_frame, start=meta_val, end=end, random=random), n_channel)
                             y_val_ = snapshot_to_labels(y_val, n)
                             
                             pred_val = sess.run(pred, feed_dict={x: x_val_, y: y_val_, keep_prob: 1.0})

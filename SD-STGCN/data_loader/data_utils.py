@@ -8,9 +8,10 @@ import tensorflow as tf
 np.random.seed(42)
 
 class Dataset(object):
-    def __init__(self, x, y):
+    def __init__(self, x, y, z):
         self.__x = x
         self.__y = y
+        self.__z = z
 
     def get_x(self, type):
         return self.__x[type]
@@ -18,15 +19,18 @@ class Dataset(object):
     def get_y(self, type):
         return self.__y[type]
 
+    def get_z(self, type):
+        return self.__z[type]
+
     def get_data(self, type):
-        return (self.__x[type], self.__y[type])
+        return (self.__x[type], self.__y[type], self.__z[type])
 
     def get_len(self, type):
         return len(self.__x[type])
 
 
 
-def data_gen(file_path, n_node, n_frame, train_pct=0.8, val_pct=0.1, shuffle=True):
+def data_gen(file_path, n_node, n_frame, train_pct=0.8, val_pct=0.1, shuffle=False):
     '''
     Source file load and dataset generation.
     :param file_path: str, the file path of data source.
@@ -55,18 +59,22 @@ def data_gen(file_path, n_node, n_frame, train_pct=0.8, val_pct=0.1, shuffle=Tru
 
     x_train = np.array(data[0])[ind_list[:n_train]]
     y_train = np.array(data[1])[ind_list[:n_train]]
+    meta_train = np.array(data[2])[ind_list[:n_train]]
 
     x_val = np.array(data[0])[ind_list[n_train:(n_train+n_val)]]
     y_val = np.array(data[1])[ind_list[n_train:(n_train+n_val)]]
+    meta_val = np.array(data[2])[ind_list[n_train:(n_train+n_val)]]
 
     x_test = np.array(data[0])[ind_list[(n_train+n_val):]]
     y_test = np.array(data[1])[ind_list[(n_train+n_val):]]
+    meta_test = np.array(data[2])[ind_list[(n_train+n_val):]]
 
 
     x_data = {'train': x_train, 'val': x_val, 'test': x_test}
     y_data = {'train': y_train, 'val': y_val, 'test': y_test}
+    meta_data = {'train': meta_train, 'val': meta_val, 'test': meta_test}
 
-    dataset = Dataset(x_data, y_data)
+    dataset = Dataset(x_data, y_data, meta_data)
 
     return dataset
 
@@ -103,7 +111,7 @@ def gen_batch(inputs, batch_size, dynamic_batch=False, shuffle=False):
 def gen_xy_batch(inputs, batch_size, dynamic_batch=False, shuffle=False):
     '''
     Data iterator in batch.
-    :param inputs: (x,y) or (x',y,y_) for corrupt data
+    :param inputs: (x, y, meta)
     :x: np.ndarray, [len_seq, n_frame, n_route, C_0], standard sequence units.
     :y: np.ndarray, [len_seq, 1]
     :param batch_size: int, the size of batch.
@@ -113,6 +121,7 @@ def gen_xy_batch(inputs, batch_size, dynamic_batch=False, shuffle=False):
     #x, y = inputs
     x = inputs[0]
     y = inputs[1]
+    meta = inputs[2]
 
     len_inputs = len(x)
 
@@ -132,7 +141,7 @@ def gen_xy_batch(inputs, batch_size, dynamic_batch=False, shuffle=False):
         else:
             slide = slice(start_idx, end_idx)
 
-        yield (x[slide], y[slide])
+        yield (x[slide], y[slide], meta[slide])
 
 
 
@@ -242,7 +251,12 @@ def sample_from_iteration(iteration, num_frames, start, end=-1, random=1):
 
 # sample some snapshots from a batch of iterations
 def iteration2snapshot(iterations, num_frames, start, end, random=True):
-    return np.array([sample_from_iteration(x, num_frames, start, end, random) for x in iterations])
+    snapshots = []
+    for idx, x in enumerate(iterations):
+        snapshot_ = sample_from_iteration(x, num_frames, start[idx][0], end, random)
+        snapshots.append(snapshot_)
+    
+    return np.array(snapshots)
 
 # convert y labels to one-hot labels.
 def snapshot_to_labels(y_batch, n_node):
