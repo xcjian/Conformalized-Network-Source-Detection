@@ -58,15 +58,15 @@ def data_gen(file_path, n_node, n_frame, train_pct=0.8, val_pct=0.1, shuffle=Fal
     n_val = int(n_tot * val_pct)
 
     x_train = np.array(data[0])[ind_list[:n_train]]
-    y_train = np.array(data[1])[ind_list[:n_train]]
+    y_train = np.array(data[1], dtype = object)[ind_list[:n_train]]
     meta_train = np.array(data[2])[ind_list[:n_train]]
 
     x_val = np.array(data[0])[ind_list[n_train:(n_train+n_val)]]
-    y_val = np.array(data[1])[ind_list[n_train:(n_train+n_val)]]
+    y_val = np.array(data[1], dtype = object)[ind_list[n_train:(n_train+n_val)]]
     meta_val = np.array(data[2])[ind_list[n_train:(n_train+n_val)]]
 
     x_test = np.array(data[0])[ind_list[(n_train+n_val):]]
-    y_test = np.array(data[1])[ind_list[(n_train+n_val):]]
+    y_test = np.array(data[1], dtype = object)[ind_list[(n_train+n_val):]]
     meta_test = np.array(data[2])[ind_list[(n_train+n_val):]]
 
 
