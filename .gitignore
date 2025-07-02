@@ -42,3 +42,4 @@ node_modules/
 # Ignore specific files
 config.json
 .env
+.pickle
