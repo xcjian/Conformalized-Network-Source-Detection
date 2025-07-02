@@ -34,6 +34,17 @@ from math_graph import weight_matrix
 
 
 def multi_label_loss(y, logits, weight):
+    """
+    Computes a weighted binary cross-entropy loss for multi-label classification.
+
+    Parameters:
+    y (torch.Tensor): Ground truth labels of shape (batch_size, n_vertex), containing 0 or 1 values.
+    logits (torch.Tensor): Predicted logits of shape (batch_size, n_vertex, 2).
+    weight (float): Weight applied to positive class (y == 1).
+
+    Returns:
+    torch.Tensor: Scalar loss value averaged over batch and vertices.
+    """
     # y: (batch_size, n_vertex), logits: (batch_size, n_vertex, 2)
     if y.shape[:2] != logits.shape[:2] or logits.shape[2] != 2:
         raise ValueError(f"Invalid shapes: y.shape={y.shape}, logits.shape={logits.shape}")
@@ -168,6 +179,7 @@ for epoch in range(num_epochs):
     print(f'Epoch {epoch+1}/{num_epochs}, Loss: {avg_loss:.10f}')
 
 # Testing with precision, recall, F1
+
 print("Starting testing...")
 model.eval()
 precision = Precision(task='binary', average='macro').to(device)
