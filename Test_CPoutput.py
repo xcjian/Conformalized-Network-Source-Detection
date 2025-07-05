@@ -91,7 +91,7 @@ data_path = 'data/highSchool/test_res/SIR_nsrc7_Rzero43.44_beta0.25_gamma0.15_T3
 
 
 with open(data_path, 'rb') as f:
-    data = pickle.load(f, fix_imports=True, encoding='latin1')
+    data = pickle.load(f)
 
 inputs_raw = data['inputs'] # n_batch x n_sample x n_nodes
 pred_scores_raw = data['predictions']
