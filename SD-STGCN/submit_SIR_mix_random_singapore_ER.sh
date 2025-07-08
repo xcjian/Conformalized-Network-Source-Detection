@@ -13,7 +13,7 @@ gs=p0.02    # graph specific parameter
 	  # ER: p0.02, BA: m10, BA-Tree: m1, RGG: r0.08
 
 bs=16     # batch_size
-ep=3      # num of epochs
+ep=15      # num of epochs
 ks=4      # spatio kernel size
 kt=3      # temporal kernel size
 sc=gcn    # spatio convolution layer type
@@ -22,8 +22,8 @@ save=1    # save every # of epochs
 skip=1
 end=-1
 
-valid=0  # if evaluate performance on validation set during training
-random=1
+valid=1  # if evaluate performance on validation set during training
+random=0
 
 output=${gt}-SIR-${N}-${Rzero1}-${gamma1}.dat
 if [[ ! -f ${output} ]]; then
@@ -38,8 +38,10 @@ for (( ind=0; ind < 5; ind++ )) do
 	s2="./dataset/${gt}/data/SIR/SIR_${gt}_N${N}_${gs}_g${ind}.pickle"
 
 	for (( run=0; run < 5; run++ )) do
-		python main_SIR_mix_random_singapore_ER.py --valid ${valid} --gt ${gt} --n_node ${N} --n_frame ${nf} --batch_size ${bs} --epoch ${ep} --ks ${ks} --kt ${kt} --sconv ${sc} --save ${save} --graph $g --seq ${s1} --start ${skip} --end ${end}
-		python test_SIR_mix_random_singapore_ER.py --valid ${valid} --gt ${gt} --n_node ${N} --n_frame ${nf} --batch_size ${bs} --epoch ${ep} --ks ${ks} --kt ${kt} --sconv ${sc} --save ${save} --graph $g --seq ${s2} --start ${skip} --end ${end} | tail -n 1 >> ${output}
+		simulate_exp_name="graph${ind}_run${run}"
+		real_exp_name="real_graph${ind}_run${run}"
+		python -u main_SIR_mix_random_singapore_ER.py --exp_name ${simulate_exp_name} --valid ${valid} --gt ${gt} --n_node ${N} --n_frame ${nf} --batch_size ${bs} --epoch ${ep} --ks ${ks} --kt ${kt} --sconv ${sc} --save ${save} --graph $g --seq ${s1} --start ${skip} --end ${end}
+		python -u test_SIR_mix_random_singapore_ER.py --load_exp_name ${simulate_exp_name} --exp_name ${real_exp_name} --valid ${valid} --gt ${gt} --n_node ${N} --n_frame ${nf} --batch_size ${bs} --epoch ${ep} --ks ${ks} --kt ${kt} --sconv ${sc} --save ${save} --graph $g --seq ${s2} --start ${skip} --end ${end} | tail -n 1 >> ${output}
 
 
 	done

@@ -93,7 +93,7 @@ def build_model_SI(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv):
 
     return train_loss, y_pred
 
-def build_model_nodewise(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv, pos_weight, prop_model='SIR'):
+def build_model_nodewise(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv, pos_weight):
     '''
     Build the base model for node-wise binary classification (label vs not label).
     x: placeholder features, shape [-1, n_frame, n_node, n_channel]

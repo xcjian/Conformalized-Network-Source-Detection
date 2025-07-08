@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import pickle
+import os
 
 def load_data(path):
     df = pd.read_csv(path)
@@ -133,6 +134,8 @@ if __name__ == '__main__':
 
         iteration = gen_SIR_iteration(node_data, g)
 
+        os.makedirs('../data/graph/', exist_ok=True)
+        os.makedirs('../data/SIR/', exist_ok=True)
 
         src = get_src(df, node_dict)
 

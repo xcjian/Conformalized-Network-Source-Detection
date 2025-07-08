@@ -8,7 +8,7 @@ import tensorflow as tf
 np.random.seed(42)
 
 class Dataset(object):
-    def __init__(self, x, y, z):
+    def __init__(self, x, y, z=None):
         self.__x = x
         self.__y = y
         self.__z = z
@@ -30,7 +30,7 @@ class Dataset(object):
 
 
 
-def data_gen(file_path, n_node, n_frame, train_pct=0.8, val_pct=0.1, shuffle=False):
+def data_gen(file_path, n_node, n_frame, train_pct=0.8, val_pct=0.1, shuffle=False, skip=1):
     '''
     Source file load and dataset generation.
     :param file_path: str, the file path of data source.
@@ -53,6 +53,13 @@ def data_gen(file_path, n_node, n_frame, train_pct=0.8, val_pct=0.1, shuffle=Fal
 
     if shuffle:
         np.random.shuffle(ind_list)
+    
+    # in case the data has no meta data
+    try:
+        meta_ = data[2]
+    except:
+        meta_ = ([[skip]] * n_tot,)
+        data = data + meta_
 
     n_train = int(n_tot * train_pct)
     n_val = int(n_tot * val_pct)
@@ -351,7 +358,7 @@ def onehot(a, n, axis=-1, dtype=int):
 # for real world cases
 # -------------------------
 
-def single_data_gen(file_path, n_node, n_frame):
+def single_data_gen(file_path, n_node, n_frame, skip=1):
     '''
     Source file load and dataset generation.
     :param file_path: str, the file path of data source.
@@ -365,11 +372,20 @@ def single_data_gen(file_path, n_node, n_frame):
     except FileNotFoundError:
         print(f'ERROR: input file was not found in {file_path}.')
 
+    # in case the data has no meta data
+    try:
+        meta_ = data[2]
+    except:
+        n_tot = len(data[0])
+        meta_ = ([[skip]] * n_tot,)
+        data = data + meta_
+
     x_data = {'test': data[0]}
     y_data = {'test': data[1]}
+    z_data = {'test': data[2]}
     #y_data = {'test': [0]}
 
-    dataset = Dataset(x_data, y_data)
+    dataset = Dataset(x_data, y_data, z_data)
 
     return dataset
 
