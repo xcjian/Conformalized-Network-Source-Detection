@@ -142,6 +142,10 @@ def model_train_nodewise(inputs, blocks, args, save_path='./output/models/', sum
     n, n_frame, n_channel = args.n_node, args.n_frame, args.n_channel
     Ks, Kt = args.ks, args.kt
     batch_size, epoch, opt = args.batch_size, args.epoch, args.opt
+    try:
+        maskIR = args.maskIR
+    except:
+        maskIR = True # have mask on I, R by default.
 
     sconv = args.sconv
     pos_weight = args.pos_weight
@@ -150,15 +154,13 @@ def model_train_nodewise(inputs, blocks, args, save_path='./output/models/', sum
     valid = args.valid
     random = args.random
 
-    prop_model = args.prop_model
-
     # Placeholders
     x = tf.compat.v1.placeholder(tf.float32, [None, n_frame, n, n_channel], name='data_input')
     y = tf.compat.v1.placeholder(tf.int32, [None, n], name='data_label')  # 🔥 Labels are int (0/1), NOT one-hot
     keep_prob = tf.compat.v1.placeholder(tf.float32, name='keep_prob')
 
     # Build the model
-    train_loss, pred = build_model_nodewise(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv, pos_weight, prop_model)
+    train_loss, pred, _ = build_model_nodewise(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv, pos_weight, maskIR)
     tf.compat.v1.summary.scalar('train_loss', train_loss)
 
     # Learning rate and optimizer

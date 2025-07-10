@@ -108,13 +108,14 @@ def model_test_nodewise(inputs, args, load_path='./output/models/', save_test_pa
     all_inputs = []
     all_pred_results = []
     all_y_test = []
+    all_logits = []
 
     with tf.compat.v1.Session(graph=test_graph) as test_sess:
         saver.restore(test_sess, tf.train.latest_checkpoint(load_path))
         print(f'>> Loading saved model from {model_path} ...')
 
         pred = test_graph.get_collection('y_pred')[0]
-
+        logits = test_graph.get_collection('logits_pred')[0]
 
         acc_test_list = []
         prec_test_list = []
@@ -124,6 +125,7 @@ def model_test_nodewise(inputs, args, load_path='./output/models/', save_test_pa
             x_test_ = onehot(iteration2snapshot(x_test, n_frame, start=meta_test, end=end, random=random),n_channel)
             y_test_ = snapshot_to_labels(y_test, num_node)
             pred_test = test_sess.run(pred, feed_dict={'data_input:0': x_test_, 'data_label:0': y_test_, 'keep_prob:0': 1.0})
+            logits_test = test_sess.run(logits, feed_dict={'data_input:0': x_test_, 'data_label:0': y_test_, 'keep_prob:0': 1.0})
 
             acc_test_list.append(batch_acc_nodewise(pred_test, y_test_))
             prec_test_list.append(batch_prec_nodewise(pred_test, y_test_))
@@ -134,9 +136,10 @@ def model_test_nodewise(inputs, args, load_path='./output/models/', save_test_pa
                 all_inputs.append(x_test_array[:, :, 1]) # only use the infected status
                 all_pred_results.append(pred_test)
                 all_y_test.append(y_test_)
+                all_logits.append(logits_test)
         
         if save_test_path:
-            res = {'predictions': all_pred_results, 'ground_truth': all_y_test, 'inputs': all_inputs}
+            res = {'predictions': all_pred_results, 'ground_truth': all_y_test, 'inputs': all_inputs, 'logits': all_logits}
             with open(save_test_path + 'res.pickle', 'wb') as f:
                 pickle.dump(res, f)
             print(f'>> Test results saved to {save_test_path}')
