@@ -4,7 +4,7 @@
 
 import os
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 from os.path import join as pjoin
 
 import tensorflow as tf
@@ -17,9 +17,9 @@ tf.compat.v1.Session(config=config)
 
 from utils.math_graph import *
 from data_loader.data_utils import *
-from models.trainer import model_train
+from models.trainer import model_train_nodewise
 from models.valider import model_valid
-from models.tester_single import model_test
+from models.tester_single import model_test_single_nodewise
 
 import argparse
 
@@ -58,7 +58,8 @@ parser.add_argument('--gt', type=str, default='ER')
 parser.add_argument('--valid', type=int, default=0)
 
 parser.add_argument('--random', type=int, default=1)
-
+parser.add_argument('--load_exp_name', type=str, default='simulate_0')
+parser.add_argument('--exp_name', type=str, default='real_0')
 
 args = parser.parse_args()
 print(f'Training configs: {args}')
@@ -105,8 +106,15 @@ else:
     sfile = args.seq
 
 
-save_path='./output/models/%s/exp1/' % (args.gt)
-load_path='./output/models/%s/exp1/' % (args.gt)
+save_path='./output/models/%s/%s/' % (args.gt,args.exp_name)
+load_path='./output/models/%s/%s/' % (args.gt,args.load_exp_name)
+save_test_path = './output/test_res/%s/%s/' % (args.gt,args.exp_name)
+
+# Create directories if they don't exist
+os.makedirs(save_path, exist_ok=True)
+os.makedirs(load_path, exist_ok=True)  # Optional, as load_path is for reading, but safe to create
+os.makedirs(save_test_path, exist_ok=True)
+
 
 #dataset = data_gen(sfile, n, n_frame, train_pct, val_pct)
 dataset = single_data_gen(sfile, n, n_frame)
@@ -118,10 +126,10 @@ do_test = True
 
 if __name__ == '__main__':
     if do_train:
-        model_train(dataset, blocks, args, save_path=save_path)
+        model_train_nodewise(dataset, blocks, args, save_path=save_path)
     if do_valid:
         model_valid(dataset, args, load_path=load_path)
     if do_test:
-        model_test(dataset, args, load_path=load_path)
+        model_test_single_nodewise(dataset, args, load_path=load_path, save_test_path=save_test_path)
 
 

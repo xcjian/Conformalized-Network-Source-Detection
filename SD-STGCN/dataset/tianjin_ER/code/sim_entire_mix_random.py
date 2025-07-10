@@ -8,11 +8,12 @@ import argparse
 
 np.random.seed(42)
 
-
 R0_lo = 1.0
 R0_hi = 15.0
 gamma_lo = 0.1
 gamma_hi = 0.4
+latent_lo = 2
+latent_hi = 14
 
 R0_k = '1-15'
 gamma_k = '0.1-0.4'
@@ -22,10 +23,13 @@ parser.add_argument('--n_node', type=int, default=1000)
 parser.add_argument('--n_frame', type=int, default=16)
 parser.add_argument('--len_seq', type=int, default=2000)
 parser.add_argument('--graph_id', type=int, default=0)
-parser.add_argument('--graph_type', type=str, default='ER')
+parser.add_argument('--graph_type', type=str, default='tianjin_ER')
 parser.add_argument('--sim_type', type=str, default='SIR')
 parser.add_argument('--p', type=float, default=0.02)
 parser.add_argument('--f0', type=float, default=0.02)
+
+parser.add_argument('--n_src_lo', type=float, default=1)
+parser.add_argument('--n_src_hi', type=float, default=30)
 
 args = parser.parse_args()
 
@@ -38,6 +42,9 @@ N = args.n_node
 
 sim_type = args.sim_type # simulation type
 
+n_src_lo = args.n_src_lo
+n_src_hi = args.n_src_hi # range of n_sources
+n_src_k = str(int(n_src_lo)) + '-' + str(int(n_src_hi))
 
 gpath = '../data/graph/'
 spath = '../data/%s/' % (sim_type)
@@ -59,8 +66,8 @@ f0 = args.f0
 #alpha = round(args.alpha, 2)
 
 
-sim_file = '%s_Rzero%s_gamma%s_ls%s_nf%s_N%s_p%s_g%s_entire.pickle' %\
-            (sim_type,R0_k,gamma_k,len_seq,num_frames,N,p,graph_id)
+sim_file = '%s_Rzero%s_nsrc%s_gamma%s_ls%s_nf%s_N%s_p%s_g%s_entire.pickle' %\
+            (sim_type,R0_k,n_src_k,gamma_k,len_seq,num_frames,N,p,graph_id)
 
 # sequence
 X = [] # features, shape [len_seq, num_frames, N, num_channels]
@@ -71,20 +78,27 @@ i = 0
 sim_length = []
 while i < len_seq:
 
+    n_src = np.random.randint(n_src_lo, n_src_hi)
     R0 = np.random.uniform(R0_lo, R0_hi)
     gamma = np.random.uniform(gamma_lo, gamma_hi)
     beta = R0 * gamma / lambda_max
 
-    sim = SIR(N, g, beta, gamma, min_outbreak_frac=f0)
+    sim = MultiSIR(N, g, beta, gamma, num_sources = int(n_src), min_outbreak_frac=f0)
+    # sim = SIR(N, g, beta, gamma, min_outbreak_frac=f0)
     sim.init()
     sim.run()
+
+    masked_iterations = sim.mask_infection(latent_lo, latent_hi)
 
     if sim.is_outbreak and len(sim.iterations) > num_frames:
         sim_length.append(len(sim.iterations))
 
         i += 1
-        X.append(sim.iterations)
+        # X.append(sim.iterations)
+        X.append(masked_iterations)
         y.append(sim.src)
+    
+    print('sample' + str(i) + 'finished')
 
 print('-----------------------------------------------------')
 print('mean epidemic length: %.1f' % (np.mean(sim_length)))

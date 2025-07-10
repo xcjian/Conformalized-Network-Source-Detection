@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import pickle
+import os
 
 def load_data(path):
     df = pd.read_csv(path)
@@ -137,6 +138,9 @@ if __name__ == '__main__':
         src = get_src(df, node_dict)
 
         print('# of srcs {}'.format(len(src)))
+
+        os.makedirs('../data/graph/', exist_ok=True)
+        os.makedirs('../data/SIR/', exist_ok=True)
 
         nx.write_edgelist(g, '../data/graph/tianjin_RGG_N%s_r%s_g%s.edgelist' % (N, r, gid), data=False)
 

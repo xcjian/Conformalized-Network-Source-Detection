@@ -8,5 +8,7 @@ stype=$2  # simulation type, SIR, SEIR, etc
 gid=$3    # graph id
 p=0.02    # random graph probability to connect
 f0=0.02   # min outbreak fraction
+n_src_lo=1 # min number of sources
+n_src_hi=30 # max number of sources
 
-python sim_entire_mix_random.py --n_node ${N} --n_frame ${nframe} --len_seq ${ls} --graph_id ${gid} --graph_type ${gtype} --sim_type ${stype} --p ${p} --f0 ${f0}
+python sim_entire_mix_random.py --n_node ${N} --n_frame ${nframe} --len_seq ${ls} --graph_id ${gid} --graph_type ${gtype} --sim_type ${stype} --p ${p} --f0 ${f0} --n_src_lo ${n_src_lo} --n_src_hi ${n_src_hi} 

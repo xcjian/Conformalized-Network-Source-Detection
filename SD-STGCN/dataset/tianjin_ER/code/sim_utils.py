@@ -99,6 +99,78 @@ class SIR(Epidemic):
 
         self.model.set_initial_status(config)
 
+# multisource SIR
+class MultiSIR(Epidemic):
+    def __init__(self, N, g, beta, gamma, num_sources=3, min_outbreak_frac=0.02):
+        super().__init__(N, g, min_outbreak_frac)
+        self.beta = beta
+        self.gamma = gamma
+        self.num_sources = num_sources
+
+    def init(self):
+        self.src = np.random.choice(self.N, size=self.num_sources, replace=False).tolist()
+
+        self.model = ep.SIRModel(self.g)
+
+        config = mc.Configuration()
+        config.add_model_parameter('beta', self.beta)
+        config.add_model_parameter('gamma', self.gamma)
+        config.add_model_initial_configuration('Infected', self.src)
+
+        self.model.set_initial_status(config)
+
+    def mask_infection(self, latent_lo, latent_hi):
+        """
+        Mask infection states to simulate a latent period.
+        For each infected node, select a random T in [latent_lo, latent_hi].
+        Set the node's state to Susceptible (0) for T steps from infection time.
+        If the node is Recovered (2) after T steps, set all subsequent states to Susceptible.
+
+        Parameters:
+        - latent_lo: Minimum masking period
+        - latent_hi: Maximum masking period
+
+        Returns:
+        - Masked status sequence
+        """
+        if self.iterations is None:
+            raise ValueError("Run simulation with run() before masking infections")
+
+        # Create a deep copy of the iteration status to avoid modifying original data
+        masked_iterations = [status.copy() for status in self.iterations]
+        n_iter = len(masked_iterations)
+
+        # Process each node that was ever infected
+        for node in self.infected:
+            # Find the first time the node was infected (status = 1)
+            infection_time = None
+            for t in range(n_iter):
+                snapshot = self.get_snapshot(t)
+                if snapshot[node] == 1:  # 1 indicates Infected
+                    infection_time = t
+                    break
+
+            if infection_time is not None:
+                # Randomly select masking period T
+                T = np.random.randint(latent_lo, latent_hi + 1)
+                # Set state to Susceptible (0) for T steps from infection time
+                for t in range(infection_time, min(infection_time + T, n_iter)):
+                    masked_iterations[t]['status'][node] = 0  # Set to Susceptible
+
+                # If node is Recovered (2) after T steps, set all subsequent states to Susceptible
+                if infection_time + T < n_iter:
+                    try:
+                        recover_flag = (masked_iterations[infection_time + T]['status'][node] == 2) # if the key 'node' exists
+                    except:
+                        # if 'node' is not a key:
+                        status_presented = list(set(masked_iterations[infection_time + T]['status'].values()))
+                        status_not_presented = np.setdiff1d([0, 1, 2], status_presented)
+                        recover_flag = 2 in status_not_presented
+                    if recover_flag:
+                        for t in range(infection_time + T, n_iter):
+                            masked_iterations[t]['status'][node] = 0  # Set to Susceptible
+
+        return masked_iterations
 
 class SEIR(Epidemic):
     def __init__(self, N, g, beta, gamma, alpha, min_outbreak_frac=0.02):

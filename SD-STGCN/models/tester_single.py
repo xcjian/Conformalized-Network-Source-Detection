@@ -95,7 +95,7 @@ def model_test_single_nodewise(inputs, args, load_path='./output/models/', save_
         print(f'>> Loading saved model from {model_path} ...')
 
         pred = test_graph.get_collection('y_pred')[0]
-
+        logits = test_graph.get_collection('logits_pred')[0]
 
         x_test = inputs.get_x('test')
         y_test = inputs.get_y('test')
@@ -103,6 +103,7 @@ def model_test_single_nodewise(inputs, args, load_path='./output/models/', save_
         x_test_ = onehot(iteration2snapshot(x_test, n_frame, start=meta_test, end=end, random=random),n_channel)
         y_test_ = snapshot_to_labels(y_test, num_node)
         pred_test = test_sess.run(pred, feed_dict={'data_input:0': x_test_, 'keep_prob:0': 1.0})
+        logits_test = test_sess.run(logits, feed_dict={'data_input:0': x_test_, 'keep_prob:0': 1.0})
 
         # Convert predictions to binary labels (0 or 1) by taking argmax over class dimension
         pred_labels = np.argmax(pred_test, axis=-1)  # Shape: (batch_size, num_node)
@@ -123,7 +124,7 @@ def model_test_single_nodewise(inputs, args, load_path='./output/models/', save_
 
         if save_test_path:
             x_test_array = np.array([list(x_test_[i][0]) for i in range(len(x_test_))])
-            res = {'predictions': [pred_test], 'ground_truth': [y_test_], 'inputs': [x_test_array[:, :, 1]]}
+            res = {'predictions': [pred_test], 'ground_truth': [y_test_], 'inputs': [x_test_array[:, :, 1]], 'logits': [logits_test]}
             with open(save_test_path + 'res.pickle', 'wb') as f:
                 pickle.dump(res, f)
             print(f'>> Test results saved to {save_test_path}')
