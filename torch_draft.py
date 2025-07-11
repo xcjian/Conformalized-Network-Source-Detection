@@ -85,7 +85,8 @@ class SimpleGCN(nn.Module):
 # Read-in the data
 
 data_path = 'SD-STGCN/dataset/highSchool/data/SIR/'
-data_file = 'SIR_nsrc1_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_torchentire.pickle'
+#data_file = 'SIR_nsrc1_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_entire.pickle'
+data_file = 'SIR_nsrc1_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16_torchentire_with_node_features.pickle'
 graph_path = 'SD-STGCN/dataset/highSchool/data/graph/'
 graph_file = 'highSchool.edgelist'
 

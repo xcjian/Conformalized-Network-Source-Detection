@@ -43,3 +43,9 @@ node_modules/
 config.json
 .env
 .pickle
+
+# Others
+SD-STGCN/dataset/
+SD-STGCN/output/
+data/
+GNN/predictions/
