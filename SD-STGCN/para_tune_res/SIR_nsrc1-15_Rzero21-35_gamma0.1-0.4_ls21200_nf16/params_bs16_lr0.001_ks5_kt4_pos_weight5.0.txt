@@ -1,0 +1,649 @@
+Parameters: batch_size=16, lr=0.001, pos_weight=5.0, ks=5, kt=4
+
+Output:
+Training configs: Namespace(batch_size=16, dropout=0, end=-1, epoch=4, exp_name='SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16', graph='./dataset/highSchool/data/graph/highSchool.edgelist', gt='highSchool', ks=5, kt=4, lr=0.001, n_channel=3, n_frame=16, n_node=774, opt='RMSProp', pos_weight=5.0, pred='./output/models/highSchool/pred_highSchool_nf16.pickle', prop_model='SIR', random=0, save=1, sconv='gcn', seq='./dataset/highSchool/data/SIR/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16_entire.pickle', start=1, train_flag=True, train_pct=0.9434, val_pct=0.0189, valid=1)
+True
+./dataset/highSchool/data/graph/highSchool.edgelist
+The input graph is a 0/1 matrix; set "scaling" to False.
+Epoch  0, Step   0: Elapsed Time 3.944 Loss 0.086 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step  10: Elapsed Time 6.246 Loss 0.084 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step  20: Elapsed Time 8.538 Loss 0.094 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step  30: Elapsed Time 10.836 Loss 0.075 Train Acc 0.000 Val Acc 0.001
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-31 ...
+New best model saved with validation accuracy: 0.001 at epoch 0
+Epoch  0, Step  40: Elapsed Time 13.467 Loss 0.090 Train Acc 0.057 Val Acc 0.028
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-41 ...
+New best model saved with validation accuracy: 0.028 at epoch 0
+Epoch  0, Step  50: Elapsed Time 16.067 Loss 0.084 Train Acc 0.099 Val Acc 0.111
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-51 ...
+New best model saved with validation accuracy: 0.111 at epoch 0
+Epoch  0, Step  60: Elapsed Time 18.720 Loss 0.067 Train Acc 0.181 Val Acc 0.196
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-61 ...
+New best model saved with validation accuracy: 0.196 at epoch 0
+Epoch  0, Step  70: Elapsed Time 21.382 Loss 0.090 Train Acc 0.241 Val Acc 0.225
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-71 ...
+New best model saved with validation accuracy: 0.225 at epoch 0
+Epoch  0, Step  80: Elapsed Time 24.055 Loss 0.092 Train Acc 0.128 Val Acc 0.211
+Epoch  0, Step  90: Elapsed Time 26.332 Loss 0.076 Train Acc 0.223 Val Acc 0.239
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-91 ...
+New best model saved with validation accuracy: 0.239 at epoch 0
+Epoch  0, Step 100: Elapsed Time 29.003 Loss 0.088 Train Acc 0.196 Val Acc 0.254
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-101 ...
+New best model saved with validation accuracy: 0.254 at epoch 0
+Epoch  0, Step 110: Elapsed Time 31.674 Loss 0.047 Train Acc 0.330 Val Acc 0.273
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-111 ...
+New best model saved with validation accuracy: 0.273 at epoch 0
+Epoch  0, Step 120: Elapsed Time 34.368 Loss 0.050 Train Acc 0.354 Val Acc 0.273
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-121 ...
+New best model saved with validation accuracy: 0.273 at epoch 0
+Epoch  0, Step 130: Elapsed Time 37.103 Loss 0.080 Train Acc 0.269 Val Acc 0.277
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-131 ...
+New best model saved with validation accuracy: 0.277 at epoch 0
+Epoch  0, Step 140: Elapsed Time 39.791 Loss 0.057 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 150: Elapsed Time 42.094 Loss 0.073 Train Acc 0.000 Val Acc 0.000
+Epoch  0, Step 160: Elapsed Time 44.352 Loss 0.055 Train Acc 0.293 Val Acc 0.290
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-161 ...
+New best model saved with validation accuracy: 0.290 at epoch 0
+Epoch  0, Step 170: Elapsed Time 47.054 Loss 0.078 Train Acc 0.295 Val Acc 0.283
+Epoch  0, Step 180: Elapsed Time 49.330 Loss 0.067 Train Acc 0.243 Val Acc 0.070
+Epoch  0, Step 190: Elapsed Time 51.668 Loss 0.065 Train Acc 0.307 Val Acc 0.293
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-191 ...
+New best model saved with validation accuracy: 0.293 at epoch 0
+Epoch  0, Step 200: Elapsed Time 54.413 Loss 0.078 Train Acc 0.150 Val Acc 0.228
+Epoch  0, Step 210: Elapsed Time 56.719 Loss 0.068 Train Acc 0.376 Val Acc 0.295
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-211 ...
+New best model saved with validation accuracy: 0.295 at epoch 0
+Epoch  0, Step 220: Elapsed Time 59.493 Loss 0.080 Train Acc 0.336 Val Acc 0.297
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-221 ...
+New best model saved with validation accuracy: 0.297 at epoch 0
+Epoch  0, Step 230: Elapsed Time 62.272 Loss 0.076 Train Acc 0.015 Val Acc 0.054
+Epoch  0, Step 240: Elapsed Time 64.558 Loss 0.055 Train Acc 0.267 Val Acc 0.299
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-241 ...
+New best model saved with validation accuracy: 0.299 at epoch 0
+Epoch  0, Step 250: Elapsed Time 67.342 Loss 0.083 Train Acc 0.349 Val Acc 0.300
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-251 ...
+New best model saved with validation accuracy: 0.300 at epoch 0
+Epoch  0, Step 260: Elapsed Time 70.135 Loss 0.065 Train Acc 0.370 Val Acc 0.299
+Epoch  0, Step 270: Elapsed Time 72.430 Loss 0.073 Train Acc 0.250 Val Acc 0.263
+Epoch  0, Step 280: Elapsed Time 74.737 Loss 0.093 Train Acc 0.270 Val Acc 0.300
+Epoch  0, Step 290: Elapsed Time 77.029 Loss 0.098 Train Acc 0.259 Val Acc 0.284
+Epoch  0, Step 300: Elapsed Time 79.346 Loss 0.069 Train Acc 0.320 Val Acc 0.304
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-301 ...
+New best model saved with validation accuracy: 0.304 at epoch 0
+Epoch  0, Step 310: Elapsed Time 82.164 Loss 0.079 Train Acc 0.315 Val Acc 0.312
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-311 ...
+New best model saved with validation accuracy: 0.312 at epoch 0
+Epoch  0, Step 320: Elapsed Time 84.988 Loss 0.064 Train Acc 0.193 Val Acc 0.260
+Epoch  0, Step 330: Elapsed Time 87.276 Loss 0.063 Train Acc 0.331 Val Acc 0.322
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-331 ...
+New best model saved with validation accuracy: 0.322 at epoch 0
+Epoch  0, Step 340: Elapsed Time 90.148 Loss 0.084 Train Acc 0.314 Val Acc 0.318
+Epoch  0, Step 350: Elapsed Time 92.460 Loss 0.065 Train Acc 0.212 Val Acc 0.260
+Epoch  0, Step 360: Elapsed Time 94.767 Loss 0.096 Train Acc 0.270 Val Acc 0.299
+Epoch  0, Step 370: Elapsed Time 97.091 Loss 0.076 Train Acc 0.325 Val Acc 0.314
+Epoch  0, Step 380: Elapsed Time 99.422 Loss 0.066 Train Acc 0.323 Val Acc 0.325
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-381 ...
+New best model saved with validation accuracy: 0.325 at epoch 0
+Epoch  0, Step 390: Elapsed Time 102.290 Loss 0.077 Train Acc 0.366 Val Acc 0.323
+Epoch  0, Step 400: Elapsed Time 104.590 Loss 0.077 Train Acc 0.375 Val Acc 0.326
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-401 ...
+New best model saved with validation accuracy: 0.326 at epoch 0
+Epoch  0, Step 410: Elapsed Time 107.479 Loss 0.066 Train Acc 0.353 Val Acc 0.328
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-411 ...
+New best model saved with validation accuracy: 0.328 at epoch 0
+Epoch  0, Step 420: Elapsed Time 110.378 Loss 0.064 Train Acc 0.364 Val Acc 0.325
+Epoch  0, Step 430: Elapsed Time 112.702 Loss 0.076 Train Acc 0.333 Val Acc 0.313
+Epoch  0, Step 440: Elapsed Time 114.973 Loss 0.064 Train Acc 0.346 Val Acc 0.337
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-441 ...
+New best model saved with validation accuracy: 0.337 at epoch 0
+Epoch  0, Step 450: Elapsed Time 117.894 Loss 0.051 Train Acc 0.357 Val Acc 0.347
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-451 ...
+New best model saved with validation accuracy: 0.347 at epoch 0
+Epoch  0, Step 460: Elapsed Time 120.844 Loss 0.057 Train Acc 0.430 Val Acc 0.377
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-461 ...
+New best model saved with validation accuracy: 0.377 at epoch 0
+Epoch  0, Step 470: Elapsed Time 123.772 Loss 0.066 Train Acc 0.356 Val Acc 0.390
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-471 ...
+New best model saved with validation accuracy: 0.390 at epoch 0
+Epoch  0, Step 480: Elapsed Time 126.691 Loss 0.077 Train Acc 0.307 Val Acc 0.311
+Epoch  0, Step 490: Elapsed Time 129.006 Loss 0.074 Train Acc 0.332 Val Acc 0.319
+Epoch  0, Step 500: Elapsed Time 131.309 Loss 0.056 Train Acc 0.484 Val Acc 0.441
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-501 ...
+New best model saved with validation accuracy: 0.441 at epoch 0
+Epoch  0, Step 510: Elapsed Time 134.287 Loss 0.062 Train Acc 0.403 Val Acc 0.423
+Epoch  0, Step 520: Elapsed Time 136.612 Loss 0.067 Train Acc 0.416 Val Acc 0.421
+Epoch  0, Step 530: Elapsed Time 138.897 Loss 0.049 Train Acc 0.436 Val Acc 0.433
+Epoch  0, Step 540: Elapsed Time 141.211 Loss 0.053 Train Acc 0.495 Val Acc 0.468
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-541 ...
+New best model saved with validation accuracy: 0.468 at epoch 0
+Epoch  0, Step 550: Elapsed Time 144.183 Loss 0.059 Train Acc 0.450 Val Acc 0.469
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-551 ...
+New best model saved with validation accuracy: 0.469 at epoch 0
+Epoch  0, Step 560: Elapsed Time 147.508 Loss 0.056 Train Acc 0.465 Val Acc 0.440
+Epoch  0, Step 570: Elapsed Time 149.827 Loss 0.046 Train Acc 0.453 Val Acc 0.460
+Epoch  0, Step 580: Elapsed Time 152.133 Loss 0.051 Train Acc 0.492 Val Acc 0.469
+Epoch  0, Step 590: Elapsed Time 154.447 Loss 0.080 Train Acc 0.463 Val Acc 0.464
+Epoch  0, Step 600: Elapsed Time 156.771 Loss 0.063 Train Acc 0.496 Val Acc 0.455
+Epoch  0, Step 610: Elapsed Time 159.085 Loss 0.057 Train Acc 0.458 Val Acc 0.454
+Epoch  0, Step 620: Elapsed Time 161.434 Loss 0.055 Train Acc 0.422 Val Acc 0.401
+Epoch  0, Step 630: Elapsed Time 163.723 Loss 0.072 Train Acc 0.444 Val Acc 0.426
+Epoch  0, Step 640: Elapsed Time 166.016 Loss 0.070 Train Acc 0.541 Val Acc 0.469
+Epoch  0, Step 650: Elapsed Time 168.305 Loss 0.051 Train Acc 0.544 Val Acc 0.468
+Epoch  0, Step 660: Elapsed Time 170.589 Loss 0.056 Train Acc 0.510 Val Acc 0.454
+Epoch  0, Step 670: Elapsed Time 172.893 Loss 0.042 Train Acc 0.445 Val Acc 0.423
+Epoch  0, Step 680: Elapsed Time 175.214 Loss 0.050 Train Acc 0.482 Val Acc 0.434
+Epoch  0, Step 690: Elapsed Time 177.531 Loss 0.075 Train Acc 0.465 Val Acc 0.469
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-691 ...
+New best model saved with validation accuracy: 0.469 at epoch 0
+Epoch  0, Step 700: Elapsed Time 180.554 Loss 0.045 Train Acc 0.490 Val Acc 0.430
+Epoch  0, Step 710: Elapsed Time 182.863 Loss 0.057 Train Acc 0.442 Val Acc 0.431
+Epoch  0, Step 720: Elapsed Time 185.152 Loss 0.045 Train Acc 0.510 Val Acc 0.450
+Epoch  0, Step 730: Elapsed Time 187.456 Loss 0.067 Train Acc 0.423 Val Acc 0.446
+Epoch  0, Step 740: Elapsed Time 189.749 Loss 0.044 Train Acc 0.451 Val Acc 0.459
+Epoch  0, Step 750: Elapsed Time 192.053 Loss 0.069 Train Acc 0.453 Val Acc 0.465
+Epoch  0, Step 760: Elapsed Time 194.339 Loss 0.054 Train Acc 0.494 Val Acc 0.467
+Epoch  0, Step 770: Elapsed Time 196.632 Loss 0.059 Train Acc 0.451 Val Acc 0.459
+Epoch  0, Step 780: Elapsed Time 198.914 Loss 0.068 Train Acc 0.454 Val Acc 0.466
+Epoch  0, Step 790: Elapsed Time 201.242 Loss 0.061 Train Acc 0.421 Val Acc 0.410
+Epoch  0, Step 800: Elapsed Time 203.543 Loss 0.042 Train Acc 0.482 Val Acc 0.452
+Epoch  0, Step 810: Elapsed Time 205.814 Loss 0.045 Train Acc 0.502 Val Acc 0.468
+Epoch  0, Step 820: Elapsed Time 208.140 Loss 0.067 Train Acc 0.463 Val Acc 0.456
+Epoch  0, Step 830: Elapsed Time 210.434 Loss 0.056 Train Acc 0.435 Val Acc 0.396
+Epoch  0, Step 840: Elapsed Time 212.663 Loss 0.052 Train Acc 0.405 Val Acc 0.409
+Epoch  0, Step 850: Elapsed Time 214.979 Loss 0.054 Train Acc 0.428 Val Acc 0.436
+Epoch  0, Step 860: Elapsed Time 217.306 Loss 0.036 Train Acc 0.553 Val Acc 0.466
+Epoch  0, Step 870: Elapsed Time 219.610 Loss 0.063 Train Acc 0.450 Val Acc 0.473
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-871 ...
+New best model saved with validation accuracy: 0.473 at epoch 0
+Epoch  0, Step 880: Elapsed Time 222.606 Loss 0.063 Train Acc 0.584 Val Acc 0.472
+Epoch  0, Step 890: Elapsed Time 224.919 Loss 0.069 Train Acc 0.442 Val Acc 0.461
+Epoch  0, Step 900: Elapsed Time 227.205 Loss 0.044 Train Acc 0.489 Val Acc 0.478
+<< Saving model to ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-901 ...
+New best model saved with validation accuracy: 0.478 at epoch 0
+Epoch  0, Step 910: Elapsed Time 230.261 Loss 0.074 Train Acc 0.439 Val Acc 0.414
+Epoch  0, Step 920: Elapsed Time 232.565 Loss 0.062 Train Acc 0.445 Val Acc 0.449
+Epoch  0, Step 930: Elapsed Time 234.855 Loss 0.054 Train Acc 0.463 Val Acc 0.464
+Epoch  0, Step 940: Elapsed Time 237.165 Loss 0.050 Train Acc 0.532 Val Acc 0.463
+Epoch  0, Step 950: Elapsed Time 239.463 Loss 0.047 Train Acc 0.518 Val Acc 0.454
+Epoch  0, Step 960: Elapsed Time 241.771 Loss 0.064 Train Acc 0.429 Val Acc 0.446
+Epoch  0, Step 970: Elapsed Time 244.056 Loss 0.047 Train Acc 0.424 Val Acc 0.442
+Epoch  0, Step 980: Elapsed Time 246.356 Loss 0.049 Train Acc 0.493 Val Acc 0.468
+Epoch  0, Step 990: Elapsed Time 248.647 Loss 0.063 Train Acc 0.535 Val Acc 0.464
+Epoch  0, Step 1000: Elapsed Time 250.933 Loss 0.054 Train Acc 0.487 Val Acc 0.462
+Epoch  0, Step 1010: Elapsed Time 253.234 Loss 0.061 Train Acc 0.493 Val Acc 0.472
+Epoch  0, Step 1020: Elapsed Time 255.543 Loss 0.062 Train Acc 0.536 Val Acc 0.463
+Epoch  0, Step 1030: Elapsed Time 257.851 Loss 0.053 Train Acc 0.477 Val Acc 0.458
+Epoch  0, Step 1040: Elapsed Time 260.178 Loss 0.071 Train Acc 0.418 Val Acc 0.447
+Epoch  0, Step 1050: Elapsed Time 262.510 Loss 0.071 Train Acc 0.398 Val Acc 0.413
+Epoch  0, Step 1060: Elapsed Time 264.810 Loss 0.056 Train Acc 0.509 Val Acc 0.444
+Epoch  0, Step 1070: Elapsed Time 267.082 Loss 0.058 Train Acc 0.449 Val Acc 0.422
+Epoch  0, Step 1080: Elapsed Time 269.393 Loss 0.072 Train Acc 0.464 Val Acc 0.476
+Epoch  0, Step 1090: Elapsed Time 271.676 Loss 0.054 Train Acc 0.506 Val Acc 0.464
+Epoch  0, Step 1100: Elapsed Time 273.984 Loss 0.064 Train Acc 0.406 Val Acc 0.457
+Epoch  0, Step 1110: Elapsed Time 276.332 Loss 0.051 Train Acc 0.484 Val Acc 0.475
+Epoch  0, Step 1120: Elapsed Time 278.639 Loss 0.068 Train Acc 0.486 Val Acc 0.470
+Epoch  0, Step 1130: Elapsed Time 280.950 Loss 0.049 Train Acc 0.415 Val Acc 0.440
+Epoch  0, Step 1140: Elapsed Time 283.263 Loss 0.060 Train Acc 0.440 Val Acc 0.449
+Epoch  0, Step 1150: Elapsed Time 285.571 Loss 0.057 Train Acc 0.435 Val Acc 0.460
+Epoch  0, Step 1160: Elapsed Time 287.857 Loss 0.052 Train Acc 0.481 Val Acc 0.432
+Epoch  0, Step 1170: Elapsed Time 290.155 Loss 0.059 Train Acc 0.528 Val Acc 0.470
+Epoch  0, Step 1180: Elapsed Time 292.457 Loss 0.051 Train Acc 0.496 Val Acc 0.463
+Epoch  0, Step 1190: Elapsed Time 294.741 Loss 0.051 Train Acc 0.423 Val Acc 0.445
+Epoch  0, Step 1200: Elapsed Time 297.088 Loss 0.049 Train Acc 0.537 Val Acc 0.476
+Epoch  0, Step 1210: Elapsed Time 299.419 Loss 0.063 Train Acc 0.406 Val Acc 0.416
+Epoch  0, Step 1220: Elapsed Time 301.749 Loss 0.056 Train Acc 0.500 Val Acc 0.464
+Epoch  0, Step 1230: Elapsed Time 304.077 Loss 0.061 Train Acc 0.425 Val Acc 0.443
+Epoch  0, Step 1240: Elapsed Time 306.362 Loss 0.058 Train Acc 0.446 Val Acc 0.441
+Epoch  1, Step   0: Elapsed Time 1.427 Loss 0.052 Train Acc 0.416 Val Acc 0.469
+Epoch  1, Step  10: Elapsed Time 3.706 Loss 0.059 Train Acc 0.535 Val Acc 0.457
+Epoch  1, Step  20: Elapsed Time 6.005 Loss 0.057 Train Acc 0.422 Val Acc 0.428
+Epoch  1, Step  30: Elapsed Time 8.315 Loss 0.057 Train Acc 0.447 Val Acc 0.441
+Epoch  1, Step  40: Elapsed Time 10.617 Loss 0.059 Train Acc 0.456 Val Acc 0.456
+Epoch  1, Step  50: Elapsed Time 12.907 Loss 0.038 Train Acc 0.428 Val Acc 0.458
+Epoch  1, Step  60: Elapsed Time 15.220 Loss 0.058 Train Acc 0.513 Val Acc 0.452
+Epoch  1, Step  70: Elapsed Time 17.507 Loss 0.044 Train Acc 0.418 Val Acc 0.450
+Epoch  1, Step  80: Elapsed Time 19.799 Loss 0.059 Train Acc 0.449 Val Acc 0.425
+Epoch  1, Step  90: Elapsed Time 22.100 Loss 0.076 Train Acc 0.404 Val Acc 0.404
+Epoch  1, Step 100: Elapsed Time 24.410 Loss 0.056 Train Acc 0.503 Val Acc 0.454
+Epoch  1, Step 110: Elapsed Time 26.706 Loss 0.065 Train Acc 0.475 Val Acc 0.438
+Epoch  1, Step 120: Elapsed Time 29.004 Loss 0.072 Train Acc 0.415 Val Acc 0.448
+Epoch  1, Step 130: Elapsed Time 31.304 Loss 0.065 Train Acc 0.464 Val Acc 0.457
+Epoch  1, Step 140: Elapsed Time 33.598 Loss 0.055 Train Acc 0.529 Val Acc 0.463
+Epoch  1, Step 150: Elapsed Time 35.914 Loss 0.036 Train Acc 0.472 Val Acc 0.475
+Epoch  1, Step 160: Elapsed Time 38.223 Loss 0.046 Train Acc 0.422 Val Acc 0.421
+Epoch  1, Step 170: Elapsed Time 40.514 Loss 0.058 Train Acc 0.477 Val Acc 0.462
+Epoch  1, Step 180: Elapsed Time 42.812 Loss 0.062 Train Acc 0.439 Val Acc 0.452
+Epoch  1, Step 190: Elapsed Time 45.138 Loss 0.051 Train Acc 0.465 Val Acc 0.471
+Epoch  1, Step 200: Elapsed Time 47.446 Loss 0.072 Train Acc 0.440 Val Acc 0.439
+Epoch  1, Step 210: Elapsed Time 49.768 Loss 0.045 Train Acc 0.484 Val Acc 0.459
+Epoch  1, Step 220: Elapsed Time 52.044 Loss 0.050 Train Acc 0.529 Val Acc 0.458
+Epoch  1, Step 230: Elapsed Time 54.314 Loss 0.055 Train Acc 0.465 Val Acc 0.434
+Epoch  1, Step 240: Elapsed Time 56.595 Loss 0.063 Train Acc 0.461 Val Acc 0.461
+Epoch  1, Step 250: Elapsed Time 58.897 Loss 0.065 Train Acc 0.464 Val Acc 0.445
+Epoch  1, Step 260: Elapsed Time 61.215 Loss 0.054 Train Acc 0.476 Val Acc 0.444
+Epoch  1, Step 270: Elapsed Time 63.541 Loss 0.053 Train Acc 0.440 Val Acc 0.464
+Epoch  1, Step 280: Elapsed Time 65.854 Loss 0.056 Train Acc 0.497 Val Acc 0.458
+Epoch  1, Step 290: Elapsed Time 68.207 Loss 0.064 Train Acc 0.429 Val Acc 0.467
+Epoch  1, Step 300: Elapsed Time 70.517 Loss 0.043 Train Acc 0.473 Val Acc 0.467
+Epoch  1, Step 310: Elapsed Time 72.832 Loss 0.063 Train Acc 0.456 Val Acc 0.464
+Epoch  1, Step 320: Elapsed Time 75.131 Loss 0.055 Train Acc 0.501 Val Acc 0.458
+Epoch  1, Step 330: Elapsed Time 77.453 Loss 0.057 Train Acc 0.473 Val Acc 0.459
+Epoch  1, Step 340: Elapsed Time 79.765 Loss 0.059 Train Acc 0.471 Val Acc 0.461
+Epoch  1, Step 350: Elapsed Time 82.062 Loss 0.043 Train Acc 0.440 Val Acc 0.457
+Epoch  1, Step 360: Elapsed Time 84.381 Loss 0.052 Train Acc 0.389 Val Acc 0.463
+Epoch  1, Step 370: Elapsed Time 86.710 Loss 0.066 Train Acc 0.478 Val Acc 0.470
+Epoch  1, Step 380: Elapsed Time 89.014 Loss 0.056 Train Acc 0.502 Val Acc 0.443
+Epoch  1, Step 390: Elapsed Time 91.305 Loss 0.055 Train Acc 0.476 Val Acc 0.469
+Epoch  1, Step 400: Elapsed Time 93.603 Loss 0.061 Train Acc 0.442 Val Acc 0.458
+Epoch  1, Step 410: Elapsed Time 95.921 Loss 0.060 Train Acc 0.435 Val Acc 0.453
+Epoch  1, Step 420: Elapsed Time 98.261 Loss 0.043 Train Acc 0.479 Val Acc 0.469
+Epoch  1, Step 430: Elapsed Time 100.531 Loss 0.069 Train Acc 0.428 Val Acc 0.435
+Epoch  1, Step 440: Elapsed Time 102.825 Loss 0.066 Train Acc 0.452 Val Acc 0.443
+Epoch  1, Step 450: Elapsed Time 105.156 Loss 0.061 Train Acc 0.436 Val Acc 0.432
+Epoch  1, Step 460: Elapsed Time 107.474 Loss 0.053 Train Acc 0.409 Val Acc 0.433
+Epoch  1, Step 470: Elapsed Time 109.814 Loss 0.050 Train Acc 0.481 Val Acc 0.459
+Epoch  1, Step 480: Elapsed Time 112.151 Loss 0.066 Train Acc 0.477 Val Acc 0.468
+Epoch  1, Step 490: Elapsed Time 114.485 Loss 0.100 Train Acc 0.363 Val Acc 0.347
+Epoch  1, Step 500: Elapsed Time 116.785 Loss 0.049 Train Acc 0.445 Val Acc 0.464
+Epoch  1, Step 510: Elapsed Time 119.082 Loss 0.059 Train Acc 0.493 Val Acc 0.453
+Epoch  1, Step 520: Elapsed Time 121.408 Loss 0.057 Train Acc 0.422 Val Acc 0.442
+Epoch  1, Step 530: Elapsed Time 123.704 Loss 0.057 Train Acc 0.439 Val Acc 0.435
+Epoch  1, Step 540: Elapsed Time 125.987 Loss 0.056 Train Acc 0.476 Val Acc 0.476
+Epoch  1, Step 550: Elapsed Time 128.286 Loss 0.065 Train Acc 0.430 Val Acc 0.456
+Epoch  1, Step 560: Elapsed Time 130.594 Loss 0.062 Train Acc 0.513 Val Acc 0.459
+Epoch  1, Step 570: Elapsed Time 132.891 Loss 0.055 Train Acc 0.475 Val Acc 0.473
+Epoch  1, Step 580: Elapsed Time 135.145 Loss 0.046 Train Acc 0.457 Val Acc 0.433
+Epoch  1, Step 590: Elapsed Time 137.502 Loss 0.064 Train Acc 0.477 Val Acc 0.447
+Epoch  1, Step 600: Elapsed Time 139.768 Loss 0.069 Train Acc 0.466 Val Acc 0.450
+Epoch  1, Step 610: Elapsed Time 142.073 Loss 0.065 Train Acc 0.477 Val Acc 0.458
+Epoch  1, Step 620: Elapsed Time 144.379 Loss 0.067 Train Acc 0.396 Val Acc 0.461
+Epoch  1, Step 630: Elapsed Time 146.710 Loss 0.072 Train Acc 0.433 Val Acc 0.441
+Epoch  1, Step 640: Elapsed Time 149.036 Loss 0.051 Train Acc 0.467 Val Acc 0.466
+Epoch  1, Step 650: Elapsed Time 151.346 Loss 0.059 Train Acc 0.418 Val Acc 0.464
+Epoch  1, Step 660: Elapsed Time 153.650 Loss 0.066 Train Acc 0.441 Val Acc 0.444
+Epoch  1, Step 670: Elapsed Time 155.951 Loss 0.058 Train Acc 0.452 Val Acc 0.429
+Epoch  1, Step 680: Elapsed Time 158.249 Loss 0.052 Train Acc 0.444 Val Acc 0.469
+Epoch  1, Step 690: Elapsed Time 160.595 Loss 0.041 Train Acc 0.436 Val Acc 0.465
+Epoch  1, Step 700: Elapsed Time 162.901 Loss 0.067 Train Acc 0.458 Val Acc 0.435
+Epoch  1, Step 710: Elapsed Time 165.244 Loss 0.043 Train Acc 0.505 Val Acc 0.470
+Epoch  1, Step 720: Elapsed Time 167.559 Loss 0.046 Train Acc 0.438 Val Acc 0.466
+Epoch  1, Step 730: Elapsed Time 169.820 Loss 0.079 Train Acc 0.418 Val Acc 0.454
+Epoch  1, Step 740: Elapsed Time 172.174 Loss 0.058 Train Acc 0.508 Val Acc 0.461
+Epoch  1, Step 750: Elapsed Time 174.480 Loss 0.063 Train Acc 0.465 Val Acc 0.466
+Epoch  1, Step 760: Elapsed Time 176.786 Loss 0.066 Train Acc 0.386 Val Acc 0.434
+Epoch  1, Step 770: Elapsed Time 179.087 Loss 0.052 Train Acc 0.448 Val Acc 0.432
+Epoch  1, Step 780: Elapsed Time 181.418 Loss 0.072 Train Acc 0.446 Val Acc 0.448
+Epoch  1, Step 790: Elapsed Time 183.709 Loss 0.058 Train Acc 0.526 Val Acc 0.451
+Epoch  1, Step 800: Elapsed Time 186.013 Loss 0.057 Train Acc 0.428 Val Acc 0.452
+Epoch  1, Step 810: Elapsed Time 188.327 Loss 0.054 Train Acc 0.507 Val Acc 0.449
+Epoch  1, Step 820: Elapsed Time 190.621 Loss 0.075 Train Acc 0.497 Val Acc 0.471
+Epoch  1, Step 830: Elapsed Time 192.911 Loss 0.053 Train Acc 0.485 Val Acc 0.447
+Epoch  1, Step 840: Elapsed Time 195.212 Loss 0.060 Train Acc 0.455 Val Acc 0.449
+Epoch  1, Step 850: Elapsed Time 197.529 Loss 0.073 Train Acc 0.381 Val Acc 0.435
+Epoch  1, Step 860: Elapsed Time 199.811 Loss 0.058 Train Acc 0.513 Val Acc 0.461
+Epoch  1, Step 870: Elapsed Time 202.101 Loss 0.060 Train Acc 0.408 Val Acc 0.449
+Epoch  1, Step 880: Elapsed Time 204.404 Loss 0.053 Train Acc 0.438 Val Acc 0.466
+Epoch  1, Step 890: Elapsed Time 206.708 Loss 0.057 Train Acc 0.525 Val Acc 0.453
+Epoch  1, Step 900: Elapsed Time 208.990 Loss 0.052 Train Acc 0.492 Val Acc 0.458
+Epoch  1, Step 910: Elapsed Time 211.272 Loss 0.055 Train Acc 0.434 Val Acc 0.448
+Epoch  1, Step 920: Elapsed Time 213.572 Loss 0.054 Train Acc 0.498 Val Acc 0.463
+Epoch  1, Step 930: Elapsed Time 215.901 Loss 0.060 Train Acc 0.475 Val Acc 0.473
+Epoch  1, Step 940: Elapsed Time 218.206 Loss 0.052 Train Acc 0.474 Val Acc 0.473
+Epoch  1, Step 950: Elapsed Time 220.480 Loss 0.060 Train Acc 0.494 Val Acc 0.463
+Epoch  1, Step 960: Elapsed Time 222.782 Loss 0.055 Train Acc 0.476 Val Acc 0.466
+Epoch  1, Step 970: Elapsed Time 225.071 Loss 0.042 Train Acc 0.451 Val Acc 0.467
+Epoch  1, Step 980: Elapsed Time 227.365 Loss 0.067 Train Acc 0.419 Val Acc 0.434
+Epoch  1, Step 990: Elapsed Time 229.690 Loss 0.061 Train Acc 0.469 Val Acc 0.447
+Epoch  1, Step 1000: Elapsed Time 231.987 Loss 0.048 Train Acc 0.491 Val Acc 0.459
+Epoch  1, Step 1010: Elapsed Time 234.266 Loss 0.050 Train Acc 0.448 Val Acc 0.447
+Epoch  1, Step 1020: Elapsed Time 236.571 Loss 0.052 Train Acc 0.463 Val Acc 0.437
+Epoch  1, Step 1030: Elapsed Time 238.891 Loss 0.066 Train Acc 0.474 Val Acc 0.451
+Epoch  1, Step 1040: Elapsed Time 241.192 Loss 0.061 Train Acc 0.466 Val Acc 0.452
+Epoch  1, Step 1050: Elapsed Time 243.517 Loss 0.056 Train Acc 0.447 Val Acc 0.464
+Epoch  1, Step 1060: Elapsed Time 245.794 Loss 0.058 Train Acc 0.425 Val Acc 0.439
+Epoch  1, Step 1070: Elapsed Time 248.090 Loss 0.042 Train Acc 0.450 Val Acc 0.460
+Epoch  1, Step 1080: Elapsed Time 250.396 Loss 0.058 Train Acc 0.420 Val Acc 0.452
+Epoch  1, Step 1090: Elapsed Time 252.669 Loss 0.061 Train Acc 0.452 Val Acc 0.438
+Epoch  1, Step 1100: Elapsed Time 254.963 Loss 0.052 Train Acc 0.462 Val Acc 0.462
+Epoch  1, Step 1110: Elapsed Time 257.254 Loss 0.058 Train Acc 0.490 Val Acc 0.469
+Epoch  1, Step 1120: Elapsed Time 259.561 Loss 0.067 Train Acc 0.456 Val Acc 0.440
+Epoch  1, Step 1130: Elapsed Time 261.877 Loss 0.048 Train Acc 0.407 Val Acc 0.452
+Epoch  1, Step 1140: Elapsed Time 264.210 Loss 0.060 Train Acc 0.462 Val Acc 0.468
+Epoch  1, Step 1150: Elapsed Time 266.497 Loss 0.063 Train Acc 0.435 Val Acc 0.431
+Epoch  1, Step 1160: Elapsed Time 268.809 Loss 0.063 Train Acc 0.458 Val Acc 0.478
+Epoch  1, Step 1170: Elapsed Time 271.093 Loss 0.069 Train Acc 0.458 Val Acc 0.468
+Epoch  1, Step 1180: Elapsed Time 273.412 Loss 0.064 Train Acc 0.426 Val Acc 0.443
+Epoch  1, Step 1190: Elapsed Time 275.723 Loss 0.055 Train Acc 0.532 Val Acc 0.458
+Epoch  1, Step 1200: Elapsed Time 278.020 Loss 0.076 Train Acc 0.367 Val Acc 0.428
+Epoch  1, Step 1210: Elapsed Time 280.352 Loss 0.040 Train Acc 0.470 Val Acc 0.448
+Epoch  1, Step 1220: Elapsed Time 282.664 Loss 0.050 Train Acc 0.498 Val Acc 0.471
+Epoch  1, Step 1230: Elapsed Time 285.000 Loss 0.062 Train Acc 0.417 Val Acc 0.469
+Epoch  1, Step 1240: Elapsed Time 287.305 Loss 0.054 Train Acc 0.429 Val Acc 0.447
+Epoch  2, Step   0: Elapsed Time 1.441 Loss 0.072 Train Acc 0.419 Val Acc 0.433
+Epoch  2, Step  10: Elapsed Time 3.761 Loss 0.056 Train Acc 0.476 Val Acc 0.469
+Epoch  2, Step  20: Elapsed Time 6.081 Loss 0.060 Train Acc 0.440 Val Acc 0.430
+Epoch  2, Step  30: Elapsed Time 8.364 Loss 0.056 Train Acc 0.441 Val Acc 0.428
+Epoch  2, Step  40: Elapsed Time 10.645 Loss 0.051 Train Acc 0.440 Val Acc 0.467
+Epoch  2, Step  50: Elapsed Time 12.946 Loss 0.046 Train Acc 0.514 Val Acc 0.463
+Epoch  2, Step  60: Elapsed Time 15.248 Loss 0.053 Train Acc 0.480 Val Acc 0.449
+Epoch  2, Step  70: Elapsed Time 17.577 Loss 0.062 Train Acc 0.482 Val Acc 0.466
+Epoch  2, Step  80: Elapsed Time 19.883 Loss 0.060 Train Acc 0.488 Val Acc 0.453
+Epoch  2, Step  90: Elapsed Time 22.167 Loss 0.045 Train Acc 0.478 Val Acc 0.463
+Epoch  2, Step 100: Elapsed Time 24.467 Loss 0.050 Train Acc 0.388 Val Acc 0.445
+Epoch  2, Step 110: Elapsed Time 26.781 Loss 0.048 Train Acc 0.422 Val Acc 0.470
+Epoch  2, Step 120: Elapsed Time 29.057 Loss 0.058 Train Acc 0.513 Val Acc 0.456
+Epoch  2, Step 130: Elapsed Time 31.364 Loss 0.057 Train Acc 0.478 Val Acc 0.451
+Epoch  2, Step 140: Elapsed Time 33.668 Loss 0.066 Train Acc 0.430 Val Acc 0.452
+Epoch  2, Step 150: Elapsed Time 35.945 Loss 0.047 Train Acc 0.492 Val Acc 0.456
+Epoch  2, Step 160: Elapsed Time 38.240 Loss 0.061 Train Acc 0.431 Val Acc 0.436
+Epoch  2, Step 170: Elapsed Time 40.522 Loss 0.074 Train Acc 0.492 Val Acc 0.427
+Epoch  2, Step 180: Elapsed Time 42.805 Loss 0.068 Train Acc 0.427 Val Acc 0.426
+Epoch  2, Step 190: Elapsed Time 45.122 Loss 0.063 Train Acc 0.470 Val Acc 0.461
+Epoch  2, Step 200: Elapsed Time 47.432 Loss 0.065 Train Acc 0.498 Val Acc 0.457
+Epoch  2, Step 210: Elapsed Time 49.737 Loss 0.063 Train Acc 0.464 Val Acc 0.450
+Epoch  2, Step 220: Elapsed Time 52.047 Loss 0.061 Train Acc 0.450 Val Acc 0.463
+Epoch  2, Step 230: Elapsed Time 54.347 Loss 0.057 Train Acc 0.487 Val Acc 0.469
+Epoch  2, Step 240: Elapsed Time 56.625 Loss 0.062 Train Acc 0.444 Val Acc 0.459
+Epoch  2, Step 250: Elapsed Time 58.874 Loss 0.055 Train Acc 0.417 Val Acc 0.464
+Epoch  2, Step 260: Elapsed Time 61.201 Loss 0.054 Train Acc 0.473 Val Acc 0.456
+Epoch  2, Step 270: Elapsed Time 63.491 Loss 0.051 Train Acc 0.448 Val Acc 0.458
+Epoch  2, Step 280: Elapsed Time 65.812 Loss 0.056 Train Acc 0.559 Val Acc 0.467
+Epoch  2, Step 290: Elapsed Time 68.149 Loss 0.056 Train Acc 0.516 Val Acc 0.461
+Epoch  2, Step 300: Elapsed Time 70.478 Loss 0.052 Train Acc 0.489 Val Acc 0.454
+Epoch  2, Step 310: Elapsed Time 72.785 Loss 0.069 Train Acc 0.472 Val Acc 0.467
+Epoch  2, Step 320: Elapsed Time 75.094 Loss 0.059 Train Acc 0.437 Val Acc 0.456
+Epoch  2, Step 330: Elapsed Time 77.368 Loss 0.038 Train Acc 0.546 Val Acc 0.474
+Epoch  2, Step 340: Elapsed Time 79.688 Loss 0.061 Train Acc 0.459 Val Acc 0.452
+Epoch  2, Step 350: Elapsed Time 81.971 Loss 0.062 Train Acc 0.434 Val Acc 0.459
+Epoch  2, Step 360: Elapsed Time 84.268 Loss 0.058 Train Acc 0.436 Val Acc 0.454
+Epoch  2, Step 370: Elapsed Time 86.587 Loss 0.062 Train Acc 0.428 Val Acc 0.465
+Epoch  2, Step 380: Elapsed Time 88.926 Loss 0.055 Train Acc 0.424 Val Acc 0.444
+Epoch  2, Step 390: Elapsed Time 91.226 Loss 0.066 Train Acc 0.467 Val Acc 0.455
+Epoch  2, Step 400: Elapsed Time 93.558 Loss 0.060 Train Acc 0.410 Val Acc 0.443
+Epoch  2, Step 410: Elapsed Time 95.869 Loss 0.058 Train Acc 0.485 Val Acc 0.464
+Epoch  2, Step 420: Elapsed Time 98.158 Loss 0.068 Train Acc 0.458 Val Acc 0.463
+Epoch  2, Step 430: Elapsed Time 100.475 Loss 0.057 Train Acc 0.481 Val Acc 0.464
+Epoch  2, Step 440: Elapsed Time 102.787 Loss 0.058 Train Acc 0.530 Val Acc 0.469
+Epoch  2, Step 450: Elapsed Time 105.084 Loss 0.061 Train Acc 0.461 Val Acc 0.468
+Epoch  2, Step 460: Elapsed Time 107.388 Loss 0.058 Train Acc 0.473 Val Acc 0.453
+Epoch  2, Step 470: Elapsed Time 109.629 Loss 0.061 Train Acc 0.466 Val Acc 0.455
+Epoch  2, Step 480: Elapsed Time 111.899 Loss 0.051 Train Acc 0.477 Val Acc 0.442
+Epoch  2, Step 490: Elapsed Time 114.197 Loss 0.058 Train Acc 0.448 Val Acc 0.467
+Epoch  2, Step 500: Elapsed Time 116.509 Loss 0.056 Train Acc 0.440 Val Acc 0.420
+Epoch  2, Step 510: Elapsed Time 118.796 Loss 0.059 Train Acc 0.500 Val Acc 0.439
+Epoch  2, Step 520: Elapsed Time 121.084 Loss 0.058 Train Acc 0.496 Val Acc 0.455
+Epoch  2, Step 530: Elapsed Time 123.359 Loss 0.051 Train Acc 0.483 Val Acc 0.452
+Epoch  2, Step 540: Elapsed Time 125.686 Loss 0.071 Train Acc 0.466 Val Acc 0.440
+Epoch  2, Step 550: Elapsed Time 128.019 Loss 0.048 Train Acc 0.510 Val Acc 0.473
+Epoch  2, Step 560: Elapsed Time 130.344 Loss 0.051 Train Acc 0.511 Val Acc 0.443
+Epoch  2, Step 570: Elapsed Time 132.641 Loss 0.058 Train Acc 0.448 Val Acc 0.448
+Epoch  2, Step 580: Elapsed Time 134.947 Loss 0.060 Train Acc 0.424 Val Acc 0.444
+Epoch  2, Step 590: Elapsed Time 137.270 Loss 0.064 Train Acc 0.478 Val Acc 0.437
+Epoch  2, Step 600: Elapsed Time 139.556 Loss 0.054 Train Acc 0.442 Val Acc 0.457
+Epoch  2, Step 610: Elapsed Time 141.863 Loss 0.063 Train Acc 0.410 Val Acc 0.456
+Epoch  2, Step 620: Elapsed Time 144.173 Loss 0.048 Train Acc 0.483 Val Acc 0.458
+Epoch  2, Step 630: Elapsed Time 146.470 Loss 0.052 Train Acc 0.462 Val Acc 0.470
+Epoch  2, Step 640: Elapsed Time 148.773 Loss 0.051 Train Acc 0.466 Val Acc 0.465
+Epoch  2, Step 650: Elapsed Time 151.058 Loss 0.059 Train Acc 0.446 Val Acc 0.472
+Epoch  2, Step 660: Elapsed Time 153.389 Loss 0.051 Train Acc 0.411 Val Acc 0.457
+Epoch  2, Step 670: Elapsed Time 155.685 Loss 0.050 Train Acc 0.469 Val Acc 0.461
+Epoch  2, Step 680: Elapsed Time 157.986 Loss 0.082 Train Acc 0.519 Val Acc 0.474
+Epoch  2, Step 690: Elapsed Time 160.322 Loss 0.052 Train Acc 0.489 Val Acc 0.458
+Epoch  2, Step 700: Elapsed Time 162.608 Loss 0.055 Train Acc 0.492 Val Acc 0.457
+Epoch  2, Step 710: Elapsed Time 164.927 Loss 0.057 Train Acc 0.506 Val Acc 0.465
+Epoch  2, Step 720: Elapsed Time 167.225 Loss 0.055 Train Acc 0.436 Val Acc 0.465
+Epoch  2, Step 730: Elapsed Time 169.538 Loss 0.049 Train Acc 0.482 Val Acc 0.466
+Epoch  2, Step 740: Elapsed Time 171.879 Loss 0.056 Train Acc 0.420 Val Acc 0.448
+Epoch  2, Step 750: Elapsed Time 174.177 Loss 0.059 Train Acc 0.426 Val Acc 0.448
+Epoch  2, Step 760: Elapsed Time 176.478 Loss 0.057 Train Acc 0.505 Val Acc 0.452
+Epoch  2, Step 770: Elapsed Time 178.765 Loss 0.057 Train Acc 0.451 Val Acc 0.462
+Epoch  2, Step 780: Elapsed Time 181.046 Loss 0.066 Train Acc 0.403 Val Acc 0.470
+Epoch  2, Step 790: Elapsed Time 183.355 Loss 0.067 Train Acc 0.399 Val Acc 0.444
+Epoch  2, Step 800: Elapsed Time 185.657 Loss 0.056 Train Acc 0.514 Val Acc 0.444
+Epoch  2, Step 810: Elapsed Time 187.942 Loss 0.056 Train Acc 0.497 Val Acc 0.452
+Epoch  2, Step 820: Elapsed Time 190.248 Loss 0.065 Train Acc 0.446 Val Acc 0.420
+Epoch  2, Step 830: Elapsed Time 192.538 Loss 0.067 Train Acc 0.483 Val Acc 0.454
+Epoch  2, Step 840: Elapsed Time 194.821 Loss 0.066 Train Acc 0.514 Val Acc 0.463
+Epoch  2, Step 850: Elapsed Time 197.137 Loss 0.055 Train Acc 0.413 Val Acc 0.454
+Epoch  2, Step 860: Elapsed Time 199.397 Loss 0.067 Train Acc 0.472 Val Acc 0.450
+Epoch  2, Step 870: Elapsed Time 201.703 Loss 0.060 Train Acc 0.558 Val Acc 0.467
+Epoch  2, Step 880: Elapsed Time 204.007 Loss 0.062 Train Acc 0.447 Val Acc 0.476
+Epoch  2, Step 890: Elapsed Time 206.321 Loss 0.066 Train Acc 0.459 Val Acc 0.471
+Epoch  2, Step 900: Elapsed Time 208.632 Loss 0.067 Train Acc 0.424 Val Acc 0.444
+Epoch  2, Step 910: Elapsed Time 210.936 Loss 0.068 Train Acc 0.414 Val Acc 0.451
+Epoch  2, Step 920: Elapsed Time 213.236 Loss 0.050 Train Acc 0.472 Val Acc 0.473
+Epoch  2, Step 930: Elapsed Time 215.516 Loss 0.053 Train Acc 0.443 Val Acc 0.440
+Epoch  2, Step 940: Elapsed Time 217.818 Loss 0.063 Train Acc 0.455 Val Acc 0.452
+Epoch  2, Step 950: Elapsed Time 220.142 Loss 0.058 Train Acc 0.436 Val Acc 0.443
+Epoch  2, Step 960: Elapsed Time 222.449 Loss 0.066 Train Acc 0.380 Val Acc 0.440
+Epoch  2, Step 970: Elapsed Time 224.742 Loss 0.063 Train Acc 0.480 Val Acc 0.462
+Epoch  2, Step 980: Elapsed Time 227.015 Loss 0.053 Train Acc 0.428 Val Acc 0.471
+Epoch  2, Step 990: Elapsed Time 229.277 Loss 0.052 Train Acc 0.443 Val Acc 0.459
+Epoch  2, Step 1000: Elapsed Time 231.553 Loss 0.051 Train Acc 0.486 Val Acc 0.453
+Epoch  2, Step 1010: Elapsed Time 233.852 Loss 0.051 Train Acc 0.462 Val Acc 0.457
+Epoch  2, Step 1020: Elapsed Time 236.139 Loss 0.060 Train Acc 0.443 Val Acc 0.458
+Epoch  2, Step 1030: Elapsed Time 238.444 Loss 0.051 Train Acc 0.500 Val Acc 0.467
+Epoch  2, Step 1040: Elapsed Time 240.765 Loss 0.042 Train Acc 0.440 Val Acc 0.467
+Epoch  2, Step 1050: Elapsed Time 243.045 Loss 0.060 Train Acc 0.389 Val Acc 0.420
+Epoch  2, Step 1060: Elapsed Time 245.359 Loss 0.049 Train Acc 0.445 Val Acc 0.464
+Epoch  2, Step 1070: Elapsed Time 247.667 Loss 0.063 Train Acc 0.526 Val Acc 0.468
+Epoch  2, Step 1080: Elapsed Time 249.996 Loss 0.066 Train Acc 0.465 Val Acc 0.462
+Epoch  2, Step 1090: Elapsed Time 252.270 Loss 0.054 Train Acc 0.406 Val Acc 0.467
+Epoch  2, Step 1100: Elapsed Time 254.574 Loss 0.048 Train Acc 0.443 Val Acc 0.442
+Epoch  2, Step 1110: Elapsed Time 256.850 Loss 0.054 Train Acc 0.484 Val Acc 0.427
+Epoch  2, Step 1120: Elapsed Time 259.159 Loss 0.051 Train Acc 0.466 Val Acc 0.457
+Epoch  2, Step 1130: Elapsed Time 261.469 Loss 0.053 Train Acc 0.419 Val Acc 0.464
+Epoch  2, Step 1140: Elapsed Time 263.752 Loss 0.051 Train Acc 0.524 Val Acc 0.472
+Epoch  2, Step 1150: Elapsed Time 266.070 Loss 0.061 Train Acc 0.455 Val Acc 0.450
+Epoch  2, Step 1160: Elapsed Time 268.352 Loss 0.068 Train Acc 0.438 Val Acc 0.458
+Epoch  2, Step 1170: Elapsed Time 270.670 Loss 0.045 Train Acc 0.441 Val Acc 0.459
+Epoch  2, Step 1180: Elapsed Time 272.977 Loss 0.069 Train Acc 0.422 Val Acc 0.447
+Epoch  2, Step 1190: Elapsed Time 275.282 Loss 0.053 Train Acc 0.520 Val Acc 0.471
+Epoch  2, Step 1200: Elapsed Time 277.554 Loss 0.073 Train Acc 0.436 Val Acc 0.456
+Epoch  2, Step 1210: Elapsed Time 279.865 Loss 0.048 Train Acc 0.438 Val Acc 0.457
+Epoch  2, Step 1220: Elapsed Time 282.119 Loss 0.054 Train Acc 0.504 Val Acc 0.465
+Epoch  2, Step 1230: Elapsed Time 284.439 Loss 0.051 Train Acc 0.457 Val Acc 0.467
+Epoch  2, Step 1240: Elapsed Time 286.711 Loss 0.043 Train Acc 0.497 Val Acc 0.453
+Epoch  3, Step   0: Elapsed Time 1.465 Loss 0.057 Train Acc 0.461 Val Acc 0.449
+Epoch  3, Step  10: Elapsed Time 3.776 Loss 0.077 Train Acc 0.466 Val Acc 0.442
+Epoch  3, Step  20: Elapsed Time 6.097 Loss 0.052 Train Acc 0.532 Val Acc 0.441
+Epoch  3, Step  30: Elapsed Time 8.410 Loss 0.069 Train Acc 0.500 Val Acc 0.442
+Epoch  3, Step  40: Elapsed Time 10.718 Loss 0.059 Train Acc 0.460 Val Acc 0.447
+Epoch  3, Step  50: Elapsed Time 13.028 Loss 0.049 Train Acc 0.490 Val Acc 0.465
+Epoch  3, Step  60: Elapsed Time 15.322 Loss 0.044 Train Acc 0.456 Val Acc 0.460
+Epoch  3, Step  70: Elapsed Time 17.645 Loss 0.070 Train Acc 0.419 Val Acc 0.448
+Epoch  3, Step  80: Elapsed Time 19.953 Loss 0.054 Train Acc 0.505 Val Acc 0.461
+Epoch  3, Step  90: Elapsed Time 22.229 Loss 0.048 Train Acc 0.485 Val Acc 0.464
+Epoch  3, Step 100: Elapsed Time 24.550 Loss 0.065 Train Acc 0.436 Val Acc 0.431
+Epoch  3, Step 110: Elapsed Time 26.849 Loss 0.066 Train Acc 0.427 Val Acc 0.437
+Epoch  3, Step 120: Elapsed Time 29.137 Loss 0.046 Train Acc 0.480 Val Acc 0.445
+Epoch  3, Step 130: Elapsed Time 31.427 Loss 0.071 Train Acc 0.508 Val Acc 0.466
+Epoch  3, Step 140: Elapsed Time 33.718 Loss 0.051 Train Acc 0.479 Val Acc 0.461
+Epoch  3, Step 150: Elapsed Time 36.037 Loss 0.071 Train Acc 0.444 Val Acc 0.439
+Epoch  3, Step 160: Elapsed Time 38.341 Loss 0.052 Train Acc 0.469 Val Acc 0.470
+Epoch  3, Step 170: Elapsed Time 40.654 Loss 0.049 Train Acc 0.434 Val Acc 0.441
+Epoch  3, Step 180: Elapsed Time 42.940 Loss 0.061 Train Acc 0.415 Val Acc 0.443
+Epoch  3, Step 190: Elapsed Time 45.220 Loss 0.063 Train Acc 0.539 Val Acc 0.451
+Epoch  3, Step 200: Elapsed Time 47.509 Loss 0.051 Train Acc 0.526 Val Acc 0.468
+Epoch  3, Step 210: Elapsed Time 49.793 Loss 0.058 Train Acc 0.434 Val Acc 0.441
+Epoch  3, Step 220: Elapsed Time 52.076 Loss 0.040 Train Acc 0.434 Val Acc 0.446
+Epoch  3, Step 230: Elapsed Time 54.353 Loss 0.055 Train Acc 0.593 Val Acc 0.458
+Epoch  3, Step 240: Elapsed Time 56.673 Loss 0.067 Train Acc 0.509 Val Acc 0.457
+Epoch  3, Step 250: Elapsed Time 58.953 Loss 0.060 Train Acc 0.495 Val Acc 0.450
+Epoch  3, Step 260: Elapsed Time 61.274 Loss 0.044 Train Acc 0.459 Val Acc 0.448
+Epoch  3, Step 270: Elapsed Time 63.572 Loss 0.056 Train Acc 0.476 Val Acc 0.471
+Epoch  3, Step 280: Elapsed Time 65.857 Loss 0.061 Train Acc 0.414 Val Acc 0.437
+Epoch  3, Step 290: Elapsed Time 68.188 Loss 0.066 Train Acc 0.423 Val Acc 0.436
+Epoch  3, Step 300: Elapsed Time 70.493 Loss 0.063 Train Acc 0.426 Val Acc 0.450
+Epoch  3, Step 310: Elapsed Time 72.789 Loss 0.054 Train Acc 0.496 Val Acc 0.472
+Epoch  3, Step 320: Elapsed Time 75.115 Loss 0.041 Train Acc 0.531 Val Acc 0.462
+Epoch  3, Step 330: Elapsed Time 77.440 Loss 0.051 Train Acc 0.468 Val Acc 0.455
+Epoch  3, Step 340: Elapsed Time 79.713 Loss 0.055 Train Acc 0.469 Val Acc 0.462
+Epoch  3, Step 350: Elapsed Time 82.017 Loss 0.056 Train Acc 0.411 Val Acc 0.454
+Epoch  3, Step 360: Elapsed Time 84.333 Loss 0.041 Train Acc 0.438 Val Acc 0.448
+Epoch  3, Step 370: Elapsed Time 86.616 Loss 0.046 Train Acc 0.486 Val Acc 0.462
+Epoch  3, Step 380: Elapsed Time 88.890 Loss 0.056 Train Acc 0.475 Val Acc 0.454
+Epoch  3, Step 390: Elapsed Time 91.207 Loss 0.058 Train Acc 0.500 Val Acc 0.454
+Epoch  3, Step 400: Elapsed Time 93.505 Loss 0.068 Train Acc 0.438 Val Acc 0.440
+Epoch  3, Step 410: Elapsed Time 95.803 Loss 0.048 Train Acc 0.514 Val Acc 0.458
+Epoch  3, Step 420: Elapsed Time 98.129 Loss 0.066 Train Acc 0.509 Val Acc 0.465
+Epoch  3, Step 430: Elapsed Time 100.440 Loss 0.075 Train Acc 0.408 Val Acc 0.423
+Epoch  3, Step 440: Elapsed Time 102.712 Loss 0.060 Train Acc 0.418 Val Acc 0.443
+Epoch  3, Step 450: Elapsed Time 105.009 Loss 0.044 Train Acc 0.489 Val Acc 0.450
+Epoch  3, Step 460: Elapsed Time 107.340 Loss 0.053 Train Acc 0.466 Val Acc 0.423
+Epoch  3, Step 470: Elapsed Time 109.624 Loss 0.052 Train Acc 0.442 Val Acc 0.443
+Epoch  3, Step 480: Elapsed Time 111.906 Loss 0.057 Train Acc 0.452 Val Acc 0.434
+Epoch  3, Step 490: Elapsed Time 114.207 Loss 0.045 Train Acc 0.500 Val Acc 0.458
+Epoch  3, Step 500: Elapsed Time 116.521 Loss 0.061 Train Acc 0.486 Val Acc 0.441
+Epoch  3, Step 510: Elapsed Time 118.832 Loss 0.051 Train Acc 0.439 Val Acc 0.474
+Epoch  3, Step 520: Elapsed Time 121.111 Loss 0.064 Train Acc 0.452 Val Acc 0.457
+Epoch  3, Step 530: Elapsed Time 123.423 Loss 0.050 Train Acc 0.461 Val Acc 0.456
+Epoch  3, Step 540: Elapsed Time 125.706 Loss 0.065 Train Acc 0.487 Val Acc 0.467
+Epoch  3, Step 550: Elapsed Time 128.006 Loss 0.057 Train Acc 0.480 Val Acc 0.436
+Epoch  3, Step 560: Elapsed Time 130.316 Loss 0.061 Train Acc 0.460 Val Acc 0.449
+Epoch  3, Step 570: Elapsed Time 132.650 Loss 0.060 Train Acc 0.413 Val Acc 0.445
+Epoch  3, Step 580: Elapsed Time 134.933 Loss 0.077 Train Acc 0.436 Val Acc 0.443
+Epoch  3, Step 590: Elapsed Time 137.239 Loss 0.050 Train Acc 0.436 Val Acc 0.461
+Epoch  3, Step 600: Elapsed Time 139.514 Loss 0.065 Train Acc 0.436 Val Acc 0.451
+Epoch  3, Step 610: Elapsed Time 141.825 Loss 0.049 Train Acc 0.509 Val Acc 0.459
+Epoch  3, Step 620: Elapsed Time 144.137 Loss 0.053 Train Acc 0.435 Val Acc 0.452
+Epoch  3, Step 630: Elapsed Time 146.451 Loss 0.060 Train Acc 0.462 Val Acc 0.437
+Epoch  3, Step 640: Elapsed Time 148.773 Loss 0.062 Train Acc 0.494 Val Acc 0.466
+Epoch  3, Step 650: Elapsed Time 151.076 Loss 0.049 Train Acc 0.451 Val Acc 0.447
+Epoch  3, Step 660: Elapsed Time 153.366 Loss 0.046 Train Acc 0.471 Val Acc 0.432
+Epoch  3, Step 670: Elapsed Time 155.665 Loss 0.057 Train Acc 0.478 Val Acc 0.469
+Epoch  3, Step 680: Elapsed Time 157.952 Loss 0.069 Train Acc 0.446 Val Acc 0.465
+Epoch  3, Step 690: Elapsed Time 160.251 Loss 0.061 Train Acc 0.440 Val Acc 0.464
+Epoch  3, Step 700: Elapsed Time 162.578 Loss 0.065 Train Acc 0.483 Val Acc 0.461
+Epoch  3, Step 710: Elapsed Time 164.866 Loss 0.059 Train Acc 0.471 Val Acc 0.436
+Epoch  3, Step 720: Elapsed Time 167.145 Loss 0.055 Train Acc 0.510 Val Acc 0.463
+Epoch  3, Step 730: Elapsed Time 169.428 Loss 0.063 Train Acc 0.495 Val Acc 0.471
+Epoch  3, Step 740: Elapsed Time 171.710 Loss 0.059 Train Acc 0.498 Val Acc 0.472
+Epoch  3, Step 750: Elapsed Time 174.031 Loss 0.066 Train Acc 0.502 Val Acc 0.458
+Epoch  3, Step 760: Elapsed Time 176.319 Loss 0.042 Train Acc 0.457 Val Acc 0.454
+Epoch  3, Step 770: Elapsed Time 178.653 Loss 0.063 Train Acc 0.455 Val Acc 0.473
+Epoch  3, Step 780: Elapsed Time 180.938 Loss 0.061 Train Acc 0.435 Val Acc 0.442
+Epoch  3, Step 790: Elapsed Time 183.246 Loss 0.052 Train Acc 0.509 Val Acc 0.450
+Epoch  3, Step 800: Elapsed Time 185.580 Loss 0.056 Train Acc 0.474 Val Acc 0.456
+Epoch  3, Step 810: Elapsed Time 187.850 Loss 0.056 Train Acc 0.470 Val Acc 0.468
+Epoch  3, Step 820: Elapsed Time 190.161 Loss 0.061 Train Acc 0.458 Val Acc 0.461
+Epoch  3, Step 830: Elapsed Time 192.470 Loss 0.056 Train Acc 0.468 Val Acc 0.465
+Epoch  3, Step 840: Elapsed Time 194.783 Loss 0.070 Train Acc 0.462 Val Acc 0.460
+Epoch  3, Step 850: Elapsed Time 197.106 Loss 0.073 Train Acc 0.419 Val Acc 0.442
+Epoch  3, Step 860: Elapsed Time 199.391 Loss 0.045 Train Acc 0.490 Val Acc 0.466
+Epoch  3, Step 870: Elapsed Time 201.709 Loss 0.051 Train Acc 0.532 Val Acc 0.463
+Epoch  3, Step 880: Elapsed Time 204.031 Loss 0.064 Train Acc 0.420 Val Acc 0.453
+Epoch  3, Step 890: Elapsed Time 206.334 Loss 0.059 Train Acc 0.415 Val Acc 0.460
+Epoch  3, Step 900: Elapsed Time 208.645 Loss 0.055 Train Acc 0.473 Val Acc 0.469
+Epoch  3, Step 910: Elapsed Time 210.957 Loss 0.057 Train Acc 0.490 Val Acc 0.460
+Epoch  3, Step 920: Elapsed Time 213.253 Loss 0.059 Train Acc 0.471 Val Acc 0.430
+Epoch  3, Step 930: Elapsed Time 215.576 Loss 0.042 Train Acc 0.533 Val Acc 0.432
+Epoch  3, Step 940: Elapsed Time 217.880 Loss 0.064 Train Acc 0.477 Val Acc 0.454
+Epoch  3, Step 950: Elapsed Time 220.191 Loss 0.068 Train Acc 0.420 Val Acc 0.438
+Epoch  3, Step 960: Elapsed Time 222.476 Loss 0.055 Train Acc 0.480 Val Acc 0.463
+Epoch  3, Step 970: Elapsed Time 224.767 Loss 0.054 Train Acc 0.467 Val Acc 0.466
+Epoch  3, Step 980: Elapsed Time 227.069 Loss 0.043 Train Acc 0.626 Val Acc 0.467
+Epoch  3, Step 990: Elapsed Time 229.371 Loss 0.062 Train Acc 0.477 Val Acc 0.443
+Epoch  3, Step 1000: Elapsed Time 231.675 Loss 0.037 Train Acc 0.543 Val Acc 0.460
+Epoch  3, Step 1010: Elapsed Time 233.974 Loss 0.061 Train Acc 0.532 Val Acc 0.466
+Epoch  3, Step 1020: Elapsed Time 236.305 Loss 0.061 Train Acc 0.452 Val Acc 0.441
+Epoch  3, Step 1030: Elapsed Time 238.631 Loss 0.042 Train Acc 0.488 Val Acc 0.463
+Epoch  3, Step 1040: Elapsed Time 240.933 Loss 0.056 Train Acc 0.525 Val Acc 0.471
+Epoch  3, Step 1050: Elapsed Time 243.244 Loss 0.053 Train Acc 0.398 Val Acc 0.454
+Epoch  3, Step 1060: Elapsed Time 245.554 Loss 0.063 Train Acc 0.456 Val Acc 0.441
+Epoch  3, Step 1070: Elapsed Time 247.850 Loss 0.046 Train Acc 0.493 Val Acc 0.443
+Epoch  3, Step 1080: Elapsed Time 250.136 Loss 0.051 Train Acc 0.469 Val Acc 0.465
+Epoch  3, Step 1090: Elapsed Time 252.456 Loss 0.056 Train Acc 0.468 Val Acc 0.465
+Epoch  3, Step 1100: Elapsed Time 254.734 Loss 0.074 Train Acc 0.482 Val Acc 0.458
+Epoch  3, Step 1110: Elapsed Time 257.045 Loss 0.050 Train Acc 0.543 Val Acc 0.435
+Epoch  3, Step 1120: Elapsed Time 259.363 Loss 0.065 Train Acc 0.426 Val Acc 0.434
+Epoch  3, Step 1130: Elapsed Time 261.696 Loss 0.050 Train Acc 0.464 Val Acc 0.456
+Epoch  3, Step 1140: Elapsed Time 263.967 Loss 0.056 Train Acc 0.449 Val Acc 0.462
+Epoch  3, Step 1150: Elapsed Time 266.232 Loss 0.056 Train Acc 0.478 Val Acc 0.459
+Epoch  3, Step 1160: Elapsed Time 268.533 Loss 0.046 Train Acc 0.480 Val Acc 0.459
+Epoch  3, Step 1170: Elapsed Time 270.851 Loss 0.060 Train Acc 0.411 Val Acc 0.454
+Epoch  3, Step 1180: Elapsed Time 273.160 Loss 0.068 Train Acc 0.456 Val Acc 0.441
+Epoch  3, Step 1190: Elapsed Time 275.454 Loss 0.071 Train Acc 0.408 Val Acc 0.443
+Epoch  3, Step 1200: Elapsed Time 277.748 Loss 0.053 Train Acc 0.411 Val Acc 0.452
+Epoch  3, Step 1210: Elapsed Time 280.055 Loss 0.048 Train Acc 0.521 Val Acc 0.457
+Epoch  3, Step 1220: Elapsed Time 282.368 Loss 0.062 Train Acc 0.452 Val Acc 0.443
+Epoch  3, Step 1230: Elapsed Time 284.662 Loss 0.057 Train Acc 0.463 Val Acc 0.440
+Epoch  3, Step 1240: Elapsed Time 286.976 Loss 0.047 Train Acc 0.491 Val Acc 0.455
+Final model saved with best validation accuracy: 0.478
+Training model finished!
+>> Loading saved model from ./output/models/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/STGCN-901 ...
+>> Test results saved to ./output/test_res/highSchool/SIR_nsrc1-15_Rzero21-35_gamma0.1-0.4_ls21200_nf16/
+0.468 0.469 0.475
+
+Errors:
+2025-07-11 12:59:56.778139: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2025-07-11 12:59:57.555793: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN)to use the following CPU instructions in performance-critical operations:  AVX2 AVX512F FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-07-11 12:59:57.585880: I tensorflow/core/platform/profile_utils/cpu_utils.cc:104] CPU Frequency: 3600000000 Hz
+2025-07-11 12:59:57.586710: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55c79980b6e0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2025-07-11 12:59:57.586734: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2025-07-11 12:59:57.589294: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcuda.so.1
+2025-07-11 12:59:57.684800: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x55c79988f150 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2025-07-11 12:59:57.684840: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): NVIDIA GeForce RTX 2080 Ti, Compute Capability 7.5
+2025-07-11 12:59:57.685286: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:65:00.0 name: NVIDIA GeForce RTX 2080 Ti computeCapability: 7.5
+coreClock: 1.545GHz coreCount: 68 deviceMemorySize: 10.76GiB deviceMemoryBandwidth: 573.69GiB/s
+2025-07-11 12:59:57.685331: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2025-07-11 12:59:57.688175: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2025-07-11 12:59:57.690810: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2025-07-11 12:59:57.691291: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2025-07-11 12:59:57.694444: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2025-07-11 12:59:57.696262: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
+2025-07-11 12:59:57.700257: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2025-07-11 12:59:57.700606: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2025-07-11 12:59:57.700636: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2025-07-11 12:59:58.085465: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2025-07-11 12:59:58.085496: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
+2025-07-11 12:59:58.085502: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
+2025-07-11 12:59:58.085972: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 9816 MB memory) -> physical GPU (device: 0, name: NVIDIA GeForce RTX 2080 Ti, pci bus id: 0000:65:00.0, compute capability: 7.5)
+WARNING:tensorflow:From /home/twp/anaconda3/envs/tf-stgcn/lib/python3.8/site-packages/tensorflow/python/training/rmsprop.py:123: calling Ones.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+2025-07-11 13:00:04.775162: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:65:00.0 name: NVIDIA GeForce RTX 2080 Ti computeCapability: 7.5
+coreClock: 1.545GHz coreCount: 68 deviceMemorySize: 10.76GiB deviceMemoryBandwidth: 573.69GiB/s
+2025-07-11 13:00:04.775200: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2025-07-11 13:00:04.775222: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2025-07-11 13:00:04.775229: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2025-07-11 13:00:04.775236: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2025-07-11 13:00:04.775242: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2025-07-11 13:00:04.775249: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
+2025-07-11 13:00:04.775256: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2025-07-11 13:00:04.775470: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2025-07-11 13:00:04.775994: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:65:00.0 name: NVIDIA GeForce RTX 2080 Ti computeCapability: 7.5
+coreClock: 1.545GHz coreCount: 68 deviceMemorySize: 10.76GiB deviceMemoryBandwidth: 573.69GiB/s
+2025-07-11 13:00:04.776018: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2025-07-11 13:00:04.776040: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2025-07-11 13:00:04.776050: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2025-07-11 13:00:04.776058: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2025-07-11 13:00:04.776066: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2025-07-11 13:00:04.776074: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
+2025-07-11 13:00:04.776082: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2025-07-11 13:00:04.776282: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2025-07-11 13:00:04.776306: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2025-07-11 13:00:04.776311: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
+2025-07-11 13:00:04.776315: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
+2025-07-11 13:00:04.776539: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 9816 MB memory) -> physical GPU (device: 0, name: NVIDIA GeForce RTX 2080 Ti, pci bus id: 0000:65:00.0, compute capability: 7.5)
+2025-07-11 13:00:05.671597: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2025-07-11 13:00:05.836115: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2025-07-11 13:19:36.800875: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1716] Found device 0 with properties: 
+pciBusID: 0000:65:00.0 name: NVIDIA GeForce RTX 2080 Ti computeCapability: 7.5
+coreClock: 1.545GHz coreCount: 68 deviceMemorySize: 10.76GiB deviceMemoryBandwidth: 573.69GiB/s
+2025-07-11 13:19:36.800914: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2025-07-11 13:19:36.800934: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcublas.so.10
+2025-07-11 13:19:36.800943: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcufft.so.10
+2025-07-11 13:19:36.800951: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcurand.so.10
+2025-07-11 13:19:36.800958: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusolver.so.10
+2025-07-11 13:19:36.800966: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcusparse.so.10
+2025-07-11 13:19:36.800974: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudnn.so.7
+2025-07-11 13:19:36.801194: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1858] Adding visible gpu devices: 0
+2025-07-11 13:19:36.801221: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1257] Device interconnect StreamExecutor with strength 1 edge matrix:
+2025-07-11 13:19:36.801226: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1263]      0 
+2025-07-11 13:19:36.801229: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1276] 0:   N 
+2025-07-11 13:19:36.801465: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1402] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 9816 MB memory) -> physical GPU (device: 0, name: NVIDIA GeForce RTX 2080 Ti, pci bus id: 0000:65:00.0, compute capability: 7.5)
