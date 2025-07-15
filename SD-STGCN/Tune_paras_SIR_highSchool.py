@@ -40,8 +40,6 @@ def main():
     gamma = 0    # simulation gamma
     ns = 21200    # num of sequences
     nf = 16      # num of frames
-    N = 774      # num of nodes in graph
-    gt = "highSchool"  # graph type
     # ep = 50       # num of epochs
     ep = 10 # num of epochs
     save = 1     # save every # of epochs
@@ -61,6 +59,8 @@ def main():
 
     # Parse command-line arguments (optional overrides)
     parser = argparse.ArgumentParser(description="Run SIR model with specified parameters.")
+    parser.add_argument("--graph", type=str, default='highSchool') # graph type
+    parser.add_argument("--n_node", type=int, default=774)
     parser.add_argument("--Rzero", type=float, default=Rzero, help="Simulation R0 (default: 2.5)")
     parser.add_argument("--beta", type=float, default=beta, help="Beta (default: 0.1)")
     parser.add_argument("--gamma", type=dynamic_float_or_int, default=gamma, help="Gamma (default: 0.4)")
@@ -90,6 +90,8 @@ def main():
     args = parser.parse_args()
 
     # Update parameters with command-line arguments
+    gt = args.graph
+    N = args.n_node     # num of nodes in graph
     Rzero = args.Rzero
     beta = args.beta
     gamma = args.gamma

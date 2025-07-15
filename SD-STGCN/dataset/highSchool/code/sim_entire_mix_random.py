@@ -5,6 +5,7 @@
 from sim_utils import *
 import sys
 import argparse
+import os
 
 np.random.seed(42)
 
@@ -31,6 +32,8 @@ sim_type = args.sim_type # simulation type
 
 gpath = '../data/graph/'
 spath = '../data/%s/' % (sim_type)
+
+os.makedirs(spath, exist_ok=True)
 
 graph_type = args.graph_type
 graph_name = gpath + '%s.edgelist' % (graph_type)

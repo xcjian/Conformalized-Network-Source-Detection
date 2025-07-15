@@ -314,6 +314,22 @@ def F1_comb_score_gtunknown(pred_prob, prop_model, infected_nodes):
 
     return comb_score
 
+def scoring_func(feature, coefficients, intercepts):
+    """
+    This function computes the "scoring function" in the baseline "knowing what to know" paper.
+    Strictly speaking, this is not a conformity score.
+    Args:
+    feature: (n_node x feature-dim)
+    coefficients: (n_node x feature-dim)
+
+    Returns:
+    scoring_vals: (n_node)
+    """
+
+    scoring_vals = np.sum(feature * coefficients, axis=1) + intercepts
+
+    return scoring_vals
+
 def PGMscore(Y, S, edges, alpha, beta):
     """
     This function computes the score of any given set, represented by Y.

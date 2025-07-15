@@ -1,2 +1,2 @@
-model_checkpoint_path: "STGCN-24991"
-all_model_checkpoint_paths: "STGCN-24991"
+model_checkpoint_path: "STGCN-19011"
+all_model_checkpoint_paths: "STGCN-19011"

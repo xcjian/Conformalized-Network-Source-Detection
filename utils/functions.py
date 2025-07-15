@@ -1,6 +1,19 @@
 import networkx as nx
 import numpy as np
 import itertools
+import pickle
+import os
+import time
+os.environ["CUDA_VISIBLE_DEVICES"] = ""  # Disable GPU
+import tensorflow as tf
+from os.path import join as pjoin
+
+import sys
+sys.path.append('./SD-STGCN/data_loader')
+from data_utils import *
+from sklearn.linear_model import LogisticRegression, SGDClassifier
+from sklearn.preprocessing import StandardScaler
+
 
 from collections import defaultdict
 
@@ -634,3 +647,189 @@ def phi_func(y_k, s_k):
     else:  # y_k == +1
         phi[1] = s_k
     return phi
+
+
+def get_opfeatures(data_file, model_file, train_pct, n_node, n_frame=16, val_pct=0, end=-1):
+    """
+    This function gets the output feature from the GNN.
+    Args:
+    data_file: str. path to the dataset.
+    model_file: str. path to the pre-trained model.
+    train_pct: float. training percentage.
+
+    Returns:
+    features: (n_feature x n_samples) array.
+    ground_truths: (n_nodes x n_samples) 0-1 array.
+    """
+
+    # load data
+    inputs = data_gen(data_file, n_node, n_frame, train_pct, val_pct)
+
+    # load model
+    model_path = tf.train.get_checkpoint_state(model_file).model_checkpoint_path
+
+    test_graph = tf.Graph()
+
+    with test_graph.as_default():
+        saver = tf.compat.v1.train.import_meta_graph(pjoin(f'{model_path}.meta'))
+
+    with tf.compat.v1.Session(graph=test_graph) as test_sess:
+        saver.restore(test_sess, tf.train.latest_checkpoint(model_file))
+        print(f'>> Loading saved model from {model_path} ...')
+
+        features = test_graph.get_collection('out_feature')[0]
+
+        batch_size = 16 # This is not important.
+        n_channel = 3 # SIR.
+
+        features_all = []
+        ground_truths = []
+        for (x_batch, y_batch, meta_batch) in gen_xy_batch(inputs.get_data('train'), batch_size, dynamic_batch=True, shuffle=False):
+            x_batch_ = onehot(iteration2snapshot(x_batch, n_frame, start=meta_batch, end=end, random=0),n_channel)
+            y_batch_ = snapshot_to_labels(y_batch, n_node)
+            features_batch_ = test_sess.run(features, feed_dict={'data_input:0': x_batch_, 'data_label:0': y_batch_, 'keep_prob:0': 1.0})
+
+            features_all.append(features_batch_)
+            ground_truths.append(y_batch_)
+        
+        # Concatenate along the batch dimension (axis=0)
+        features_all = np.concatenate(features_all, axis=0)
+        features_all = features_all[:, 0, :, :]
+        ground_truths = np.concatenate(ground_truths, axis=0)
+
+    return features_all, ground_truths
+
+def logistic_regression_nodewise(features, labels):
+    """
+    Apply logistic regression to each vertex to predict 0-1 labels.
+
+    Args:
+        features: np.ndarray, shape (n_sample, n_node, n_dim), float array of features.
+        labels: np.ndarray, shape (n_sample, n_node), 0-1 array of labels.
+
+    Returns:
+        coefficients: np.ndarray, shape (n_node, n_dim), logistic regression coefficients for each vertex.
+    """
+    # Validate input shapes
+    if features.shape[0] != labels.shape[0] or features.shape[1] != labels.shape[1]:
+        raise ValueError(f"Shape mismatch: features {features.shape}, labels {labels.shape}")
+
+    n_sample, n_node, n_dim = features.shape
+
+    # Initialize coefficients array
+    coefficients = np.zeros((n_node, n_dim))
+
+    # Apply logistic regression to each vertex
+    for i in range(n_node):
+        # Extract features and labels for vertex i
+        X = features[:, i, :]  # Shape: (n_sample, n_dim)
+        y = labels[:, i]       # Shape: (n_sample,)
+
+        # Check for single-label case
+        unique_labels = np.unique(y)
+        if len(unique_labels) < 2: # Note: this is almost impossible under a large training set, e.g., 20000
+            # Single label (all 0s or all 1s): assign zero coefficients
+            coefficients[i, :] = 0.0
+            print(f"Node {i}: Only one label ({unique_labels[0]}), assigning zero coefficients")
+        else:
+            # Fit logistic regression
+            model = LogisticRegression(solver='lbfgs', max_iter=1000)
+            model.fit(X, y)
+            coefficients[i, :] = model.coef_.flatten()  # Shape: (n_dim,)
+
+    return coefficients
+
+def logistic_regression_nodewise_online(data_file, model_file, save_file, train_pct, n_node, batch_size = 200, n_frame=16, val_pct=0, end=-1):
+    """
+    Performs online logistic regression node-wise on features extracted from a GNN model.
+    Args:
+        data_file: str. Path to the dataset.
+        model_file: str. Path to the pre-trained model.
+        save_file: str. Path to the file storing the results.
+        train_pct: float. Training percentage.
+        n_node: int. Number of nodes.
+        n_frame: int. Number of frames (default: 16).
+        val_pct: float. Validation percentage (default: 0).
+        end: int. End index for snapshot (default: -1).
+    
+    Returns:
+        coefficients: np.ndarray, shape (n_node, n_dim). Logistic regression coefficients for each node.
+        intercepts: np.ndarray, shape (n_node,). Logistic regression intercepts for each node.
+    """
+
+    try:
+        with open(save_file, 'rb') as f:
+            res = pickle.load(f)
+        coefficients = res['coefficients']
+        intercepts = res['intercepts']
+    except:
+
+        # Load data
+        inputs = data_gen(data_file, n_node, n_frame, train_pct, val_pct)
+
+        # Load model
+        model_path = tf.train.get_checkpoint_state(model_file).model_checkpoint_path
+
+        test_graph = tf.Graph()
+
+        with test_graph.as_default():
+            saver = tf.compat.v1.train.import_meta_graph(pjoin(f'{model_path}.meta'))
+
+        with tf.compat.v1.Session(graph=test_graph) as test_sess:
+            saver.restore(test_sess, tf.train.latest_checkpoint(model_file))
+            print(f'>> Loading saved model from {model_path} ...')
+
+            features = test_graph.get_collection('out_feature')[0]
+
+            n_channel = 3  # SIR.
+
+            # Initialize one SGDClassifier and StandardScaler per node
+            # classifiers = [SGDClassifier(loss='log_loss', learning_rate='constant', eta0=0.01, warm_start=True) 
+            #                for _ in range(n_node)]
+            classifiers = [SGDClassifier(loss='log', learning_rate='optimal', eta0=0.01, warm_start=True) 
+                            for _ in range(n_node)]
+            scalers = [StandardScaler() for _ in range(n_node)]
+
+            # Process batches
+            batch_idx = 0
+            for (x_batch, y_batch, meta_batch) in gen_xy_batch(inputs.get_data('train'), batch_size, dynamic_batch=True, shuffle=False):
+
+                start_time = time.time()
+
+                x_batch_ = onehot(iteration2snapshot(x_batch, n_frame, start=meta_batch, end=end, random=0), n_channel)
+                y_batch_ = snapshot_to_labels(y_batch, n_node)
+                features_batch_ = test_sess.run(features, feed_dict={'data_input:0': x_batch_, 
+                                                                    'data_label:0': y_batch_, 
+                                                                    'keep_prob:0': 1.0})
+
+                features_batch_ = features_batch_[:, 0, :, :]
+                # features_batch_ shape: (batch_size, n_node, n_dim)
+                # y_batch_ shape: (batch_size, n_node)
+                for node_idx in range(n_node):
+                    # Extract features and labels for this node
+                    X_node = features_batch_[:, node_idx, :]  # Shape: (batch_size, n_dim)
+                    y_node = y_batch_[:, node_idx]  # Shape: (batch_size,)
+
+                    # Standardize features for this node
+                    X_node_scaled = scalers[node_idx].partial_fit(X_node).transform(X_node)
+
+                    # Update logistic regression for this node
+                    classifiers[node_idx].partial_fit(X_node_scaled, y_node, classes=[0, 1])
+
+                print(str(batch_idx) + '-th batch finished, time cost:', time.time() - start_time)
+                batch_idx = batch_idx + 1
+
+            # Extract coefficients for each node
+            n_dim = features_batch_.shape[2]  # Feature dimension
+            coefficients = np.zeros((n_node, n_dim))
+            intercepts = np.zeros(n_node)
+            for node_idx in range(n_node):
+                coefficients[node_idx, :] = classifiers[node_idx].coef_
+                intercepts[node_idx] = classifiers[node_idx].intercept_[0]
+            
+            res = {'coefficients': coefficients, 'intercepts': intercepts}
+            if save_file:
+                with open(save_file + '/log_reg_res.pickle', 'wb') as f:
+                    pickle.dump(res, f)
+
+    return coefficients, intercepts
