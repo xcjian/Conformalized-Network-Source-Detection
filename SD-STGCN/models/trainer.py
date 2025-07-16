@@ -1,6 +1,6 @@
 from data_loader.data_utils import *
 from utils.metric_utils import *
-from models.base_model import build_model, build_model_SI, build_model_SI_nodewise, model_save
+from models.base_model import build_model, build_model_SI, build_model_nodewise, model_save
 from os.path import join as pjoin
 import tensorflow as tf
 import numpy as np
@@ -158,7 +158,7 @@ def model_train_nodewise(inputs, blocks, args, save_path='./output/models/', sum
     keep_prob = tf.compat.v1.placeholder(tf.float32, name='keep_prob')
 
     # Build the model
-    train_loss, pred = build_model_SI_nodewise(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv, pos_weight, prop_model)
+    train_loss, pred = build_model_nodewise(x, y, n_frame, Ks, Kt, blocks, keep_prob, sconv, pos_weight, prop_model)
     tf.compat.v1.summary.scalar('train_loss', train_loss)
 
     # Learning rate and optimizer

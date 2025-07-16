@@ -5,7 +5,7 @@ import glob
 # Configuration (should match your splitting script)
 prop_model = 'SIR'
 Rzero = 2.5    # simulation R0
-beta = 0.3     # beta
+beta = 0.25     # beta
 gamma = 0      # simulation gamma
 ns = 21200     # num of sequences
 nf = 16        # num of frames
