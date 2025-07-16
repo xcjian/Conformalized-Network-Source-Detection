@@ -59,7 +59,9 @@ plt.title("Laplacian Spectrum")
 plt.xlabel("Index")
 plt.ylabel("Eigenvalue")
 plt.grid(True)
-plt.show()
+# save eigenvalue plot
+plt.savefig('GNN/laplacian_spectrum_raw.png', dpi=300)
+# plt.show()
 
 sorted_eigenvalues = np.sort(eigval)
 eigvals = np.array(sorted_eigenvalues)  # shape: (n,)
@@ -79,7 +81,10 @@ plt.title("Second Derivative of Laplacian Spectrum")
 plt.xlabel("Index")
 plt.ylabel("Curvature (Δ²λ)")
 plt.grid(True)
-plt.show()
+# save second derivative plot
+plt.savefig('GNN/laplacian_spectrum_second_derivative.png', dpi=300)
+
+# plt.show()
 
 # we find N=700 is good to split according to the spectrum.
 mode = 'logits'
@@ -128,4 +133,9 @@ plt.ylabel("Signal Value")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.show()
+# save figure
+plt.savefig('GNN/signal_filtering.png', dpi=300)
+
+
+plt.close()
+# plt.show()

@@ -11,7 +11,7 @@ from scipy.sparse import csgraph
 from scipy.sparse.linalg import eigsh
 from scipy.linalg import eigh
 sys.path.append('SD-STGCN/utils')  # Adjust to actual path
-from math_graph import weight_matrix # type: ignore
+#from math_graph import weight_matrix # type: ignore
 
 def alpha_relu(x, alpha=1.):
     """
@@ -22,7 +22,7 @@ def alpha_relu(x, alpha=1.):
     threshold = alpha - 1
     return torch.maximum(x, torch.tensor(threshold, device=x.device, dtype=x.dtype))
 
-def HPF(edge_filepath, probs=None, mode='prob', cutoff_point=700, alpha = 1., n_nodes = 774):
+def HPF(edge_filepath, probs=None, mode='prob', cutoff_point=700, alpha=1., n_nodes=774):
     """
     High-Pass Graph Filtering (HPF) for node-level signals on a fixed-size graph.
 
@@ -113,7 +113,7 @@ def HPF(edge_filepath, probs=None, mode='prob', cutoff_point=700, alpha = 1., n_
 
         p1 = signal_norm
         p0 = 1.0 - p1
-        output_probs = torch.stack([p0, p1], dim=2)  # shape: (batch_size, n_nodes, 2)
+        output = torch.stack([p0, p1], dim=2)  # shape: (batch_size, n_nodes, 2)
 
     elif mode == 'logits':
         # Separate l0 and l1
@@ -125,12 +125,12 @@ def HPF(edge_filepath, probs=None, mode='prob', cutoff_point=700, alpha = 1., n_
         l1_filtered = l1 @ H.T
 
         # No alpha_relu or normalization
-        output_probs = torch.stack([l0_filtered, l1_filtered], dim=2)
+        output = torch.stack([l0_filtered, l1_filtered], dim=2)
 
     else:
         raise ValueError(f"Unsupported mode: {mode}. Use 'prob' or 'logits'.")
 
-    return output_probs
+    return output
 
 if __name__=="__main__":
     graph_path = 'SD-STGCN/dataset/highSchool/data/graph/'

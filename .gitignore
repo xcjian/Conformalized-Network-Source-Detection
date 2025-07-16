@@ -45,7 +45,8 @@ config.json
 .pickle
 
 # Others
-SD-STGCN/dataset/
-SD-STGCN/output/
+SD-STGCN/dataset/*
+SD-STGCN/dataset/highSchool/data/*
+SD-STGCN/output/*
 data/
-GNN/predictions/
+GNN/predictions/*

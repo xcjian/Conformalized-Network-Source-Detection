@@ -106,8 +106,8 @@ data_path = '../SD-STGCN/dataset/highSchool/data/SIR/'
 # data_file = 'SIR_nsrc7_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_torchentire.pickle'
 # data_file = 'SIR_nsrc10_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_torchentire.pickle'
 ## SIR models
-# data_file = 'SIR_nsrc1_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16_torchentire.pickle'
-data_file = 'SIR_nsrc7_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16_torchentire.pickle'
+data_file = 'SIR_nsrc1_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16_torchentire.pickle'
+# data_file = 'SIR_nsrc7_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16_torchentire.pickle'
 
 graph_path = '../SD-STGCN/dataset/highSchool/data/graph/'
 graph_file = 'highSchool.edgelist'

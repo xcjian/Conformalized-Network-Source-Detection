@@ -86,7 +86,7 @@ def calculate_subset_metrics(conf_matrix, num_classes=3):
     f1_score = np.mean(2 * (precision * recall) / (precision + recall)) if precision + recall > 0 else 0
     return f1_score
 
-def compute_loss(logits, y, num_classes=4, gamma=2.0, temperature=0.02, loss_weights=[1.0, 0.1]):
+def compute_loss(logits, y, num_classes=2, gamma=2.0, temperature=0.02, loss_weights=[1.0, 0.1]):
     """
     Compute the loss for the model.
 
@@ -100,11 +100,8 @@ def compute_loss(logits, y, num_classes=4, gamma=2.0, temperature=0.02, loss_wei
         temperature (float): Temperature for Contrastive Loss.
         loss_weights (list): Weights for Focal and Contrastive Losses [w_focal, w_contrast].
 
-    Returns:
-        dict: Dictionary containing the total loss.
+    return total_loss
     """
-    log_probs = F.log_softmax(logits, dim=1)
-
     # Compute class weights based on dataset distribution
     class_counts = torch.bincount(y, minlength=num_classes).float()
     weights = torch.where(class_counts > 0, 1.0 / class_counts, torch.tensor(0.0, device=y.device))
@@ -124,13 +121,10 @@ def compute_metrics(all_preds, all_labels):
     f1_per_class = f1_score(all_labels, all_preds, average=None, zero_division=0)
     cm = confusion_matrix(all_labels, all_preds)
 
-    # Display formatting
-    f1_3_class = calculate_subset_metrics(cm, num_classes=3)
 
     return {
         "f1_macro": float(f1),
         "weighted_f1": float(weighted_f1),
-        "f1_3_class": float(f1_3_class),
         "f1_per_class": f1_per_class.tolist(),
         "precision_per_class": precision.tolist(),
         "recall_per_class": recall.tolist(),
