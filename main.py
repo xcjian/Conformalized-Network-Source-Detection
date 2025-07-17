@@ -5,7 +5,9 @@ import pickle
 import numpy as np
 import time
 from matplotlib import pyplot as plt
+from matplotlib.patches import Patch
 from utils.score_convert import *
+from multiprocessing import Pool
 from DSI.src.diffusion_source.infection_model import FixedTSI
 from DSI.src.diffusion_source.discrepancies import ADiT_h
 import argparse
@@ -17,35 +19,36 @@ np.random.seed(41)
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--graph', type=str, default='highSchool')
-parser.add_argument('--exp_name', type=str, default='SIR_nsrc1-15_Rzero1-15_gamma0.1-0.4_ls21200_nf16') 
+parser.add_argument('--train_exp_name', type=str, default='SIR_nsrc1_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16') 
+parser.add_argument('--test_exp_name', type=str, default='SIR_nsrc1_Rzero2.5_beta0.25_gamma0_T30_ls8000_nf16') 
 # the name of the experiment. e.g., SIR_Rzero${Rzero}_beta${beta}_gamma${gamma}_T${T}_ls${ns}_nf${nf}
 parser.add_argument('--pow_expected', type=float, default=0.5)
-parser.add_argument('--calib_ratio', type=float, default=0.8)
-parser.add_argument('--prop_model', type=str, default='SIR')
+parser.add_argument('--calib_ratio', type=float, default=0.95)
+parser.add_argument('--prop_model', type=str, default='SI')
 parser.add_argument('--confi_levels', 
                     nargs='*',  # Accepts 0 or more values
                     type=float, 
-                    default=[0.02, 0.05, 0.07, 0.10],  # Default list
+                    default=[0.05, 0.07, 0.10, 0.15, 0.20],  # Default list
                     help='confi_levels')
-parser.add_argument('--set_recall', type=int, default=1) # 0 means this method will not be used.
-parser.add_argument('--set_prec', type=int, default=1)
+parser.add_argument('--set_recall', type=int, default=0) # 0 means this method will not be used.
+parser.add_argument('--set_prec', type=int, default=0)
 parser.add_argument('--ADiT_DSI', type=int, default=0)
 parser.add_argument('--PGM_CQC', type=int, default=0)
 parser.add_argument('--ArbiTree_CQC', type=int, default=0)
-parser.add_argument('--mc_runs', type=int, default=3)
+parser.add_argument('--mc_runs', type=int, default=50)
 
 # parameters for different methods
 
 # ADiT-DSI
-parser.add_argument('--m_l', type=int, default=5)
-parser.add_argument('--m_p', type=int, default=5)
+parser.add_argument('--m_l', type=int, default=20)
+parser.add_argument('--m_p', type=int, default=20)
 
 # PGM-CQC
-parser.add_argument('--n_learn_tree', type=int, default=200)
+parser.add_argument('--n_learn_tree', type=int, default=1000)
 
 args = parser.parse_args()
 
-graph = args.graph
+graph_name = args.graph
 prop_model = args.prop_model
 
 ## Public parameters
@@ -77,21 +80,21 @@ n_learn_tree = args.n_learn_tree
 # graph_path = 'SD-STGCN/dataset/highSchool/data/graph/highSchool.edgelist'
 # data_path = 'SD-STGCN/output/test_res/highSchool/exp1/res.pickle'
 
-exp_name = args.exp_name
-graph_extract_path = 'SD-STGCN/dataset/' + graph + '/data/graph/' + graph + '.edgelist'
-data_extract_path = 'SD-STGCN/output/test_res/' + graph + '/' + exp_name + '/res.pickle'
-save_path = 'results/' + graph + '/' + exp_name + '/pow_expected' + str(pow_expected)
+train_exp_name = args.train_exp_name
+test_exp_name = args.test_exp_name
 
-# copy these data to the data folder, if not copied
-graph_path = 'data/' + graph + '/graph/' + graph + '.edgelist'
-data_path = 'data/' + graph + '/test_res/' + exp_name + '/res.pickle'
+graph_extract_path = 'SD-STGCN/dataset/' + graph_name + '/data/graph/' + graph_name + '.edgelist'
+save_path = 'results/' + graph_name + '/' + test_exp_name + '/pow_expected' + str(pow_expected) # path for saving CP results
+
+test_data_file = 'SD-STGCN/dataset/' + graph_name + '/data/SIR/' + test_exp_name + '_entire.pickle'
+train_model_file = 'SD-STGCN/output/models/' + graph_name + '/' + train_exp_name
+test_res_path = 'SD-STGCN/output/test_res/' + graph_name + '/' + test_exp_name
+
+# read in the graph
+graph_path = 'data/' + graph_name + '/graph/' + graph_name + '.edgelist'
 if not os.path.exists(graph_path):
   os.makedirs(os.path.dirname(graph_path), exist_ok=True)
-os.system('cp ' + graph_extract_path + ' ' + graph_path)
-if not os.path.exists(data_path):
-  os.makedirs(os.path.dirname(data_path), exist_ok=True)
-os.system('cp ' + data_extract_path + ' ' + data_path)
-os.makedirs(save_path, exist_ok=True)
+  os.system('cp ' + graph_extract_path + ' ' + graph_path)
 
 graph = nx.read_edgelist(graph_path, nodetype=int)
 G = nx.Graph(graph)
@@ -110,6 +113,15 @@ freq_response = np.zeros(n_nodes)
 freq_response[start_freq: end_freq] = 1
 score_filter = Gfb @ np.diag(freq_response) @ Gfb.T
 
+get_test_results(test_data_file, train_model_file, test_res_path, n_nodes) # evaluate the pre-trained model on the test set.
+
+# copy the result.
+data_extract_path = 'SD-STGCN/output/test_res/' + graph_name + '/' + test_exp_name + '/res.pickle'
+data_path = 'data/' + graph_name + '/test_res/' + test_exp_name + '/res.pickle'
+if not os.path.exists(data_path):
+  os.makedirs(os.path.dirname(data_path), exist_ok=True)
+  os.system('cp ' + data_extract_path + ' ' + data_path)
+os.makedirs(save_path, exist_ok=True)
 
 with open(data_path, 'rb') as f:
     data = pickle.load(f)
@@ -117,7 +129,7 @@ with open(data_path, 'rb') as f:
 inputs_raw = data['inputs'] # n_batch x n_sample x n_nodes
 pred_scores_raw = data['predictions']
 ground_truths_raw = data['ground_truth']
-# logits_raw = data['logits']
+logits_raw = data['logits']
 
 # Prepare the data
 ## unzip the data
@@ -131,7 +143,7 @@ for i in range(len(pred_scores_raw)):
     inputs.append(inputs_raw[i][j])
     pred_scores.append(pred_scores_raw[i][j])
     ground_truths.append(ground_truths_raw[i][j])
-    # logits.append(logits_raw[i][j])
+    logits.append(logits_raw[i][j])
 
 ## partition the data
 n_samples = len(pred_scores)
@@ -143,6 +155,8 @@ coverage_res = {}
 set_size_res = {}
 
 for mc_idx in range(mc_runs):
+
+  start_mc_time = time.time()
 
   index_file_name_ = '/calib_index_repeat' + str(mc_idx) + '.npy'
   try:
@@ -157,12 +171,12 @@ for mc_idx in range(mc_runs):
   inputs_calib = [inputs[i] for i in calib_index]
   pred_scores_calib = [pred_scores[i] for i in calib_index]
   ground_truths_calib = [ground_truths[i] for i in calib_index]
-  # logits_calib = [logits[i] for i in calib_index]
+  logits_calib = [logits[i] for i in calib_index]
 
   inputs_test = [inputs[i] for i in test_index]
   pred_scores_test = [pred_scores[i] for i in test_index]
   ground_truths_test = [ground_truths[i] for i in test_index]
-  # logits_test = [logits[i] for i in test_index]
+  logits_test = [logits[i] for i in test_index]
 
 
   ### To compare, comute the average size of infected set.
@@ -183,9 +197,11 @@ for mc_idx in range(mc_runs):
         res_load = pickle.load(f)
       coverage = res_load['cover']
       avg_size = res_load['set_size']
+      time_cost = res_load['time_cost']
     except:
       # Conformal Prediction
       print('computing proposed method with recall score...')
+      start_time_method_ = time.time()
       ## Compute conformity scores on the calibration set
       cfscore_calib = []
       for i in range(n_calibration):
@@ -219,7 +235,7 @@ for mc_idx in range(mc_runs):
 
           ## compute the quantile
           tail_prop = (1 - alpha) * (1 + 1 / n_calibration)
-          threshold = np.quantile(cfscore_calib, tail_prop)
+          threshold = cpquantile(cfscore_calib, tail_prop)
 
           for j in range(n_nodes):
             if cfscore_test[i][j] <= threshold:
@@ -245,14 +261,16 @@ for mc_idx in range(mc_runs):
       
       coverage = coverage / n_test
       avg_size = avg_size / n_test
+      time_cost = time.time() - start_time_method_
 
       # save the results
-      res_ = {'cover': coverage, 'set_size': avg_size}
+      res_ = {'cover': coverage, 'set_size': avg_size, 'time_cost': time_cost}
       with open(save_path + '/' + file_name_, 'wb') as f:
         pickle.dump(res_, f)
     
     print('coverage:', coverage)
     print('set size:', avg_size)
+    print('time cost:', time_cost)
 
     if 'set_recall' not in method_names:
       method_names.append('set_recall')
@@ -271,9 +289,11 @@ for mc_idx in range(mc_runs):
         res_load = pickle.load(f)
       coverage = res_load['cover']
       avg_size = res_load['set_size']
+      time_cost = res_load['time_cost']
     except:
       # Conformal Prediction
       print('computing proposed method with precision score...')
+      start_time_method_ = time.time()
       ## Compute conformity scores on the calibration set
       cfscore_calib = []
       for i in range(n_calibration):
@@ -307,7 +327,7 @@ for mc_idx in range(mc_runs):
 
           ## compute the quantile
           tail_prop = (1 - alpha) * (1 + 1 / n_calibration)
-          threshold = np.quantile(cfscore_calib, tail_prop)
+          threshold = cpquantile(cfscore_calib, tail_prop)
 
           for j in range(n_nodes):
             if cfscore_test[i][j] <= threshold:
@@ -333,14 +353,16 @@ for mc_idx in range(mc_runs):
       
       coverage = coverage / n_test
       avg_size = avg_size / n_test
+      time_cost = time.time() - start_time_method_
 
       # save the results
-      res_ = {'cover': coverage, 'set_size': avg_size}
+      res_ = {'cover': coverage, 'set_size': avg_size, 'time_cost': time_cost}
       with open(save_path + '/' + file_name_, 'wb') as f:
         pickle.dump(res_, f)
 
     print('coverage:', coverage)
     print('set size:', avg_size)
+    print('time cost:', time_cost)
 
     if 'set_prec' not in method_names:
       method_names.append('set_prec')
@@ -360,12 +382,16 @@ for mc_idx in range(mc_runs):
         res_load = pickle.load(f)
       coverage = res_load['cover']
       avg_size = res_load['set_size']
+      time_cost = res_load['time_cost']
+      print('coverage:', coverage)
+      print('set size:', avg_size)
+      print('time cost:', time_cost)
     except:
       print('computing ADiT-DSI...')
       if prop_model != 'SI':
         print('SIR model is not supported by ADiT-DSI. Skipping...')
       else:
-
+        start_time_method_ = time.time()
         coverage = np.zeros(n_alpha)
         avg_size = np.zeros(n_alpha)
 
@@ -377,32 +403,35 @@ for mc_idx in range(mc_runs):
           start_time = time.time()
           confidence_sets = model.confidence_set_mp(infected_nodes_, confi_levels, new_run=True) 
           confidence_sets = confidence_sets[discrepancy_str]
-          print('Time:', time.time() - start_time, 'index:', i)
+          #print('Time:', time.time() - start_time, 'index:', i)
 
           for j, alpha in enumerate(confi_levels):
-            if ground_truths_test[i] in confidence_sets[str(alpha)]:
+            ground_truth_source_ = np.nonzero(ground_truths_test[i])[0]
+            if int(ground_truth_source_) in confidence_sets[str(alpha)]:
               coverage[j] = coverage[j] + 1
             
             avg_size[j] = avg_size[j] + len(confidence_sets[str(alpha)])        
         
         coverage = coverage / n_test
         avg_size = avg_size / n_test
+        time_cost = time.time() - start_time_method_
 
         # save the results
-        res_ = {'cover': coverage, 'set_size': avg_size}
+        res_ = {'cover': coverage, 'set_size': avg_size, 'time_cost': time_cost}
         with open(save_path + '/' + file_name_, 'wb') as f:
           pickle.dump(res_, f)
 
         print('coverage:', coverage)
         print('set size:', avg_size)
+        print('time cost:', time_cost)
 
-        if 'ADiT_DSI' not in method_names:
-          method_names.append('ADiT_DSI')
-        if 'ADiT_DSI' not in coverage_res:
-          coverage_res['ADiT_DSI'] = np.zeros((mc_runs, n_alpha))
-          set_size_res['ADiT_DSI'] = np.zeros((mc_runs, n_alpha))
-        coverage_res['ADiT_DSI'][mc_idx, :] = coverage
-        set_size_res['ADiT_DSI'][mc_idx, :] = avg_size  
+    if 'ADiT_DSI' not in method_names:
+      method_names.append('ADiT_DSI')
+    if 'ADiT_DSI' not in coverage_res:
+      coverage_res['ADiT_DSI'] = np.zeros((mc_runs, n_alpha))
+      set_size_res['ADiT_DSI'] = np.zeros((mc_runs, n_alpha))
+    coverage_res['ADiT_DSI'][mc_idx, :] = coverage
+    set_size_res['ADiT_DSI'][mc_idx, :] = avg_size  
 
   if PGM_CQC:
 
@@ -454,10 +483,11 @@ for mc_idx in range(mc_runs):
         res_load = pickle.load(f)
       coverage = res_load['cover']
       avg_size = res_load['set_size']
+      time_cost = res_load['time_cost']
     except:
       # Conformal Prediction
       print('computing ArbiTree-CQC...')
-
+      start_time_method_ = time.time()
       # compute Y_hat for each vertex (i.e., label) on the calibration set
       Y_calib = []
       Y_hat_calib = []
@@ -494,6 +524,8 @@ for mc_idx in range(mc_runs):
       cfscore_calib = np.array(cfscore_calib)
 
       # Compute conformity scores on the test set
+      '''
+      # non-parallel version:
       cfscore_test = []
       for i in range(n_test):
         infected_nodes_ = np.nonzero(inputs_test[i])[0]
@@ -506,6 +538,24 @@ for mc_idx in range(mc_runs):
         cfscore_ = MPmaxscore(Y_hat_, tree_edges, tree_alpha, tree_beta)
         cfscore_test.append(cfscore_)
       cfscore_test = np.array(cfscore_test)
+      '''
+      # parallel version:
+      def compute_cfscore(i):
+          """Helper function for parallel computation using global variables"""
+          infected_nodes_ = np.nonzero(inputs_test[i])[0]
+          pred_prob_ = pred_scores_test[i][:, 1]
+          Y_hat_ = (pred_prob_ - 1/2) * 2  # align with {-1, 1} Y values
+          return MPmaxscore(Y_hat_, tree_edges, tree_alpha, tree_beta)
+
+      # Parallel computation of conformity scores
+      def parallel_compute_cfscores(n_jobs=4):
+          """Parallel version using global variables"""
+          n_test = len(inputs_test)
+          with Pool(processes=n_jobs) as pool:
+              cfscore_test = pool.map(compute_cfscore, range(n_test))
+          return np.array(cfscore_test)
+
+      cfscore_test = parallel_compute_cfscores(n_jobs=5)
       
       # Construct prediction set on the test set
       coverage = np.zeros(n_alpha)
@@ -517,13 +567,13 @@ for mc_idx in range(mc_runs):
           pred_sets[str(alpha)] = set()
 
           ## compute the quantile
-          tail_prop = 1 - (1 - alpha) * (1 + 1 / (n_calibration - n_learn_tree))
-          threshold = np.quantile(cfscore_calib, tail_prop)
+          tail_prop = (1 - alpha) * (1 + 1 / (n_calibration - n_learn_tree))
+          threshold = -cpquantile(-cfscore_calib, tail_prop)
 
           for j in range(n_nodes):
             if cfscore_test[i][j] >= threshold:
               pred_sets[str(alpha)].add(j)
-        print('Prediction sets computed. index:', i)
+        #print('Prediction sets computed. index:', i)
 
         # evaluate the performance
         for j, alpha in enumerate(confi_levels):
@@ -545,14 +595,16 @@ for mc_idx in range(mc_runs):
         
       coverage = coverage / n_test
       avg_size = avg_size / n_test
+      time_cost = time.time() - start_time_method_
 
       # save the results
-      res_ = {'cover': coverage, 'set_size': avg_size}
+      res_ = {'cover': coverage, 'set_size': avg_size, 'time_cost': time_cost}
       with open(save_path + '/' + file_name_, 'wb') as f:
         pickle.dump(res_, f)
 
     print('coverage:', coverage)
     print('set size:', avg_size)
+    print('time cost:', time_cost)
 
     if 'ArbiTree-CQC' not in method_names:
       method_names.append('ArbiTree-CQC')
@@ -562,30 +614,92 @@ for mc_idx in range(mc_runs):
     coverage_res['ArbiTree-CQC'][mc_idx, :] = coverage
     set_size_res['ArbiTree-CQC'][mc_idx, :] = avg_size
 
+  print('finished repeatition:', mc_idx, 'time cost:', time.time()-start_mc_time)
+
 
 # make plots and tables for the results
 
-"""
-### plot coverage results
-plt.figure()
-for method in method_names:
-  plt.plot(confi_levels, coverage_res[method], label=method)
-plt.xlabel('Confidence level')
-plt.ylabel('Coverage')
-plt.legend()
 
-plt.savefig('coverage.pdf')
+# --- Box Plot for Coverage ---
+plt.figure(figsize=(12, 6))
+data_to_plot = []
+positions = []
+xtick_labels = []
 
-### plot set size results
-plt.figure()
-for method in method_names:
-  plt.plot(confi_levels, set_size_res[method], label=method)
-plt.xlabel('Confidence level')
-plt.ylabel('Average set size')
-plt.legend()
+# Generate distinct colors for each method
+colors = plt.cm.tab10(np.linspace(0, 1, len(method_names)))
 
-plt.savefig('set_size.pdf')
-"""
+# Prepare data for box plots
+for i, alpha in enumerate(confi_levels):
+    for j, method in enumerate(method_names):
+        data_to_plot.append(coverage_res[method][:, i])  # Coverage data
+        positions.append(i + 0.2 * j)  # Offset positions for each method
+    xtick_labels.append(f'α={alpha:.2f}')
+
+# Create box plots
+box = plt.boxplot(data_to_plot, 
+                 positions=positions, 
+                 widths=0.15, 
+                 patch_artist=True,
+                 showfliers=False)  # Hide outliers for cleaner plot
+
+# Assign colors to boxes (FIXED: no multiplication of colors array)
+for i, patch in enumerate(box['boxes']):
+    method_idx = i % len(method_names)  # Cycle through method colors
+    patch.set_facecolor(colors[method_idx])
+
+# Customize plot
+plt.xticks(np.arange(len(confi_levels)) + 0.2*(len(method_names)-1)/2, 
+           xtick_labels)
+plt.xlabel('Confidence Level (α)', fontsize=12)
+plt.ylabel('Coverage', fontsize=12)
+plt.title('Coverage Across Methods and Confidence Levels', fontsize=14)
+
+# Create legend
+legend_elements = [Patch(facecolor=colors[i], label=method_names[i]) 
+                  for i in range(len(method_names))]
+plt.legend(handles=legend_elements, loc='upper left', fontsize=10)
+
+plt.grid(True, linestyle=':', alpha=0.5)
+plt.tight_layout()
+plt.savefig(save_path + '/coverage_boxplot.pdf', dpi=300, bbox_inches='tight')
+plt.close()
+
+# --- Box Plot for Set Size ---
+plt.figure(figsize=(12, 6))
+# plt.ylim(0, 40)
+data_to_plot = []
+positions = []
+
+# Reuse the same color scheme
+for i, alpha in enumerate(confi_levels):
+    for j, method in enumerate(method_names):
+        data_to_plot.append(set_size_res[method][:, i])  # Set size data
+        positions.append(i + 0.2 * j)  # Same offset as coverage plot
+
+# Create box plots
+box = plt.boxplot(data_to_plot,
+                 positions=positions,
+                 widths=0.15,
+                 patch_artist=True,
+                 showfliers=False)
+
+# Color boxes using the same method
+for i, patch in enumerate(box['boxes']):
+    method_idx = i % len(method_names)
+    patch.set_facecolor(colors[method_idx])
+
+# Customize plot (same x-axis as coverage plot)
+plt.xticks(np.arange(len(confi_levels)) + 0.2*(len(method_names)-1)/2,
+           xtick_labels)
+plt.xlabel('Confidence Level (α)', fontsize=12)
+plt.ylabel('Average Set Size', fontsize=12)
+plt.title('Prediction Set Size Across Methods and Confidence Levels', fontsize=14)
+plt.legend(handles=legend_elements, loc='upper left', fontsize=10)
+plt.grid(True, linestyle=':', alpha=0.5)
+plt.tight_layout()
+plt.savefig(save_path + '/set_size_boxplot.pdf', dpi=300, bbox_inches='tight')
+plt.close()
 
 ## make table
 

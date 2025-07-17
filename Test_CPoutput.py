@@ -166,7 +166,7 @@ if proposed_method:
 
       ## compute the quantile
       tail_prop = (1 - alpha) * (1 + 1 / n_calibration)
-      threshold = np.quantile(cfscore_calib, tail_prop)
+      threshold = cpquantile(cfscore_calib, tail_prop)
 
       for j in range(n_nodes):
         if cfscore_test[i][j] <= threshold:

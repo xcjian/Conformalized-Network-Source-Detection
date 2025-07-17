@@ -181,7 +181,8 @@ def set_truncate(set_onehot, prob, pow):
     """
 
     set_origin = np.nonzero(np.array(set_onehot))[0]
-    prob_quantile = np.quantile(prob[set_origin], 1 - pow)
+    # prob_quantile = np.quantile(prob[set_origin], 1 - pow)
+    prob_quantile = -cpquantile(-prob[set_origin], pow)
 
     set_truncated = np.array(set_onehot)
     set_truncated[np.where(prob < prob_quantile)[0]] = 0

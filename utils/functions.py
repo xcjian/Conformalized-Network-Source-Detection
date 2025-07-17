@@ -648,6 +648,75 @@ def phi_func(y_k, s_k):
         phi[1] = s_k
     return phi
 
+def cpquantile(z, tau):
+    """Custom implementation of inf quantile."""
+    z_sorted = np.sort(z)
+    n = len(z)
+    rank = tau * n  # 0 < tau < 1
+    idx = int(np.ceil(rank) - 1)  # smallest index where F_z(v) >= tau
+    return z_sorted[idx] if idx < n else z_sorted[-1]
+
+def get_test_results(data_file, model_file, res_path, n_node, n_frame=16, end=-1):
+    """
+    This function gets the test results from the GNN.
+    Args:
+    data_file: str. path to the dataset.
+    model_file: str. path to the pre-trained model.
+
+    Returns:
+    test result on the data_file.
+    """
+
+    try:
+        with open(res_path + '/res.pickle', 'rb') as f:
+            res = pickle.load(f)
+    except:
+        # load data
+        train_pct = 0
+        val_pct = 0
+        inputs = data_gen(data_file, n_node, n_frame, train_pct, val_pct)
+
+        n_channel = 3  # SIR.
+
+        batch_size = 64 # This is not important.
+
+        model_path = tf.train.get_checkpoint_state(model_file).model_checkpoint_path
+
+        test_graph = tf.Graph()
+
+        with test_graph.as_default():
+            saver = tf.compat.v1.train.import_meta_graph(pjoin(f'{model_path}.meta'))
+
+        all_inputs = []
+        all_pred_results = []
+        all_y_test = []
+        all_logits = []
+
+        with tf.compat.v1.Session(graph=test_graph) as test_sess:
+            saver.restore(test_sess, tf.train.latest_checkpoint(model_file))
+            print(f'>> Loading saved model from {model_path} ...')
+
+            pred = test_graph.get_collection('y_pred')[0]
+            logits = test_graph.get_collection('logits_pred')[0]
+
+            for (x_test, y_test, meta_test) in gen_xy_batch(inputs.get_data('test'), batch_size,\
+            dynamic_batch=True, shuffle=False):
+                x_test_ = onehot(iteration2snapshot(x_test, n_frame, start=meta_test, end=end, random=0),n_channel)
+                y_test_ = snapshot_to_labels(y_test, n_node)
+                pred_test = test_sess.run(pred, feed_dict={'data_input:0': x_test_, 'data_label:0': y_test_, 'keep_prob:0': 1.0})
+                logits_test = test_sess.run(logits, feed_dict={'data_input:0': x_test_, 'data_label:0': y_test_, 'keep_prob:0': 1.0})
+
+                x_test_array = np.array([list(x_test_[i][0]) for i in range(len(x_test_))])
+                all_inputs.append(x_test_array[:, :, 1]) # only use the infected status
+                all_pred_results.append(pred_test)
+                all_y_test.append(y_test_)
+                all_logits.append(logits_test)
+            
+            res = {'predictions': all_pred_results, 'ground_truth': all_y_test, 'inputs': all_inputs, 'logits': all_logits}
+            os.makedirs(res_path, exist_ok=True)
+            with open(res_path + '/res.pickle', 'wb') as f:
+                pickle.dump(res, f)
+            print(f'>> Test results saved to {res_path}')
 
 def get_opfeatures(data_file, model_file, train_pct, n_node, n_frame=16, val_pct=0, end=-1):
     """

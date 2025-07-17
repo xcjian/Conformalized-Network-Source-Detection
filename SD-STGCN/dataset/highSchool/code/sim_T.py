@@ -59,6 +59,7 @@ else:
 if sim_type == 'SIR':
     sim_file = '%s_nsrc%s_Rzero%s_beta%s_gamma%s_T%s_ls%s_nf%s_entire.pickle' % \
                (sim_type, n_sources, R0, beta, gamma, T, len_seq, num_frames)
+    skip_list = eval(args.skip)
 elif sim_type == 'MixedSIR':
     nsrc_list = eval(args.n_sources)  # convert to list
     skip_list = eval(args.skip)  # convert to list
