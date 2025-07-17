@@ -14,9 +14,9 @@ np.random.seed(41)
 
 ## Parameters for propagation model
 nsrc = 7 # number of sources
-Rzero = 2.5
+Rzero = 43.44
 beta = 0.25
-gamma = 0
+gamma = 0.15
 T = 30
 ls = 21200
 nf = 16
@@ -58,7 +58,10 @@ exp_name = f"SIR_nsrc{nsrc}_Rzero{Rzero}_beta{beta}_gamma{gamma}_T{T}_ls{ls}_nf{
 graph_extract_path = 'SD-STGCN/dataset/' + graph + '/data/graph/highSchool.edgelist'
 data_extract_path = 'SD-STGCN/output/test_res/' + graph + '/' + exp_name + '/res.pickle'
 
-'''
+print(f'Extracting data for graph: {graph_extract_path}, experiment: {exp_name}, data: {data_extract_path}')
+
+
+
 # copy these data to the data folder, if not copied
 graph_path = 'data/' + graph + '/graph/' + graph + '.edgelist'
 data_path = 'data/' + graph + '/test_res/' + exp_name + '/res.pickle'
@@ -75,7 +78,7 @@ G.graph = G
 n_nodes = G.number_of_nodes()
 print('Number of nodes:', G.number_of_nodes())
 print('Number of edges:', G.number_of_edges())
-
+'''
 # Compute the Laplacian matrix (D - A)
 L = nx.laplacian_matrix(G).astype(float)  # Returns a SciPy sparse matrix
 L = L.toarray()  # Convert to dense NumPy array if needed
@@ -87,7 +90,9 @@ freq_response[start_freq: end_freq] = 1
 score_filter = Gfb @ np.diag(freq_response) @ Gfb.T
 '''
 
-data_path = 'data/highSchool/test_res/SIR_nsrc7_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16_GNN.pickle'
+# data_path = 'data/highSchool/test_res/SIR_nsrc7_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16_GNN.pickle'
+data_path = 'SD-STGCN/output/test_res/highSchool/SIR_nsrc7_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16/res.pickle'
+# data_path = 'GNN/predictions/SIR_nsrc7_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16_torchentire_predictions.pickle'
 
 
 with open(data_path, 'rb') as f:

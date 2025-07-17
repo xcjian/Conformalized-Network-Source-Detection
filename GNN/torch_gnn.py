@@ -28,7 +28,7 @@ import pickle
 import torch
 
 from torchmetrics import Precision, Recall, F1Score
-
+from torch_geometric.nn import aggr
 
 from base_models import GCN, GAT, GraphSAGE, GIN, MLP
 from data.utils import convert_timeseries_to_features
@@ -98,22 +98,36 @@ class SimpleGCN(nn.Module):
         return probs
     
 # Read-in the data
-
-data_path = '../SD-STGCN/dataset/highSchool/data/SIR/'
+# Set the home directory for the dataset
+home_dir = "/home/twp/lantian/Conformalized-Network-Source-Detection/"
+dataset_dir = os.path.join(home_dir, "SD-STGCN/dataset/highSchool/data/SIR/")
+print("Dataset directory:", dataset_dir)
 
 ## SI models
 # data_file = 'SIR_nsrc7_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_torchentire.pickle'
 # data_file = 'SIR_nsrc7_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_torchentire.pickle'
 # data_file = 'SIR_nsrc10_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_torchentire.pickle'
 ## SIR models
-data_file = 'SIR_nsrc1_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16_torchentire.pickle'
+# data_file = 'SIR_nsrc1_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16_torchentire.pickle'
 # data_file = 'SIR_nsrc7_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16_torchentire.pickle'
 
-graph_path = '../SD-STGCN/dataset/highSchool/data/graph/'
+data_files = [
+    'SIR_nsrc1_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16_torchentire.pickle',
+    'SIR_nsrc1_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_torchentire.pickle',
+    'SIR_nsrc7_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_torchentire.pickle',
+    'SIR_nsrc7_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16_torchentire.pickle',
+    'SIR_nsrc10_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16_torchentire.pickle',
+    'SIR_nsrc14_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16_torchentire.pickle',
+] # all available datafiles
+
+
+data_file = data_files[3]  # Choose one of the data files for now
+
+graph_path = os.path.join(home_dir, "SD-STGCN/dataset/highSchool/data/graph/")
 graph_file = 'highSchool.edgelist'
 print(f"Loading graph from {graph_path + graph_file}")
 
-with open(data_path + data_file, 'rb') as f:
+with open(dataset_dir + data_file, 'rb') as f:
     data = pickle.load(f)
 
 g = nx.read_edgelist(graph_path + graph_file)
@@ -226,15 +240,14 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=32, shuffle=F
 # Initialize model and training setup
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # model = SimpleGCN(input_dim=3, hidden_dim=64).to(device)
-from torch_geometric.nn import aggr
 
-model = GraphSAGE(
+model = GIN(
     in_dim=X.shape[-1],  # Input feature dimension based on X
     hidden_dim=128,  # Hidden layer dimension
     out_dim=2,  # Output feature dimension (number of classes)
     num_layers=4,  # Number of layers
     dropout=0.5,  # Dropout rate
-    aggr='mean',  # Aggregation methods for each layer
+    #aggr='mean',  # Aggregation methods for each layer
     use_batchnorm=True,  # Use Batch Normalization
     #use_bias=True,  # Use bias in linear layers
     use_skip=True,  # Use skip connections
@@ -264,20 +277,14 @@ for epoch in range(num_epochs):
         # Forward pass
         logits = model(X_batch.reshape(-1, X_batch.size(-1)), edge_index)  # Reshape input
         logits = logits.view(X_batch.size(0), X_batch.size(1), -1)  # Reshape output to (batch_size, n_vertex, 2)
-        
-        # Extract positive class logits (class 1)
-        true_logits = logits[:, :, 1]  # (batch_size, n_vertex)
-        # add a high-pass fileter to the logits with graph laplacian
-        true_logits = torch.matmul(laplacian, true_logits.T).T  # Apply Laplacian (high-pass filter)
+        true_logits = logits[:, :, 1]  # Extract positive class logits
+        probs = torch.sigmoid(true_logits)  # Convert logits to probabilities - only for the positive class
 
         
         if filtering:
-            # Apply filtering: set logits to a very negative value where first_snapshot == 0
+            # Apply filtering: set probabilities to 0 where first_snapshot == 0
             first_snapshot_batch = X_batch[:, :, 0]  # Extract first snapshot
-            true_logits = true_logits * (first_snapshot_batch != 0).float()
-
-        # Use filtered logits for loss computation
-        probs = torch.sigmoid(true_logits) 
+            probs = probs * (first_snapshot_batch != 0).float().unsqueeze(-1)  # Zero out probabilities where first_snapshot == 0
 
         # Compute weighted BCE loss using torch's built-in function
         wbce_loss = torch.nn.functional.binary_cross_entropy_with_logits(
@@ -338,26 +345,28 @@ with torch.no_grad():
         logits = model(X_batch.reshape(-1, X_batch.size(-1)), edge_index)
         logits = logits.view(X_batch.size(0), X_batch.size(1), -1)
 
-        true_logits = logits[:, :, 1]  # (batch_size, n_vertex)
-        true_logits = torch.matmul(laplacian, true_logits.T).T  # Apply Laplacian (high-pass filter)
+        # Convert logits to probabilities
+        # probs must be of [p_0, p_1] for each node, have the shape (batch_size, n_vertex, 2)
+        # to ensure the saved probs can be used for conformal prediction
+        probs = torch.softmax(logits, dim=-1)   # (batch_size, n_vertex, 2)
+        # Apply neighbor penalty
+        # print(f"Shape of probs before filtering: {probs.shape}")  # Should be [32, 774]
 
-        # Use filtered logits for loss computation
-        probs = torch.sigmoid(true_logits) 
-
-        #probs = torch.softmax(logits, dim=-1)  # Convert logits to probabilities
-        
         if filtering:
             # Apply filtering criteria: if first_snapshot == 0, set probability of being the source to 0
             first_snapshot_batch = X_batch[:, :, 0]  # Extract first snapshot (shape: [batch_size, n_vertex])
-            probs[:, :, 1] = probs[:, :, 1] * (first_snapshot_batch != 0).float()  # Zero out probabilities where first_snapshot == 0
-
+            probs = probs * (first_snapshot_batch != 0).float().unsqueeze(-1)  # Zero out probabilities where first_snapshot == 0
     
-        preds = probs.argmax(dim=-1)  # Get predicted class
+        preds = probs.argmax(dim=-1)  # Get predicted class,  Shape: (32, 774)
 
         # Save predictions, and ground truth
         predictions_dict['inputs'].append(X_batch.cpu().numpy()[:, :, 0])
         predictions_dict['ground_truth'].append(y_batch.cpu().numpy())
         predictions_dict['predictions'].append(probs.cpu().numpy())
+
+        # print shape of preds and y_batch
+        # preds: (batch_size, n_vertex), y_batch: (batch_size, n_vertex)
+        # print(f"Batch {idx+1}: preds shape: {preds.shape}, y_batch shape: {y_batch.shape}")
 
         # Calculate TP, FP, TN, FN for the batch
         tp = ((preds == 1) & (y_batch == 1)).sum().item()
