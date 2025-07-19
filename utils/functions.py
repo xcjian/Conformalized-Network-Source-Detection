@@ -707,7 +707,7 @@ def get_test_results(data_file, model_file, res_path, n_node, n_frame=16, end=-1
                 logits_test = test_sess.run(logits, feed_dict={'data_input:0': x_test_, 'data_label:0': y_test_, 'keep_prob:0': 1.0})
 
                 x_test_array = np.array([list(x_test_[i][0]) for i in range(len(x_test_))])
-                all_inputs.append(x_test_array[:, :, 1]) # only use the infected status
+                all_inputs.append(x_test_array[:, :, 1] + 2 * x_test_array[:, :, 2]) # only use the infected and recovered status
                 all_pred_results.append(pred_test)
                 all_y_test.append(y_test_)
                 all_logits.append(logits_test)

@@ -99,18 +99,26 @@ def avg_score(pred_prob, ground_truth, prop_model, infected_nodes):
     n_nodes = len(pred_prob)
 
     # adjust the pred_prob accoding to the propagation model
-    pi_hat = np.zeros(n_nodes)
-    for node in range(n_nodes):
-        if prop_model == 'SI' and node not in infected_nodes:
-            pi_hat[node] = 0
-        else:
-            pi_hat[node] = pred_prob[node]
+    pi_hat = np.array(pred_prob)
+
+    indicator_vec = np.zeros(n_nodes)
+    indicator_vec[infected_nodes] = 1
+
+    pi_hat = pi_hat * indicator_vec
+    # pi_hat = np.zeros(n_nodes)
+    # for node in range(n_nodes):
+    #     if prop_model == 'SI' and node not in infected_nodes:
+    #         pi_hat[node] = 0
+    #     else:
+    #         pi_hat[node] = pred_prob[node]
     
     # find the smallest pi_hat inside the ground truth
-    min_pi_hat = np.inf
-    for node in range(n_nodes):
-        if ground_truth[node] == 1:
-            min_pi_hat = min(min_pi_hat, pi_hat[node])
+    gtsource = np.nonzero(ground_truth)[0]
+    min_pi_hat = np.min(pi_hat[gtsource])
+    # min_pi_hat = np.inf
+    # for node in range(n_nodes):
+    #     if ground_truth[node] == 1:
+    #         min_pi_hat = min(min_pi_hat, pi_hat[node])
     
     # find all the nodes with pi_hat >= min_pi_hat
     indices = np.where(pi_hat >= min_pi_hat)[0]
@@ -138,12 +146,18 @@ def avg_score_gtunknown(pred_prob, prop_model, infected_nodes):
     n_nodes = len(pred_prob)
 
     # adjust the pred_prob accoding to the propagation model
-    pi_hat = np.zeros(n_nodes)
-    for node in range(n_nodes):
-        if prop_model == 'SI' and node not in infected_nodes:
-            pi_hat[node] = 0
-        else:
-            pi_hat[node] = pred_prob[node]
+    pi_hat = np.array(pred_prob)
+
+    indicator_vec = np.zeros(n_nodes)
+    indicator_vec[infected_nodes] = 1
+
+    pi_hat = pi_hat * indicator_vec
+    # pi_hat = np.zeros(n_nodes)
+    # for node in range(n_nodes):
+    #     if prop_model == 'SI' and node not in infected_nodes:
+    #         pi_hat[node] = 0
+    #     else:
+    #         pi_hat[node] = pred_prob[node]
 
     # compute conformity score for all labels
 
@@ -206,12 +220,18 @@ def recall_score(pred_prob, ground_truth, prop_model, infected_nodes):
     n_nodes = len(pred_prob)
 
     # adjust the pred_prob accoding to the propagation model
-    pi_hat = np.zeros(n_nodes)
-    for node in range(n_nodes):
-        if prop_model == 'SI' and node not in infected_nodes:
-            pi_hat[node] = 0
-        else:
-            pi_hat[node] = pred_prob[node]
+    pi_hat = np.array(pred_prob)
+
+    indicator_vec = np.zeros(n_nodes)
+    indicator_vec[infected_nodes] = 1
+
+    pi_hat = pi_hat * indicator_vec
+    # pi_hat = np.zeros(n_nodes)
+    # for node in range(n_nodes):
+    #     if prop_model == 'SI' and node not in infected_nodes:
+    #         pi_hat[node] = 0
+    #     else:
+    #         pi_hat[node] = pred_prob[node]
     
     # find the smallest pi_hat inside the ground truth
     gt_indices = np.where(ground_truth > 0)[0]
@@ -243,12 +263,18 @@ def recall_score_gtunknown(pred_prob, prop_model, infected_nodes):
     n_nodes = len(pred_prob)
 
     # adjust the pred_prob accoding to the propagation model
-    pi_hat = np.zeros(n_nodes)
-    for node in range(n_nodes):
-        if prop_model == 'SI' and node not in infected_nodes:
-            pi_hat[node] = 0
-        else:
-            pi_hat[node] = pred_prob[node]
+    pi_hat = np.array(pred_prob)
+
+    indicator_vec = np.zeros(n_nodes)
+    indicator_vec[infected_nodes] = 1
+
+    pi_hat = pi_hat * indicator_vec
+    # pi_hat = np.zeros(n_nodes)
+    # for node in range(n_nodes):
+    #     if prop_model == 'SI' and node not in infected_nodes:
+    #         pi_hat[node] = 0
+    #     else:
+    #         pi_hat[node] = pred_prob[node]
 
     # compute conformity score for all labels
 

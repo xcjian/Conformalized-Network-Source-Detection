@@ -1,4 +1,14 @@
 #!/bin/bash
+# SI over highSchool
+## src = 1
+python -u main.py --graph highSchool --train_exp_name SIR_nsrc1_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16 --test_exp_name SIR_nsrc1_Rzero2.5_beta0.25_gamma0_T30_ls8000_nf16 --pow_expected 1.0 --prop_model SI > loadCPSI1.log 2>&1 &
+wait
+## src = 7
+python -u main.py --graph highSchool --train_exp_name SIR_nsrc7_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16 --test_exp_name SIR_nsrc7_Rzero2.5_beta0.25_gamma0_T30_ls8000_nf16 --pow_expected 1.0 --prop_model SI > loadCPSI7.log 2>&1 &
+wait
+## src = 10
+python -u main.py --graph highSchool --train_exp_name SIR_nsrc10_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16 --test_exp_name SIR_nsrc10_Rzero2.5_beta0.25_gamma0_T30_ls8000_nf16 --pow_expected 1.0 --prop_model SI > loadCPSI10.log 2>&1 &
+wait
 
 # SIR over highSchool
 ## src = 1

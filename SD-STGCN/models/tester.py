@@ -133,7 +133,7 @@ def model_test_nodewise(inputs, args, load_path='./output/models/', save_test_pa
 
             if save_test_path:
                 x_test_array = np.array([list(x_test_[i][0]) for i in range(len(x_test_))])
-                all_inputs.append(x_test_array[:, :, 1]) # only use the infected status
+                all_inputs.append(x_test_array[:, :, 1] + 2 * x_test_array[:, :, 2]) # only use the infected and recovered status
                 all_pred_results.append(pred_test)
                 all_y_test.append(y_test_)
                 all_logits.append(logits_test)
