@@ -45,6 +45,7 @@ parser.add_argument('--m_p', type=int, default=20)
 
 # PGM-CQC
 parser.add_argument('--n_learn_tree', type=int, default=1000)
+parser.add_argument('--n_jobs_Arbitree', type=int, default=5)
 
 args = parser.parse_args()
 
@@ -75,6 +76,7 @@ m_p = args.m_p
 
 ## Parameters for PGM-CQC
 n_learn_tree = args.n_learn_tree
+n_jobs_Arbitree = args.n_jobs_Arbitree
 
 # Load data
 # graph_path = 'SD-STGCN/dataset/highSchool/data/graph/highSchool.edgelist'
@@ -153,6 +155,7 @@ n_test = n_samples - n_calibration
 method_names = []
 coverage_res = {}
 set_size_res = {}
+time_cost_res = {}
 
 for mc_idx in range(mc_runs):
 
@@ -277,8 +280,10 @@ for mc_idx in range(mc_runs):
     if 'set_recall' not in coverage_res:
       coverage_res['set_recall'] = np.zeros((mc_runs, n_alpha))
       set_size_res['set_recall'] = np.zeros((mc_runs, n_alpha))
+      time_cost_res['set_recall'] = np.zeros((mc_runs, n_alpha))
     coverage_res['set_recall'][mc_idx, :] = coverage
     set_size_res['set_recall'][mc_idx, :] = avg_size
+    time_cost_res['set_recall'][mc_idx, :] = time_cost
   
   if set_prec:
 
@@ -369,8 +374,10 @@ for mc_idx in range(mc_runs):
     if 'set_prec' not in coverage_res:
       coverage_res['set_prec'] = np.zeros((mc_runs, n_alpha))
       set_size_res['set_prec'] = np.zeros((mc_runs, n_alpha))
+      time_cost_res['set_prec'] = np.zeros((mc_runs, n_alpha))
     coverage_res['set_prec'][mc_idx, :] = coverage
     set_size_res['set_prec'][mc_idx, :] = avg_size
+    time_cost_res['set_prec'][mc_idx, :] = time_cost
 
   if ADiT_DSI:
     # ADiT-DSI
@@ -430,8 +437,10 @@ for mc_idx in range(mc_runs):
     if 'ADiT_DSI' not in coverage_res:
       coverage_res['ADiT_DSI'] = np.zeros((mc_runs, n_alpha))
       set_size_res['ADiT_DSI'] = np.zeros((mc_runs, n_alpha))
+      time_cost_res['ADiT_DSI'] = np.zeros((mc_runs, n_alpha))
     coverage_res['ADiT_DSI'][mc_idx, :] = coverage
     set_size_res['ADiT_DSI'][mc_idx, :] = avg_size  
+    time_cost_res['ADiT_DSI'][mc_idx, :] = time_cost
 
   if PGM_CQC:
 
@@ -611,8 +620,10 @@ for mc_idx in range(mc_runs):
     if 'ArbiTree-CQC' not in coverage_res:
       coverage_res['ArbiTree-CQC'] = np.zeros((mc_runs, n_alpha))
       set_size_res['ArbiTree-CQC'] = np.zeros((mc_runs, n_alpha))
+      time_cost_res['ArbiTree-CQC'] = np.zeros((mc_runs, n_alpha))
     coverage_res['ArbiTree-CQC'][mc_idx, :] = coverage
     set_size_res['ArbiTree-CQC'][mc_idx, :] = avg_size
+    time_cost_res['ArbiTree-CQC'][mc_idx, :] = time_cost
 
   print('finished repeatition:', mc_idx, 'time cost:', time.time()-start_mc_time)
 
@@ -719,14 +730,21 @@ def format_mean_stderr(data, decimals=3):
 # Initialize lists for tables
 coverage_table = []
 set_size_table = []
+time_cost_table = []
 
 # Build tables
 for method in method_names:
     coverage_data = coverage_res[method]
     set_size_data = set_size_res[method]
+    time_cost_data = time_cost_res[method]
+
     coverage_row = [method] + format_mean_stderr(coverage_data)
-    set_size_table.append([method] + format_mean_stderr(set_size_data))
+    set_size_row = [method] + format_mean_stderr(set_size_data)
+    time_cost_row = [method] + format_mean_stderr(time_cost_data)
+
     coverage_table.append(coverage_row)
+    set_size_table.append(set_size_row)
+    time_cost_table.append(time_cost_row)
 
 # Define headers for tables and DataFrames
 headers = ['Method'] + [f'α={alpha:.2f}' for alpha in confi_levels]
@@ -745,9 +763,17 @@ print("-" * len(header))
 for row in set_size_table:
     print(row[0].ljust(10) + "".join(val.ljust(15) for val in row[1:]))
 
+print("\nTime Cost Results:")  # NEW: Print time_cost table
+print(header)
+print("-" * len(header))
+for row in time_cost_table:
+    print(row[0].ljust(10) + "".join(val.ljust(15) for val in row[1:]))
+
 coverage_df = pd.DataFrame(coverage_table, columns=headers)
 set_size_df = pd.DataFrame(set_size_table, columns=headers)
+time_cost_df = pd.DataFrame(time_cost_table, columns=headers)
 coverage_df.to_csv(save_path + '/coverage_table.csv', index=False)
 set_size_df.to_csv(save_path + '/set_size_table.csv', index=False)
+time_cost_df.to_csv(save_path + '/time_cost_table.csv', index=False)
 
 print('finished.')

@@ -1,2 +1,2 @@
 #!/bin/bash
-nohup python -u main.py --graph highSchool --train_exp_name SIR_nsrc1_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16 --test_exp_name SIR_nsrc1_Rzero2.5_beta0.25_gamma0_T30_ls8000_nf16 --pow_expected 1.0 --prop_model SI --set_recall 1 --set_prec 1 --ADiT_DSI 1 --ArbiTree_CQC 1 > logfiles/runCPSI1pow1.log 2>&1 &
+nohup python -u main.py --graph highSchool --train_exp_name SIR_nsrc1_Rzero2.5_beta0.25_gamma0_T30_ls21200_nf16 --test_exp_name SIR_nsrc1_Rzero2.5_beta0.25_gamma0_T30_ls8000_nf16 --pow_expected 1.0 --prop_model SI --set_recall 1 --set_prec 1 --ADiT_DSI 1 --ArbiTree_CQC 1 --n_jobs_Arbitree 12 > logfiles/runCPSI1pow1.log 2>&1 &
