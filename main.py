@@ -204,7 +204,7 @@ for mc_idx in range(mc_runs):
     except:
       # Conformal Prediction
       print('computing proposed method with recall score...')
-      start_time_method_ = time.time()
+      
       ## Compute conformity scores on the calibration set
       cfscore_calib = []
       for i in range(n_calibration):
@@ -217,6 +217,7 @@ for mc_idx in range(mc_runs):
       cfscore_calib = np.array(cfscore_calib)
 
       ## Compute conformity scores on the test set
+      start_time_method_ = time.time()
       cfscore_test = []
       for i in range(n_test):
         infected_nodes_ = np.nonzero(inputs_test[i])[0]
@@ -298,7 +299,7 @@ for mc_idx in range(mc_runs):
     except:
       # Conformal Prediction
       print('computing proposed method with precision score...')
-      start_time_method_ = time.time()
+      
       ## Compute conformity scores on the calibration set
       cfscore_calib = []
       for i in range(n_calibration):
@@ -311,6 +312,7 @@ for mc_idx in range(mc_runs):
       cfscore_calib = np.array(cfscore_calib)
 
       ## Compute conformity scores on the test set
+      start_time_method_ = time.time()
       cfscore_test = []
       for i in range(n_test):
         infected_nodes_ = np.nonzero(inputs_test[i])[0]
@@ -496,7 +498,7 @@ for mc_idx in range(mc_runs):
     except:
       # Conformal Prediction
       print('computing ArbiTree-CQC...')
-      start_time_method_ = time.time()
+      
       # compute Y_hat for each vertex (i.e., label) on the calibration set
       Y_calib = []
       Y_hat_calib = []
@@ -533,6 +535,7 @@ for mc_idx in range(mc_runs):
       cfscore_calib = np.array(cfscore_calib)
 
       # Compute conformity scores on the test set
+      start_time_method_ = time.time()
       '''
       # non-parallel version:
       cfscore_test = []
