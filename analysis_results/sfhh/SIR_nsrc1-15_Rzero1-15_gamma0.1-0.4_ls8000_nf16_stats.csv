@@ -1,0 +1,7 @@
+Comparison,Beta,0.1
+ArbiTree_CQC < set_prec,0.3,1.000
+ArbiTree_CQC < set_recall,0.3,1.000
+ArbiTree_CQC > set_prec,0.3,3.78e-10***
+ArbiTree_CQC > set_recall,0.3,3.78e-10***
+set_prec < set_recall,0.3,1.000
+set_prec > set_recall,0.3,3.78e-10***
