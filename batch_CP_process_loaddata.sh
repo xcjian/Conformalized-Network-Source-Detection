@@ -17,8 +17,8 @@ wait
 ## src = 7
 python -u main.py --graph highSchool --train_exp_name SIR_nsrc7_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16 --test_exp_name SIR_nsrc7_Rzero43.44_beta0.25_gamma0.15_T30_ls8000_nf16 --pow_expected 0.3 --prop_model SIR > loadCPSIR7.log 2>&1 &
 wait
-## src = 14
-python -u main.py --graph highSchool --train_exp_name SIR_nsrc14_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16 --test_exp_name SIR_nsrc14_Rzero43.44_beta0.25_gamma0.15_T30_ls8000_nf16 --pow_expected 0.3 --prop_model SIR > loadCPSIR14.log 2>&1 &
+## src = 10
+python -u main.py --graph highSchool --train_exp_name SIR_nsrc10_Rzero43.44_beta0.25_gamma0.15_T30_ls21200_nf16 --test_exp_name SIR_nsrc10_Rzero43.44_beta0.25_gamma0.15_T30_ls8000_nf16 --pow_expected 0.3 --prop_model SIR > loadCPSIR10.log 2>&1 &
 wait
 
 # randomSIR over highSchool
