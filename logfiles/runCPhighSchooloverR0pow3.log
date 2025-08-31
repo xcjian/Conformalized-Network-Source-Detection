@@ -1,0 +1,572 @@
+2025-09-01 00:01:22.651670: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+Number of nodes: 774
+Number of edges: 7992
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9425 0.925  0.9025 0.845  0.76  ]
+set size: [13.4525 11.055   8.72    6.725   5.3175]
+time cost: 1.4044108390808105
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.98  0.955 0.935 0.915 0.865]
+set size: [26.7075 23.5975 19.9525 15.35   12.3025]
+time cost: 1.5548808574676514
+finished repeatition: 0 time cost: 1.94051194190979
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.955  0.935  0.905  0.825  0.7675]
+set size: [14.2575 11.6525  9.1675  7.16    5.805 ]
+time cost: 1.4169983863830566
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.98   0.9675 0.9475 0.9125 0.8625]
+set size: [28.5    25.1875 21.1925 16.5075 13.1275]
+time cost: 1.5592460632324219
+finished repeatition: 1 time cost: 1.9376285076141357
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9475 0.9325 0.905  0.86   0.795 ]
+set size: [14.325  11.7125  9.3375  7.135   5.8425]
+time cost: 1.4035851955413818
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.98   0.975  0.9525 0.92   0.8725]
+set size: [28.685  25.2425 21.215  16.6375 13.3875]
+time cost: 1.5510194301605225
+finished repeatition: 2 time cost: 1.9310376644134521
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9475 0.92   0.89   0.8275 0.7525]
+set size: [13.23   10.7825  8.6675  6.685   5.3925]
+time cost: 1.4185371398925781
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9825 0.965  0.9475 0.9075 0.8625]
+set size: [26.75   23.0925 19.6625 15.145  12.1225]
+time cost: 1.558466911315918
+finished repeatition: 3 time cost: 1.938267469406128
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.95   0.9275 0.9    0.8475 0.765 ]
+set size: [13.955  11.24    8.97    6.8225  5.4625]
+time cost: 1.4203126430511475
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9825 0.9575 0.9275 0.895  0.85  ]
+set size: [27.55   23.9025 20.17   15.3125 12.2725]
+time cost: 1.5604491233825684
+finished repeatition: 4 time cost: 1.9390153884887695
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9375 0.93   0.915  0.855  0.77  ]
+set size: [13.5125 10.9525  8.7525  6.75    5.3825]
+time cost: 1.4111711978912354
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.975  0.96   0.935  0.8925 0.8425]
+set size: [26.6275 23.095  19.5525 15.0525 12.0375]
+time cost: 1.5546839237213135
+finished repeatition: 5 time cost: 1.9336364269256592
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.945  0.9275 0.895  0.8425 0.765 ]
+set size: [14.49   11.655   9.2925  7.2525  5.8525]
+time cost: 1.4082896709442139
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9775 0.9625 0.9325 0.9    0.8425]
+set size: [27.5025 24.25   19.9075 15.71   12.3075]
+time cost: 1.5745477676391602
+finished repeatition: 6 time cost: 1.9542462825775146
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.955 0.94  0.905 0.84  0.775]
+set size: [13.45   11.1175  8.8225  6.7025  5.435 ]
+time cost: 1.406196117401123
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.98   0.9625 0.95   0.9225 0.8625]
+set size: [28.495  24.6025 20.6975 16.0575 13.0625]
+time cost: 1.5407803058624268
+finished repeatition: 7 time cost: 1.9199295043945312
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.94   0.9225 0.8875 0.8275 0.765 ]
+set size: [13.745  11.245   8.8     6.8075  5.4925]
+time cost: 1.404334545135498
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.985  0.9625 0.935  0.9    0.8475]
+set size: [27.2025 24.1225 20.1225 15.295  12.285 ]
+time cost: 1.531421422958374
+finished repeatition: 8 time cost: 1.908578634262085
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9625 0.945  0.915  0.86   0.7875]
+set size: [14.2525 11.525   9.0425  6.8825  5.52  ]
+time cost: 1.4171814918518066
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.99   0.9775 0.9575 0.92   0.885 ]
+set size: [27.755  24.58   20.5975 15.845  12.76  ]
+time cost: 1.5630061626434326
+finished repeatition: 9 time cost: 1.9433746337890625
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.96   0.94   0.91   0.855  0.7775]
+set size: [14.395  11.68    9.325   7.13    5.6975]
+time cost: 1.423027753829956
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.98   0.9725 0.9525 0.915  0.875 ]
+set size: [28.1075 24.7175 20.7775 16.15   12.8   ]
+time cost: 1.5587975978851318
+finished repeatition: 10 time cost: 1.9373564720153809
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.945 0.925 0.895 0.84  0.755]
+set size: [13.5525 11.13    8.895   6.8525  5.4375]
+time cost: 1.4089291095733643
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.99   0.9775 0.95   0.9175 0.8675]
+set size: [27.4925 24.34   20.3    15.7425 12.5775]
+time cost: 1.5681889057159424
+finished repeatition: 11 time cost: 1.943812608718872
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9575 0.9425 0.9225 0.8625 0.7825]
+set size: [14.235  11.6425  9.1625  6.8975  5.545 ]
+time cost: 1.4227852821350098
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9775 0.97   0.95   0.92   0.8725]
+set size: [27.3325 24.1025 20.08   15.655  12.52  ]
+time cost: 1.5736052989959717
+finished repeatition: 12 time cost: 1.951768159866333
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.955  0.945  0.9175 0.8675 0.775 ]
+set size: [13.44   11.075   8.61    6.6175  5.3475]
+time cost: 1.399529218673706
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9775 0.9625 0.9425 0.9125 0.8575]
+set size: [26.925  23.6125 19.9675 15.6425 12.6725]
+time cost: 1.5410072803497314
+finished repeatition: 13 time cost: 1.9183855056762695
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.945  0.92   0.8925 0.8475 0.765 ]
+set size: [13.33   11.0475  8.8475  6.8175  5.49  ]
+time cost: 1.4143757820129395
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9875 0.9725 0.95   0.9125 0.8475]
+set size: [26.96   23.96   20.0175 15.6275 12.425 ]
+time cost: 1.5686752796173096
+finished repeatition: 14 time cost: 1.9460206031799316
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9275 0.9    0.87   0.7975 0.745 ]
+set size: [13.9025 11.2875  8.885   6.6775  5.355 ]
+time cost: 1.4107372760772705
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.975  0.9475 0.93   0.8975 0.8375]
+set size: [26.6075 23.1425 19.6475 15.3925 12.4025]
+time cost: 1.5664539337158203
+finished repeatition: 15 time cost: 1.9461092948913574
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.95   0.925  0.88   0.8325 0.765 ]
+set size: [13.1975 10.8725  8.55    6.545   5.285 ]
+time cost: 1.4058043956756592
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.975  0.95   0.935  0.9025 0.8575]
+set size: [26.6775 22.9325 19.385  15.0725 12.42  ]
+time cost: 1.570755958557129
+finished repeatition: 16 time cost: 1.947075605392456
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.96   0.945  0.9225 0.845  0.76  ]
+set size: [14.7    12.155   9.5175  7.2275  5.7875]
+time cost: 1.4120683670043945
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.985  0.9675 0.945  0.91   0.8625]
+set size: [28.72   25.1725 20.8875 15.92   12.8475]
+time cost: 1.5549135208129883
+finished repeatition: 17 time cost: 1.9348361492156982
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.945  0.92   0.895  0.8475 0.775 ]
+set size: [13.005  10.84    8.6325  6.67    5.5075]
+time cost: 1.400787115097046
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.98   0.9575 0.94   0.9125 0.85  ]
+set size: [27.2525 23.6525 19.53   15.1425 12.305 ]
+time cost: 1.564777135848999
+finished repeatition: 18 time cost: 1.9421539306640625
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9475 0.93   0.9125 0.865  0.7875]
+set size: [13.8075 11.3375  9.0525  6.96    5.6225]
+time cost: 1.4241666793823242
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9775 0.965  0.94   0.905  0.8525]
+set size: [27.5525 23.8525 19.895  15.0775 11.935 ]
+time cost: 1.5606355667114258
+finished repeatition: 19 time cost: 1.9385521411895752
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9525 0.9325 0.91   0.845  0.76  ]
+set size: [13.4325 11.03    8.8625  6.64    5.3925]
+time cost: 1.4081668853759766
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9925 0.975  0.955  0.92   0.8775]
+set size: [27.3925 23.905  20.0125 15.2475 12.305 ]
+time cost: 1.547492265701294
+finished repeatition: 20 time cost: 1.9242587089538574
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9425 0.935  0.9075 0.85   0.7825]
+set size: [13.8925 11.44    9.1325  6.9975  5.615 ]
+time cost: 1.4117772579193115
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9825 0.965  0.9575 0.9025 0.86  ]
+set size: [27.205  23.5625 20.1225 15.5675 12.5325]
+time cost: 1.5590248107910156
+finished repeatition: 21 time cost: 1.9382669925689697
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9375 0.9225 0.9    0.845  0.765 ]
+set size: [13.2475 10.95    8.6325  6.7225  5.4225]
+time cost: 1.4180009365081787
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9875 0.9675 0.955  0.92   0.8775]
+set size: [27.5425 24.27   20.4875 15.85   12.8225]
+time cost: 1.5668723583221436
+finished repeatition: 22 time cost: 1.946361780166626
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.94   0.915  0.8925 0.8375 0.7825]
+set size: [13.385  10.905   8.8175  6.8     5.57  ]
+time cost: 1.424471139907837
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.985  0.97   0.95   0.9125 0.8575]
+set size: [27.3475 23.6925 19.8375 15.37   12.355 ]
+time cost: 1.552565336227417
+finished repeatition: 23 time cost: 1.93330717086792
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.94   0.9125 0.8925 0.8175 0.74  ]
+set size: [13.5775 10.77    8.63    6.57    5.305 ]
+time cost: 1.4107518196105957
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9825 0.97   0.9575 0.9275 0.8625]
+set size: [26.68   23.4725 19.7075 15.47   12.1125]
+time cost: 1.5534636974334717
+finished repeatition: 24 time cost: 1.935389757156372
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.93  0.91  0.89  0.835 0.765]
+set size: [13.5025 11.24    9.1675  6.9025  5.665 ]
+time cost: 1.3993053436279297
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.98   0.9575 0.935  0.89   0.855 ]
+set size: [27.1025 23.745  19.89   15.195  12.2725]
+time cost: 1.5565886497497559
+finished repeatition: 25 time cost: 1.9374799728393555
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9525 0.9375 0.92   0.845  0.785 ]
+set size: [13.8525 11.615   9.22    6.965   5.64  ]
+time cost: 1.4148755073547363
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9825 0.97   0.95   0.9075 0.8625]
+set size: [28.18   24.87   20.8925 15.9    12.78  ]
+time cost: 1.5647094249725342
+finished repeatition: 26 time cost: 1.9451816082000732
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.95   0.9325 0.91   0.8575 0.7775]
+set size: [13.5725 10.9825  8.8125  6.675   5.3875]
+time cost: 1.4076933860778809
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.975  0.9575 0.93   0.9    0.85  ]
+set size: [27.0675 23.8825 19.9225 15.3925 12.34  ]
+time cost: 1.554520606994629
+finished repeatition: 27 time cost: 1.9346413612365723
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.935  0.92   0.895  0.8475 0.7625]
+set size: [14.     11.58    9.165   6.8475  5.39  ]
+time cost: 1.4119887351989746
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9775 0.9525 0.935  0.9075 0.8625]
+set size: [27.3075 23.765  19.9125 15.145  12.235 ]
+time cost: 1.5556273460388184
+finished repeatition: 28 time cost: 1.9343669414520264
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.945  0.9325 0.9125 0.8475 0.8025]
+set size: [13.7725 11.54    9.1     7.0225  5.645 ]
+time cost: 1.4136536121368408
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.985  0.975  0.9575 0.925  0.885 ]
+set size: [27.22   23.8425 20.19   15.7525 12.755 ]
+time cost: 1.5620226860046387
+finished repeatition: 29 time cost: 1.9397220611572266
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9325 0.9175 0.88   0.8225 0.7525]
+set size: [13.775 11.28   8.88   6.69   5.39 ]
+time cost: 1.4181182384490967
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.985  0.97   0.9425 0.895  0.845 ]
+set size: [26.64   23.3775 19.3225 14.74   11.695 ]
+time cost: 1.5587632656097412
+finished repeatition: 30 time cost: 1.9374206066131592
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9625 0.935  0.915  0.84   0.795 ]
+set size: [14.3125 11.86    9.3025  7.0025  5.515 ]
+time cost: 1.4266855716705322
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9875 0.9725 0.945  0.9275 0.875 ]
+set size: [28.0775 24.59   20.655  16.1325 12.945 ]
+time cost: 1.5631961822509766
+finished repeatition: 31 time cost: 1.9401984214782715
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.95   0.935  0.8975 0.84   0.77  ]
+set size: [13.25   11.02    8.835   6.915   5.5375]
+time cost: 1.4213073253631592
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9825 0.975  0.9575 0.9075 0.8575]
+set size: [27.085  23.5    19.6625 15.125  12.2475]
+time cost: 1.573096513748169
+finished repeatition: 32 time cost: 1.9500877857208252
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.95   0.9325 0.91   0.8525 0.8025]
+set size: [14.0125 11.62    9.1025  7.005   5.6425]
+time cost: 1.4158141613006592
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.98   0.9625 0.94   0.9025 0.85  ]
+set size: [26.4375 23.0425 19.335  14.72   11.68  ]
+time cost: 1.560126543045044
+finished repeatition: 33 time cost: 1.938650369644165
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.94   0.905  0.8875 0.8325 0.77  ]
+set size: [13.075  10.7225  8.7     6.7625  5.4975]
+time cost: 1.4044451713562012
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9825 0.9725 0.9425 0.9025 0.865 ]
+set size: [26.865 23.28  19.72  15.43  12.605]
+time cost: 1.55302095413208
+finished repeatition: 34 time cost: 1.9296448230743408
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.955  0.945  0.9125 0.8425 0.7725]
+set size: [13.35   11.0275  8.845   6.75    5.42  ]
+time cost: 1.4157800674438477
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9925 0.975  0.9525 0.9125 0.85  ]
+set size: [26.9425 23.205  19.195  14.9525 11.845 ]
+time cost: 1.5729789733886719
+finished repeatition: 35 time cost: 1.951331377029419
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.94   0.915  0.8875 0.8425 0.78  ]
+set size: [13.625  11.105   8.8425  6.6825  5.3075]
+time cost: 1.4060533046722412
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9875 0.9725 0.9475 0.925  0.8775]
+set size: [27.5375 23.995  19.625  15.1925 12.1   ]
+time cost: 1.546668291091919
+finished repeatition: 36 time cost: 1.9248690605163574
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9475 0.925  0.9    0.845  0.775 ]
+set size: [13.1075 10.71    8.5725  6.58    5.2925]
+time cost: 1.4221808910369873
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.975  0.965  0.9375 0.905  0.8475]
+set size: [26.8775 23.955  20.2675 15.8925 12.6025]
+time cost: 1.561108112335205
+finished repeatition: 37 time cost: 1.9400391578674316
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9575 0.9275 0.91   0.86   0.7675]
+set size: [14.6    11.7175  9.4525  7.145   5.645 ]
+time cost: 1.4075565338134766
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.985  0.9625 0.94   0.9075 0.8625]
+set size: [28.195  24.79   20.62   15.915  12.5075]
+time cost: 1.5573534965515137
+finished repeatition: 38 time cost: 1.9358203411102295
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9625 0.9425 0.9075 0.84   0.7675]
+set size: [14.325  11.72    9.2675  7.0175  5.74  ]
+time cost: 1.4027304649353027
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9825 0.9725 0.9375 0.895  0.85  ]
+set size: [26.9325 23.6075 19.5975 15.005  12.145 ]
+time cost: 1.559675693511963
+finished repeatition: 39 time cost: 1.9375889301300049
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9475 0.9375 0.905  0.84   0.7625]
+set size: [13.8925 11.345   8.9775  6.825   5.4325]
+time cost: 1.4069314002990723
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.985 0.98  0.955 0.925 0.875]
+set size: [28.2875 24.8525 20.81   16.1375 12.9525]
+time cost: 1.5613439083099365
+finished repeatition: 40 time cost: 1.9400146007537842
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9525 0.9275 0.905  0.8375 0.785 ]
+set size: [13.64   11.185   8.8575  6.73    5.4475]
+time cost: 1.4113929271697998
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.985  0.9675 0.9425 0.9025 0.8475]
+set size: [26.735  23.18   19.5075 15.075  11.9275]
+time cost: 1.544342279434204
+finished repeatition: 41 time cost: 1.9237842559814453
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.945  0.9325 0.9075 0.84   0.765 ]
+set size: [13.43   11.2925  8.89    6.7525  5.3875]
+time cost: 1.4004147052764893
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9825 0.96   0.935  0.8975 0.8575]
+set size: [27.0875 23.8675 19.7475 15.4925 12.4575]
+time cost: 1.5551023483276367
+finished repeatition: 42 time cost: 1.9331483840942383
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.95   0.935  0.9225 0.8525 0.7825]
+set size: [13.7425 11.21    9.0275  6.8075  5.5325]
+time cost: 1.4124224185943604
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9825 0.9575 0.9325 0.905  0.85  ]
+set size: [27.345  23.9525 20.13   15.8575 12.82  ]
+time cost: 1.5597877502441406
+finished repeatition: 43 time cost: 1.938523769378662
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.95   0.9325 0.9075 0.845  0.775 ]
+set size: [13.285  10.895   8.7425  6.86    5.4825]
+time cost: 1.4061229228973389
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9725 0.9575 0.9325 0.895  0.8475]
+set size: [25.81   22.745  19.485  15.2875 12.2175]
+time cost: 1.5559029579162598
+finished repeatition: 44 time cost: 1.9328360557556152
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9475 0.9325 0.905  0.8475 0.7775]
+set size: [12.8125 10.785   8.59    6.595   5.315 ]
+time cost: 1.4060494899749756
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9875 0.965  0.9475 0.9025 0.8525]
+set size: [26.44   23.11   19.5175 15.2975 12.43  ]
+time cost: 1.5561161041259766
+finished repeatition: 45 time cost: 1.9354326725006104
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9575 0.945  0.9075 0.8475 0.7825]
+set size: [14.12  11.565  9.29   7.085  5.555]
+time cost: 1.4070498943328857
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.985  0.97   0.95   0.915  0.8625]
+set size: [26.525  23.245  19.8525 15.34   12.365 ]
+time cost: 1.5612804889678955
+finished repeatition: 46 time cost: 1.9365060329437256
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9425 0.925  0.895  0.8175 0.7425]
+set size: [13.3925 10.7525  8.6075  6.5625  5.2225]
+time cost: 1.4156477451324463
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.975  0.95   0.9275 0.8725 0.825 ]
+set size: [25.6925 22.225  18.725  14.345  11.55  ]
+time cost: 1.5447852611541748
+finished repeatition: 47 time cost: 1.9230520725250244
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.9725 0.955  0.93   0.855  0.79  ]
+set size: [14.5425 11.59    9.135   6.9225  5.5875]
+time cost: 1.4250907897949219
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.99   0.9775 0.96   0.9275 0.8775]
+set size: [28.165  24.4775 20.6275 15.8475 12.695 ]
+time cost: 1.5581254959106445
+finished repeatition: 48 time cost: 1.9374113082885742
+Calibration size: 7600 test size: 400
+average infected size: 33.0425
+coverage: [0.96   0.935  0.905  0.85   0.7825]
+set size: [14.335  11.715   9.4175  7.1175  5.7   ]
+time cost: 1.4243407249450684
+computing proposed method with precision score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.98   0.9675 0.95   0.92   0.88  ]
+set size: [28.3925 25.0825 21.1225 16.585  13.1575]
+time cost: 1.5650887489318848
+finished repeatition: 49 time cost: 1.9454476833343506
+
+Coverage Results:
+Method    α=0.05         α=0.07         α=0.10         α=0.15         α=0.20         
+-------------------------------------------------------------------------------------
+set_recall0.948 ± 0.009  0.930 ± 0.011  0.903 ± 0.012  0.843 ± 0.013  0.772 ± 0.014  
+set_prec  0.982 ± 0.005  0.966 ± 0.008  0.944 ± 0.009  0.909 ± 0.011  0.860 ± 0.013  
+
+Set Size Results:
+Method    α=0.05         α=0.07         α=0.10         α=0.15         α=0.20         
+-------------------------------------------------------------------------------------
+set_recall13.742 ± 0.460 11.264 ± 0.350 8.959 ± 0.258  6.845 ± 0.185  5.505 ± 0.154  
+set_prec  27.290 ± 0.696 23.885 ± 0.684 20.041 ± 0.551 15.512 ± 0.474 12.441 ± 0.389 
+
+Time Cost Results:
+Method    α=0.05         α=0.07         α=0.10         α=0.15         α=0.20         
+-------------------------------------------------------------------------------------
+set_recall1.412 ± 0.007  1.412 ± 0.007  1.412 ± 0.007  1.412 ± 0.007  1.412 ± 0.007  
+set_prec  1.558 ± 0.009  1.558 ± 0.009  1.558 ± 0.009  1.558 ± 0.009  1.558 ± 0.009  
+finished.
