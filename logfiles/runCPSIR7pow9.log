@@ -1,862 +1,863 @@
-2025-07-18 23:58:29.721714: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+2025-09-16 21:41:25.249551: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
 Number of nodes: 774
 Number of edges: 7992
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.9825
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.935  0.8975 0.8525 0.8025]
 set size: [774.      40.77    40.28    39.5875  38.885 ]
 time cost: 4.107283592224121
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9475 0.9275 0.895  0.83   0.785 ]
 set size: [44.21   43.2575 42.2475 40.645  39.1175]
 time cost: 3.370656967163086
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9475 0.925  0.9    0.855  0.815 ]
+set size: [40.8575 40.44   39.945  39.0775 38.31  ]
+time cost: 1.2965266704559326
 coverage: [0.99   0.9775 0.955  0.95   0.9425]
 set size: [772.3025 771.0425 768.6575 766.385  765.3425]
 time cost: 421.4566173553467
-finished repeatition: 0 time cost: 428.948308467865
+finished repeatition: 0 time cost: 1.6927592754364014
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.095
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.93   0.905  0.865  0.8125]
 set size: [774.      40.83    40.3725  39.6825  38.975 ]
 time cost: 7.36980414390564
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9675 0.93   0.9    0.865  0.8175]
 set size: [44.66   43.6925 42.75   41.3125 39.8425]
 time cost: 7.948363304138184
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.945  0.9225 0.8975 0.8375 0.7775]
+set size: [40.9325 40.4925 39.9875 39.1825 38.47  ]
+time cost: 1.2967004776000977
 coverage: [0.995 0.975 0.945 0.925 0.915]
 set size: [772.535  770.64   766.755  764.7025 763.905 ]
 time cost: 400.8516414165497
-finished repeatition: 1 time cost: 416.2504913806915
+finished repeatition: 1 time cost: 1.5674996376037598
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.0025
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.905  0.88   0.835  0.7775]
 set size: [774.      40.735   40.2825  39.5775  38.8675]
 time cost: 10.810362815856934
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9525 0.93   0.9075 0.855  0.81  ]
 set size: [44.305  43.425  42.4425 40.8625 39.2775]
 time cost: 10.729435920715332
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.955  0.94   0.905  0.8575 0.8   ]
+set size: [40.8425 40.4175 39.86   39.0475 38.2225]
+time cost: 1.2967557907104492
 coverage: [0.9875 0.9875 0.9875 0.9875 0.9875]
 set size: [773.   773.   773.   773.   772.99]
 time cost: 565.3122107982635
-finished repeatition: 2 time cost: 586.8816707134247
+finished repeatition: 2 time cost: 1.5684802532196045
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.51
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.935  0.9025 0.83   0.79  ]
 set size: [774.      40.2925  39.8     39.0825  38.41  ]
 time cost: 8.328960180282593
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9475 0.925  0.9075 0.8575 0.8075]
 set size: [44.0975 43.2175 42.205  40.7475 39.34  ]
 time cost: 9.804998874664307
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.945  0.915  0.8925 0.855  0.7925]
+set size: [40.3825 39.9    39.44   38.58   37.8225]
+time cost: 1.295828104019165
 coverage: [0.97   0.9625 0.9575 0.955  0.95  ]
 set size: [770.8925 770.32   769.7225 769.1275 768.78  ]
 time cost: 469.7381935119629
-finished repeatition: 3 time cost: 487.94899582862854
+finished repeatition: 3 time cost: 1.5675675868988037
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.425
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.8775 0.8575 0.81   0.7575]
 set size: [774.      41.15    40.705   39.9725  39.2775]
 time cost: 11.041440725326538
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.935  0.925  0.8875 0.84   0.7825]
 set size: [44.5975 43.675  42.665  41.0825 39.52  ]
 time cost: 11.65044093132019
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9275 0.9075 0.87   0.8175 0.7625]
+set size: [41.2475 40.89   40.335  39.525  38.755 ]
+time cost: 1.2911012172698975
 coverage: [0.99   0.9825 0.98   0.9175 0.8975]
 set size: [772.9    772.3875 769.955  759.94   757.9975]
 time cost: 255.7350902557373
-finished repeatition: 4 time cost: 278.4876880645752
+finished repeatition: 4 time cost: 1.5664052963256836
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.435
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.945  0.9175 0.855  0.8075]
 set size: [774.      40.215   39.7425  39.0575  38.37  ]
 time cost: 10.45236086845398
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.96   0.94   0.9175 0.885  0.835 ]
 set size: [44.33   43.4425 42.425  41.0075 39.6375]
 time cost: 11.268415689468384
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.965 0.94  0.91  0.87  0.815]
+set size: [40.435  40.07   39.5625 38.785  38.0675]
+time cost: 1.2982089519500732
 coverage: [0.9925 0.9825 0.95   0.94   0.94  ]
 set size: [772.57   770.6575 765.71   764.2625 763.72  ]
 time cost: 389.78427958488464
-finished repeatition: 5 time cost: 411.572865486145
+finished repeatition: 5 time cost: 1.569596290588379
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.1325
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9425 0.8975 0.85   0.8075]
 set size: [774.      40.925   40.3925  39.7425  39.0375]
 time cost: 9.06642484664917
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.96   0.9225 0.8975 0.8475 0.805 ]
 set size: [44.7475 43.75   42.72   41.1325 39.5675]
 time cost: 8.679126977920532
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9625 0.9425 0.8975 0.855  0.8025]
+set size: [41.09   40.7325 40.2125 39.4175 38.6675]
+time cost: 1.295231819152832
 coverage: [0.995  0.995  0.9875 0.95   0.8575]
 set size: [772.985  772.8775 772.23   767.235  756.1275]
 time cost: 238.27738976478577
-finished repeatition: 6 time cost: 256.0641462802887
+finished repeatition: 6 time cost: 1.5664455890655518
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.9025
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.   0.94 0.9  0.85 0.78]
 set size: [774.      40.675   40.1825  39.5025  38.7775]
 time cost: 6.616267681121826
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9575 0.9375 0.92   0.875  0.815 ]
 set size: [44.66   43.7675 42.835  41.3    39.785 ]
 time cost: 7.01814079284668
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9625 0.9375 0.915  0.85   0.805 ]
+set size: [40.87   40.475  40.025  39.1625 38.4225]
+time cost: 1.2906508445739746
 coverage: [0.9875 0.9875 0.9875 0.9675 0.8825]
 set size: [772.9725 772.83   772.2675 769.1825 759.3425]
 time cost: 177.14560890197754
-finished repeatition: 7 time cost: 190.8127498626709
+finished repeatition: 7 time cost: 1.555286169052124
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.0175
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9325 0.915  0.8525 0.8075]
 set size: [774.      40.7625  40.36    39.6125  38.8975]
 time cost: 9.434711217880249
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.95   0.925  0.905  0.865  0.8075]
 set size: [44.4975 43.5575 42.55   41.0125 39.5125]
 time cost: 9.420788764953613
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9525 0.93   0.89   0.86   0.8075]
+set size: [40.8625 40.51   40.0225 39.2775 38.6025]
+time cost: 1.2912659645080566
 coverage: [0.9875 0.9875 0.9775 0.9125 0.8725]
 set size: [772.9375 772.62   771.2575 764.185  758.525 ]
 time cost: 269.90956711769104
-finished repeatition: 8 time cost: 288.82185077667236
+finished repeatition: 8 time cost: 1.5619165897369385
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.1
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9425 0.91   0.8625 0.8   ]
 set size: [774.      40.8575  40.4175  39.7025  38.9675]
 time cost: 10.9934401512146
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9475 0.925  0.9    0.8575 0.8275]
 set size: [44.5725 43.6325 42.6175 41.07   39.6375]
 time cost: 10.876953840255737
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9625 0.9425 0.9325 0.8875 0.8525]
+set size: [40.9925 40.6225 40.195  39.4275 38.655 ]
+time cost: 1.2909431457519531
 coverage: [0.99   0.99   0.9825 0.9525 0.91  ]
 set size: [772.9725 772.7125 771.5725 765.945  757.955 ]
 time cost: 247.2834026813507
-finished repeatition: 9 time cost: 269.22284483909607
+finished repeatition: 9 time cost: 1.5607233047485352
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.6325
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.925  0.895  0.86   0.8075]
 set size: [774.      40.38    39.9275  39.2075  38.515 ]
 time cost: 8.837837219238281
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9575 0.945  0.9225 0.8575 0.8125]
 set size: [44.0025 43.1475 42.18   40.7125 39.25  ]
 time cost: 10.03569221496582
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.955  0.925  0.8875 0.85   0.8   ]
+set size: [40.3125 39.9025 39.3175 38.4975 37.695 ]
+time cost: 1.2928979396820068
 coverage: [0.985  0.985  0.9775 0.915  0.86  ]
 set size: [772.9825 772.7975 771.51   763.365  757.9125]
 time cost: 278.6518032550812
-finished repeatition: 10 time cost: 297.56641244888306
+finished repeatition: 10 time cost: 1.5601918697357178
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.2775
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.93   0.905  0.8575 0.8   ]
 set size: [774.      41.0175  40.5425  39.86    39.1475]
 time cost: 8.170814037322998
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9575 0.9425 0.9025 0.8575 0.8   ]
 set size: [44.6525 43.7675 42.735  41.195  39.6675]
 time cost: 8.20420789718628
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9625 0.9425 0.9225 0.85   0.81  ]
+set size: [41.175  40.8275 40.295  39.3175 38.505 ]
+time cost: 1.3941800594329834
 coverage: [0.99   0.99   0.9775 0.92   0.9125]
 set size: [772.9775 772.79   770.5925 762.185  761.425 ]
 time cost: 326.26776480674744
-finished repeatition: 11 time cost: 342.67809891700745
+finished repeatition: 11 time cost: 1.6630055904388428
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.0325
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9375 0.9    0.8575 0.795 ]
 set size: [774.      40.8225  40.325   39.655   38.9275]
 time cost: 8.848652839660645
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9525 0.9375 0.8975 0.855  0.79  ]
 set size: [44.55   43.6675 42.655  41.1325 39.5625]
 time cost: 8.341277122497559
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9575 0.9325 0.915  0.87   0.835 ]
+set size: [40.97   40.6375 40.1225 39.3325 38.675 ]
+time cost: 2.0766263008117676
 coverage: [0.9925 0.9925 0.965  0.905  0.89  ]
 set size: [772.8825 772.3725 769.7825 761.6675 760.06  ]
 time cost: 308.8351995944977
-finished repeatition: 12 time cost: 326.0516927242279
+finished repeatition: 12 time cost: 2.5370123386383057
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.1575
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9275 0.8925 0.845  0.7875]
 set size: [774.      40.91    40.465   39.7475  39.0175]
 time cost: 7.61944055557251
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.95   0.9275 0.895  0.845  0.795 ]
 set size: [44.565  43.6075 42.595  41.02   39.4775]
 time cost: 7.363166570663452
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.935  0.93   0.8925 0.8475 0.805 ]
+set size: [41.08   40.6975 40.1125 39.27   38.5125]
+time cost: 2.0757431983947754
 coverage: [0.98   0.9575 0.945  0.94   0.9325]
 set size: [772.24   769.6875 767.125  766.095  765.5825]
 time cost: 410.0325860977173
-finished repeatition: 13 time cost: 425.06444668769836
+finished repeatition: 13 time cost: 2.5371954441070557
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.695
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.    0.955 0.92  0.88  0.825]
 set size: [774.      40.44    39.99    39.29    38.5475]
 time cost: 9.959984064102173
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.965  0.9325 0.9175 0.8575 0.8125]
 set size: [44.135  43.125  42.1625 40.565  39.11  ]
 time cost: 10.326666831970215
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.955  0.9375 0.9    0.84   0.7975]
+set size: [40.47   40.12   39.54   38.69   37.9825]
+time cost: 2.071882724761963
 coverage: [0.9775 0.9775 0.975  0.975  0.97  ]
 set size: [771.435  771.1075 770.785  770.4925 770.275 ]
 time cost: 527.3580198287964
-finished repeatition: 14 time cost: 547.6972088813782
+finished repeatition: 14 time cost: 2.5337297916412354
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.3
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9025 0.8725 0.775  0.745 ]
 set size: [774.      41.06    40.5725  39.82    39.135 ]
 time cost: 9.507461786270142
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9475 0.9175 0.875  0.8375 0.7675]
 set size: [44.81   43.865  42.7875 41.1775 39.6025]
 time cost: 9.877909421920776
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.925  0.905  0.8825 0.835  0.77  ]
+set size: [41.175  40.7975 40.32   39.5425 38.7575]
+time cost: 2.0704338550567627
 coverage: [0.9875 0.9625 0.9425 0.9325 0.93  ]
 set size: [772.4825 769.825  766.3925 765.4875 764.9875]
 time cost: 388.54276871681213
-finished repeatition: 15 time cost: 407.9970541000366
+finished repeatition: 15 time cost: 2.5289313793182373
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.275
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9275 0.9025 0.8375 0.795 ]
 set size: [774.      41.0125  40.5875  39.83    39.15  ]
 time cost: 11.297706127166748
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9325 0.905  0.8675 0.825  0.765 ]
 set size: [44.52   43.535  42.4975 40.905  39.365 ]
 time cost: 11.624304056167603
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.95   0.9275 0.8975 0.8475 0.795 ]
+set size: [41.175  40.7625 40.27   39.4525 38.7025]
+time cost: 2.0699429512023926
 coverage: [0.965  0.9625 0.9625 0.9625 0.9625]
 set size: [770.4875 770.34   770.1625 769.9825 769.8325]
 time cost: 493.55739974975586
-finished repeatition: 16 time cost: 516.5205154418945
+finished repeatition: 16 time cost: 2.530991554260254
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.87
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9475 0.9125 0.8525 0.81  ]
 set size: [774.     41.67   41.2    40.495  39.795]
 time cost: 8.63566279411316
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.96   0.94   0.8975 0.845  0.7925]
 set size: [45.2575 44.295  43.24   41.6675 40.1325]
 time cost: 9.273266077041626
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.98   0.9625 0.9225 0.875  0.8225]
+set size: [41.9725 41.615  41.0175 40.165  39.46  ]
+time cost: 2.0660784244537354
 coverage: [0.99   0.985  0.96   0.9225 0.9125]
 set size: [772.7725 771.8425 766.425  763.4025 762.665 ]
 time cost: 374.850869178772
-finished repeatition: 17 time cost: 392.80125880241394
+finished repeatition: 17 time cost: 2.530956745147705
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.4325
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.92   0.9    0.8375 0.8025]
 set size: [774.      41.205   40.7325  40.0375  39.3125]
 time cost: 6.1040918827056885
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.95   0.935  0.905  0.8475 0.815 ]
 set size: [44.715  43.78   42.7475 41.1825 39.7175]
 time cost: 5.165358781814575
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9375 0.9175 0.895  0.82   0.795 ]
+set size: [41.295  40.8875 40.3325 39.415  38.7275]
+time cost: 2.0836689472198486
 coverage: [0.99   0.99   0.9825 0.97   0.9425]
 set size: [772.995  772.8775 772.3225 770.06   764.3   ]
 time cost: 159.35551071166992
-finished repeatition: 18 time cost: 170.65748739242554
+finished repeatition: 18 time cost: 2.547501564025879
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.485
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9275 0.885  0.8275 0.8   ]
 set size: [774.      41.2375  40.7525  40.0675  39.3425]
 time cost: 10.590463876724243
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.91   0.895  0.86   0.8175 0.77  ]
 set size: [44.2675 43.3525 42.29   40.715  39.15  ]
 time cost: 10.221287965774536
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9575 0.9225 0.8875 0.8175 0.7475]
+set size: [41.28   40.8    40.2075 39.2725 38.3325]
+time cost: 2.074535608291626
 coverage: [0.985  0.9825 0.97   0.9    0.8525]
 set size: [772.9775 772.745  771.0425 762.5025 758.8125]
 time cost: 268.6780278682709
-finished repeatition: 19 time cost: 289.55231189727783
+finished repeatition: 19 time cost: 2.532801866531372
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.555
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9225 0.905  0.865  0.8125]
 set size: [774.      41.345   40.845   40.1725  39.475 ]
 time cost: 9.470587968826294
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9375 0.91   0.8625 0.815  0.7675]
 set size: [44.4325 43.445  42.3275 40.675  39.0575]
 time cost: 9.112515449523926
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.94   0.9275 0.895  0.8425 0.775 ]
+set size: [41.48   41.12   40.565  39.8275 38.965 ]
+time cost: 2.0812816619873047
 coverage: [0.9925 0.9925 0.9875 0.935  0.8925]
 set size: [772.96   772.7825 771.81   765.475  758.7225]
 time cost: 262.4790711402893
-finished repeatition: 20 time cost: 281.10714650154114
+finished repeatition: 20 time cost: 2.5374362468719482
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.325
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.945  0.9075 0.85   0.765 ]
 set size: [774.      41.115   40.6175  39.92    39.1675]
 time cost: 10.834535121917725
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.945  0.93   0.8975 0.8475 0.78  ]
 set size: [44.465  43.5275 42.4975 40.8425 39.2725]
 time cost: 11.521489381790161
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9575 0.935  0.8925 0.8475 0.79  ]
+set size: [41.2275 40.84   40.235  39.46   38.7225]
+time cost: 2.0803487300872803
 coverage: [0.9925 0.9875 0.9375 0.9275 0.9275]
 set size: [772.725  771.51   764.9575 763.6975 763.25  ]
 time cost: 373.4623718261719
-finished repeatition: 21 time cost: 395.8756802082062
+finished repeatition: 21 time cost: 2.54021954536438
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.3475
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.    0.96  0.935 0.905 0.865]
 set size: [774.      40.135   39.635   38.915   38.3075]
 time cost: 9.644532918930054
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.96   0.94   0.915  0.8825 0.8275]
 set size: [43.975  43.0625 42.0825 40.6075 39.155 ]
 time cost: 8.441280603408813
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9625 0.9425 0.91   0.875  0.8225]
+set size: [40.125  39.66   39.065  38.2525 37.5225]
+time cost: 2.1172659397125244
 coverage: [0.9875 0.985  0.9625 0.905  0.8875]
 set size: [772.92   772.3425 770.095  762.65   760.74  ]
 time cost: 326.2107527256012
-finished repeatition: 22 time cost: 344.347775220871
+finished repeatition: 22 time cost: 2.57351016998291
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.3425
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9475 0.9175 0.8675 0.815 ]
 set size: [774.      40.155   39.65    38.99    38.2525]
 time cost: 9.390400648117065
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9625 0.9475 0.915  0.86   0.825 ]
 set size: [43.9825 43.125  42.1825 40.6775 39.25  ]
 time cost: 10.003931760787964
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.97   0.9375 0.9125 0.885  0.8375]
+set size: [40.195  39.725  39.1575 38.4575 37.7025]
+time cost: 2.061793088912964
 coverage: [0.985  0.9625 0.94   0.9325 0.9275]
 set size: [772.1175 768.7725 767.18   766.4575 766.1225]
 time cost: 420.0095672607422
-finished repeatition: 23 time cost: 439.4692313671112
+finished repeatition: 23 time cost: 2.521554946899414
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.945
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9075 0.8825 0.8325 0.785 ]
 set size: [774.      40.675   40.2575  39.5025  38.8325]
 time cost: 10.204753637313843
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.95   0.935  0.905  0.87   0.8125]
 set size: [44.3525 43.4275 42.4625 40.96   39.44  ]
 time cost: 10.273969173431396
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.94   0.9275 0.8875 0.8525 0.7825]
+set size: [40.87   40.5025 39.955  39.21   38.3625]
+time cost: 2.0570178031921387
 coverage: [0.98   0.98   0.9775 0.9775 0.9725]
 set size: [771.24   770.9825 770.7425 770.445  770.2925]
 time cost: 503.3801076412201
-finished repeatition: 24 time cost: 523.8998544216156
+finished repeatition: 24 time cost: 2.515665054321289
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.9425
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.93   0.8675 0.8075 0.755 ]
 set size: [774.      40.7025  40.1675  39.45    38.7925]
 time cost: 7.045692205429077
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9525 0.91   0.8825 0.8375 0.78  ]
 set size: [44.2775 43.3375 42.3175 40.8025 39.2725]
 time cost: 6.709092378616333
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9375 0.9025 0.86   0.8175 0.7625]
+set size: [40.73   40.2875 39.71   38.8825 38.0625]
+time cost: 2.066901445388794
 coverage: [0.99   0.9875 0.985  0.985  0.9825]
 set size: [771.7875 771.0875 770.415  769.565  769.1425]
 time cost: 473.8808059692383
-finished repeatition: 25 time cost: 487.6685495376587
+finished repeatition: 25 time cost: 2.5192835330963135
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.4975
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.95   0.92   0.875  0.8175]
 set size: [774.      41.275   40.8025  40.1325  39.3925]
 time cost: 9.18235158920288
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9325 0.9125 0.89   0.8325 0.7875]
 set size: [44.66   43.74   42.705  41.075  39.4975]
 time cost: 8.83898115158081
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9725 0.955  0.93   0.87   0.815 ]
+set size: [41.505  41.0825 40.58   39.775  39.0075]
+time cost: 2.0563552379608154
 coverage: [0.995  0.9875 0.92   0.8775 0.875 ]
 set size: [772.5975 771.6225 765.895  763.0775 762.435 ]
 time cost: 395.1034686565399
-finished repeatition: 26 time cost: 413.15812587738037
+finished repeatition: 26 time cost: 2.5090208053588867
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.085
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9275 0.8975 0.86   0.8075]
 set size: [774.      40.83    40.3675  39.645   38.96  ]
 time cost: 7.668620586395264
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9525 0.9425 0.925  0.8675 0.82  ]
 set size: [44.37   43.5475 42.5825 41.05   39.5375]
 time cost: 8.488662719726562
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.94   0.9325 0.905  0.8475 0.8025]
+set size: [40.8675 40.4625 39.9125 39.04   38.285 ]
+time cost: 2.0464329719543457
 coverage: [0.985  0.9675 0.96   0.9575 0.9525]
 set size: [771.03   768.38   767.8825 767.485  767.2625]
 time cost: 442.1398968696594
-finished repeatition: 27 time cost: 458.3384380340576
+finished repeatition: 27 time cost: 2.500044584274292
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.2325
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9425 0.9125 0.875  0.8225]
 set size: [774.     40.995  40.545  39.84   39.125]
 time cost: 8.847179174423218
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9775 0.95   0.93   0.8825 0.8475]
 set size: [44.755  43.8525 42.8525 41.3525 39.9425]
 time cost: 9.516355514526367
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9575 0.9375 0.9125 0.8625 0.835 ]
+set size: [41.0575 40.69   40.085  39.2525 38.4925]
+time cost: 2.0566227436065674
 coverage: [0.995  0.995  0.98   0.915  0.8975]
 set size: [772.89   772.3475 769.905  761.9025 760.1975]
 time cost: 301.81348395347595
-finished repeatition: 28 time cost: 320.23815870285034
+finished repeatition: 28 time cost: 2.5099995136260986
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.9225
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.955  0.935  0.885  0.8325]
 set size: [774.      40.7225  40.28    39.54    38.85  ]
 time cost: 9.252867460250854
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.965  0.9575 0.9275 0.89   0.8325]
 set size: [44.5125 43.6475 42.7    41.2225 39.815 ]
 time cost: 9.897817373275757
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9525 0.9425 0.9275 0.8725 0.8325]
+set size: [40.71   40.3525 39.8675 39.015  38.33  ]
+time cost: 2.080166816711426
 coverage: [0.9925 0.9925 0.975  0.9175 0.89  ]
 set size: [772.96   772.7775 771.2575 760.735  758.385 ]
 time cost: 273.7758238315582
-finished repeatition: 29 time cost: 293.02358412742615
+finished repeatition: 29 time cost: 2.5366880893707275
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.76
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.94   0.9075 0.8475 0.79  ]
 set size: [774.      40.54    40.0675  39.34    38.64  ]
 time cost: 9.752567291259766
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.965  0.945  0.91   0.8525 0.79  ]
 set size: [44.4225 43.5425 42.5375 41.0075 39.4725]
 time cost: 9.486020803451538
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9575 0.93   0.9075 0.8625 0.8025]
+set size: [40.6175 40.2125 39.7275 38.91   38.1825]
+time cost: 2.0796926021575928
 coverage: [0.99   0.9875 0.9475 0.915  0.8925]
 set size: [772.6775 771.69   766.9425 763.215  762.1875]
 time cost: 330.05948424339294
-finished repeatition: 30 time cost: 349.33918833732605
+finished repeatition: 30 time cost: 2.5346555709838867
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.085
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9275 0.8925 0.84   0.7825]
 set size: [774.      40.85    40.375   39.6675  38.9575]
 time cost: 10.813591241836548
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9625 0.9375 0.9175 0.83   0.795 ]
 set size: [44.415  43.52   42.5325 40.9225 39.455 ]
 time cost: 11.651195526123047
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.95  0.935 0.92  0.865 0.81 ]
+set size: [40.965  40.55   40.0925 39.2975 38.4875]
+time cost: 2.0798470973968506
 coverage: [0.9825 0.98   0.9725 0.9725 0.9675]
 set size: [770.445  769.4625 768.9225 768.5125 768.3   ]
 time cost: 457.31110167503357
-finished repeatition: 31 time cost: 479.81719064712524
+finished repeatition: 31 time cost: 2.54194712638855
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.6025
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9275 0.895  0.8375 0.79  ]
 set size: [774.      40.3     39.875   39.1325  38.46  ]
 time cost: 7.2608866691589355
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9725 0.9525 0.9275 0.87   0.805 ]
 set size: [44.3975 43.4875 42.5175 41.0225 39.5525]
 time cost: 8.237609624862671
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.93   0.915  0.895  0.8375 0.7925]
+set size: [40.3775 40.02   39.47   38.6225 37.89  ]
+time cost: 2.0640437602996826
 coverage: [0.99   0.99   0.9825 0.9575 0.895 ]
 set size: [772.98   772.8375 771.985  767.685  759.4325]
 time cost: 296.6886668205261
-finished repeatition: 32 time cost: 312.2605538368225
+finished repeatition: 32 time cost: 2.5342791080474854
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.825
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9225 0.9075 0.8575 0.815 ]
 set size: [774.      40.5875  40.1625  39.425   38.73  ]
 time cost: 9.651296138763428
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.955  0.94   0.9275 0.875  0.83  ]
 set size: [44.45   43.615  42.665  41.2325 39.7625]
 time cost: 9.842265129089355
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9525 0.94   0.915  0.865  0.81  ]
+set size: [40.7325 40.3625 39.865  38.9825 38.245 ]
+time cost: 2.079254627227783
 coverage: [0.9975 0.9975 0.99   0.9325 0.885 ]
 set size: [772.9725 772.75   771.5875 763.41   758.4575]
 time cost: 244.57321429252625
-finished repeatition: 33 time cost: 264.13621068000793
+finished repeatition: 33 time cost: 2.5582079887390137
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.575
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9075 0.885  0.8375 0.805 ]
 set size: [774.      41.315   40.8325  40.1225  39.4475]
 time cost: 11.402920961380005
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9125 0.895  0.8675 0.82   0.78  ]
 set size: [44.2325 43.345  42.2525 40.67   39.105 ]
 time cost: 11.484336137771606
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.94   0.92   0.9025 0.84   0.795 ]
+set size: [41.2575 40.8375 40.2875 39.3575 38.565 ]
+time cost: 2.0695135593414307
 coverage: [0.97   0.9675 0.965  0.96   0.96  ]
 set size: [771.5125 771.085  770.685  770.35   770.2025]
 time cost: 504.7426598072052
-finished repeatition: 34 time cost: 527.6715402603149
+finished repeatition: 34 time cost: 2.56221342086792
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.795
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.94   0.9225 0.86   0.8   ]
 set size: [774.      40.5375  40.0925  39.3475  38.6575]
 time cost: 8.328482627868652
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9525 0.945  0.915  0.85   0.8   ]
 set size: [44.18   43.2675 42.21   40.6375 39.1025]
 time cost: 7.736316919326782
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.955  0.93   0.91   0.84   0.7925]
+set size: [40.595  40.21   39.6525 38.75   37.9575]
+time cost: 2.066986560821533
 coverage: [0.98   0.9725 0.965  0.9475 0.9375]
 set size: [772.5725 771.1325 769.3325 767.5125 766.645 ]
 time cost: 440.64338636398315
-finished repeatition: 35 time cost: 456.7377622127533
+finished repeatition: 35 time cost: 2.559523105621338
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.19
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9425 0.9225 0.875  0.8125]
 set size: [774.      39.97    39.5075  38.8075  38.1025]
 time cost: 9.909770488739014
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9425 0.9225 0.8975 0.855  0.815 ]
 set size: [43.715  42.795  41.8475 40.375  38.995 ]
 time cost: 10.350068092346191
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9525 0.9375 0.9125 0.845  0.7825]
+set size: [40.015  39.635  39.0275 38.1025 37.2925]
+time cost: 1.2817869186401367
 coverage: [0.9875 0.985  0.95   0.9375 0.9275]
 set size: [772.7375 771.3375 766.3525 765.04   764.5725]
 time cost: 396.6353621482849
-finished repeatition: 36 time cost: 416.98283886909485
+finished repeatition: 36 time cost: 1.6313815116882324
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.235
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.   0.93 0.91 0.87 0.8 ]
 set size: [774.      39.975   39.5275  38.8675  38.1475]
 time cost: 9.326744318008423
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.965  0.9575 0.935  0.8875 0.845 ]
 set size: [44.2075 43.3875 42.445  40.9725 39.5625]
 time cost: 8.857693433761597
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9575 0.9325 0.9075 0.8675 0.83  ]
+set size: [40.1075 39.73   39.25   38.465  37.8   ]
+time cost: 1.3010437488555908
 coverage: [0.9875 0.965  0.9475 0.94   0.9325]
 set size: [772.19   769.4375 766.4225 765.605  765.14  ]
 time cost: 391.19237780570984
-finished repeatition: 37 time cost: 409.41780638694763
+finished repeatition: 37 time cost: 1.5741519927978516
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.4075
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.925  0.8975 0.8425 0.7975]
 set size: [774.      41.1625  40.69    39.9575  39.2825]
 time cost: 9.890450477600098
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.93   0.9075 0.875  0.8275 0.7825]
 set size: [44.6075 43.65   42.615  40.9775 39.45  ]
 time cost: 9.941210508346558
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9475 0.9275 0.8975 0.8375 0.77  ]
+set size: [41.275  40.88   40.365  39.515  38.7725]
+time cost: 1.2918100357055664
 coverage: [0.9825 0.9825 0.9825 0.9825 0.9825]
 set size: [772.0075 772.005  772.0025 772.     772.    ]
 time cost: 531.8226327896118
-finished repeatition: 38 time cost: 551.7194466590881
+finished repeatition: 38 time cost: 1.5624258518218994
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.4525
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9225 0.9075 0.845  0.8025]
 set size: [774.      40.2475  39.765   39.0775  38.385 ]
 time cost: 9.144994020462036
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9725 0.945  0.92   0.8875 0.855 ]
 set size: [44.1875 43.335  42.365  40.955  39.58  ]
 time cost: 10.401484489440918
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.935  0.925  0.895  0.8475 0.785 ]
+set size: [40.3075 39.86   39.3225 38.4875 37.7025]
+time cost: 1.2791268825531006
 coverage: [0.99   0.9875 0.985  0.9575 0.8825]
 set size: [772.9425 772.595  771.2175 765.02   757.76  ]
 time cost: 238.79033541679382
-finished repeatition: 39 time cost: 258.3780472278595
+finished repeatition: 39 time cost: 1.5474131107330322
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.5475
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9325 0.9175 0.86   0.8   ]
 set size: [774.      40.3     39.8125  39.1075  38.45  ]
 time cost: 11.453935384750366
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9475 0.93   0.915  0.8425 0.815 ]
 set size: [44.1    43.18   42.195  40.5875 39.145 ]
 time cost: 11.136504650115967
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9325 0.9075 0.875  0.82   0.7925]
+set size: [40.3425 40.0075 39.5025 38.6225 37.875 ]
+time cost: 1.297100305557251
 coverage: [0.9825 0.9775 0.9725 0.9675 0.965 ]
 set size: [771.53   771.09   770.665  770.2525 770.0375]
 time cost: 518.7654185295105
-finished repeatition: 40 time cost: 541.4091107845306
+finished repeatition: 40 time cost: 1.5639145374298096
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.92
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.93   0.9075 0.855  0.8   ]
 set size: [774.      40.6625  40.205   39.505   38.8075]
 time cost: 7.515252113342285
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9425 0.9175 0.8975 0.8475 0.79  ]
 set size: [44.0375 43.15   42.2075 40.66   39.13  ]
 time cost: 9.88936185836792
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9425 0.93   0.9025 0.845  0.7875]
+set size: [40.68   40.32   39.7175 38.8325 38.01  ]
+time cost: 1.2976272106170654
 coverage: [0.9825 0.98   0.98   0.9725 0.965 ]
 set size: [772.3475 772.245  772.14   771.975  771.83  ]
 time cost: 542.9318332672119
-finished repeatition: 41 time cost: 560.4018707275391
+finished repeatition: 41 time cost: 1.5659918785095215
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.2625
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9425 0.9125 0.8725 0.8225]
 set size: [774.      41.05    40.5975  39.8725  39.185 ]
 time cost: 10.384080410003662
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.93   0.9175 0.89   0.8475 0.7875]
 set size: [44.445  43.5175 42.4875 40.89   39.3025]
 time cost: 10.815747261047363
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9625 0.9525 0.9125 0.8625 0.805 ]
+set size: [41.1225 40.7375 40.2125 39.4025 38.67  ]
+time cost: 1.2816717624664307
 coverage: [0.995 0.995 0.99  0.985 0.985]
 set size: [771.8075 771.5475 771.325  771.035  770.875 ]
 time cost: 418.2123107910156
-finished repeatition: 42 time cost: 439.45332622528076
+finished repeatition: 42 time cost: 1.5487852096557617
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.09
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.9325 0.9025 0.8475 0.7975]
 set size: [774.      40.875   40.395   39.6775  39.0175]
 time cost: 8.666830778121948
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9525 0.9375 0.915  0.8475 0.805 ]
 set size: [44.735 43.835 42.85  41.275 39.82 ]
 time cost: 8.918900966644287
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9525 0.93   0.91   0.86   0.81  ]
+set size: [41.075  40.7625 40.285  39.47   38.735 ]
+time cost: 1.322840929031372
 coverage: [0.99   0.9625 0.95   0.94   0.935 ]
 set size: [771.7275 770.4775 769.6    768.8625 768.495 ]
 time cost: 356.17136001586914
-finished repeatition: 43 time cost: 373.79818534851074
+finished repeatition: 43 time cost: 1.589320421218872
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.0125
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.935  0.9125 0.8875 0.84  ]
 set size: [774.      40.79    40.3425  39.7     38.9525]
 time cost: 6.486124515533447
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9575 0.9375 0.915  0.8725 0.835 ]
 set size: [44.67   43.77   42.8125 41.2775 39.76  ]
 time cost: 6.500049114227295
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.95   0.9325 0.9075 0.8775 0.835 ]
+set size: [41.0025 40.695  40.24   39.5575 38.78  ]
+time cost: 1.3067212104797363
 coverage: [0.975  0.935  0.9275 0.9225 0.92  ]
 set size: [772.165  768.69   767.5325 766.8225 766.37  ]
 time cost: 285.63103008270264
-finished repeatition: 44 time cost: 298.63541746139526
+finished repeatition: 44 time cost: 1.5779743194580078
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.97
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.93   0.9125 0.88   0.835 ]
 set size: [774.      40.725   40.275   39.5775  38.895 ]
 time cost: 5.88698935508728
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9575 0.93   0.905  0.865  0.82  ]
 set size: [44.6375 43.715  42.775  41.33   39.84  ]
 time cost: 6.906296014785767
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9625 0.955  0.9325 0.87   0.825 ]
+set size: [40.865  40.5125 40.02   39.16   38.4525]
+time cost: 1.2787444591522217
 coverage: [0.9775 0.9725 0.9675 0.965  0.9625]
 set size: [771.7425 771.4875 771.2525 771.0225 770.85  ]
 time cost: 340.07965636253357
-finished repeatition: 45 time cost: 352.9187767505646
+finished repeatition: 45 time cost: 1.5439674854278564
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.0575
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.91   0.8775 0.845  0.8   ]
 set size: [774.     40.775  40.34   39.635  38.925]
 time cost: 4.406379699707031
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.945  0.9225 0.895  0.835  0.7725]
 set size: [44.335  43.3825 42.33   40.7275 39.1675]
 time cost: 6.571831703186035
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9475 0.9325 0.905  0.835  0.7775]
+set size: [40.91   40.4875 39.925  39.0075 38.195 ]
+time cost: 1.2876417636871338
 coverage: [0.985  0.9575 0.9275 0.92   0.915 ]
 set size: [772.22   769.3375 767.0625 765.96   765.4625]
 time cost: 236.50202226638794
-finished repeatition: 46 time cost: 247.49746823310852
+finished repeatition: 46 time cost: 1.556363582611084
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.4425
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.92   0.89   0.845  0.7925]
 set size: [774.      41.1825  40.75    40.0025  39.315 ]
 time cost: 5.2213053703308105
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9575 0.9375 0.92   0.875  0.835 ]
 set size: [44.885  44.005  43.0375 41.5275 40.0375]
 time cost: 6.575057029724121
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9675 0.9425 0.9175 0.8925 0.8275]
+set size: [41.3225 40.9525 40.4575 39.6425 38.89  ]
+time cost: 1.3055493831634521
 coverage: [0.99   0.9875 0.935  0.915  0.905 ]
 set size: [772.4225 771.115  766.6925 764.6425 763.835 ]
 time cost: 218.14718222618103
-finished repeatition: 47 time cost: 229.96059465408325
+finished repeatition: 47 time cost: 1.5746986865997314
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 42.415
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.    0.925 0.895 0.85  0.805]
 set size: [774.      41.18    40.745   39.9825  39.3075]
 time cost: 4.865390062332153
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.95   0.9325 0.9025 0.8375 0.785 ]
 set size: [44.6625 43.68   42.6275 40.9525 39.4525]
 time cost: 5.085798501968384
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9425 0.9175 0.88   0.8475 0.8125]
+set size: [41.33   40.935  40.435  39.6575 38.925 ]
+time cost: 1.2911055088043213
 coverage: [0.985  0.98   0.9325 0.92   0.9075]
 set size: [772.6675 771.6025 766.8675 763.7325 762.9325]
 time cost: 208.93177843093872
-finished repeatition: 48 time cost: 218.91596126556396
+finished repeatition: 48 time cost: 1.5591785907745361
 Number of samples: 8000 Calibration size: 7600 test size: 400
 average infected size: 41.58
-computing proposed method with recall score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [1.     0.92   0.88   0.83   0.7725]
 set size: [774.      40.3525  39.8575  39.16    38.47  ]
 time cost: 5.193645477294922
-computing proposed method with precision score...
-Conformity scores computed. shape of test:(400, 774)
 coverage: [0.9525 0.9325 0.91   0.8725 0.825 ]
 set size: [44.315  43.405  42.4575 40.9575 39.5325]
 time cost: 3.9541175365448
-computing ArbiTree-CQC...
+computing proposed method with min score...
+Conformity scores computed. shape of test:(400, 774)
+coverage: [0.9375 0.9075 0.88   0.8325 0.7725]
+set size: [40.405 40.02  39.48  38.665 37.875]
+time cost: 1.2926075458526611
 coverage: [0.985  0.9775 0.9425 0.9275 0.9175]
 set size: [772.7975 771.2075 765.6175 763.765  763.115 ]
 time cost: 170.07343673706055
-finished repeatition: 49 time cost: 179.28231978416443
+finished repeatition: 49 time cost: 1.602473497390747
 
 Coverage Results:
 Method    α=0.05         α=0.07         α=0.10         α=0.15         α=0.20         
 -------------------------------------------------------------------------------------
 set_recall1.000 ± 0.000  0.931 ± 0.015  0.902 ± 0.016  0.852 ± 0.022  0.801 ± 0.021  
 set_prec  0.951 ± 0.013  0.931 ± 0.014  0.904 ± 0.018  0.854 ± 0.019  0.805 ± 0.022  
+set_min   0.951 ± 0.012  0.931 ± 0.013  0.903 ± 0.016  0.852 ± 0.018  0.802 ± 0.022  
 ArbiTree-CQC0.987 ± 0.007  0.980 ± 0.012  0.964 ± 0.019  0.941 ± 0.026  0.923 ± 0.036  
 
 Set Size Results:
@@ -864,5 +865,14 @@ Method    α=0.05         α=0.07         α=0.10         α=0.15         α=0.2
 -------------------------------------------------------------------------------------
 set_recall774.000 ± 0.00040.766 ± 0.379 40.300 ± 0.381 39.592 ± 0.377 38.893 ± 0.372 
 set_prec  44.431 ± 0.277 43.517 ± 0.268 42.516 ± 0.263 40.973 ± 0.266 39.475 ± 0.272 
+set_min   40.870 ± 0.410 40.481 ± 0.420 39.952 ± 0.425 39.122 ± 0.433 38.362 ± 0.436 
 ArbiTree-CQC772.360 ± 0.689771.424 ± 1.249769.432 ± 2.257766.342 ± 3.269764.312 ± 4.617
+
+Time Cost Results:
+Method    α=0.05         α=0.07         α=0.10         α=0.15         α=0.20         
+-------------------------------------------------------------------------------------
+set_recall8.698 ± 1.907  8.698 ± 1.907  8.698 ± 1.907  8.698 ± 1.907  8.698 ± 1.907  
+set_prec  8.967 ± 1.978  8.967 ± 1.978  8.967 ± 1.978  8.967 ± 1.978  8.967 ± 1.978  
+set_min   1.670 ± 0.387  1.670 ± 0.387  1.670 ± 0.387  1.670 ± 0.387  1.670 ± 0.387  
+ArbiTree-CQC357.436 ± 107.630357.436 ± 107.630357.436 ± 107.630357.436 ± 107.630357.436 ± 107.630
 finished.
