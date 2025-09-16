@@ -32,6 +32,7 @@ parser.add_argument('--confi_levels',
                     help='confi_levels')
 parser.add_argument('--set_recall', type=int, default=0) # 0 means this method will not be used.
 parser.add_argument('--set_prec', type=int, default=0)
+parser.add_argument('--set_min', type=int, default=0)
 parser.add_argument('--ADiT_DSI', type=int, default=0)
 parser.add_argument('--PGM_CQC', type=int, default=0)
 parser.add_argument('--ArbiTree_CQC', type=int, default=0)
@@ -60,6 +61,7 @@ mc_runs = args.mc_runs
 ## Parameters for Conformal Prediction
 set_recall = args.set_recall
 set_prec = args.set_prec
+set_min = args.set_min
 ADiT_DSI = args.ADiT_DSI
 PGM_CQC = args.PGM_CQC
 ArbiTree_CQC = args.ArbiTree_CQC
@@ -381,6 +383,98 @@ for mc_idx in range(mc_runs):
     set_size_res['set_prec'][mc_idx, :] = avg_size
     time_cost_res['set_prec'][mc_idx, :] = time_cost
 
+  if set_min:
+
+    # try to load data.
+    file_name_ = '/set_min_repeat' + str(mc_idx) + '.pickle'
+    try:
+      with open(save_path + file_name_, 'rb') as f:
+        res_load = pickle.load(f)
+      coverage = res_load['cover']
+      avg_size = res_load['set_size']
+      time_cost = res_load['time_cost']
+    except:
+      # Conformal Prediction
+      print('computing proposed method with min score...')
+
+      ## Compute conformity scores on the calibration set
+      cfscore_calib = []
+      for i in range(n_calibration):
+        infected_nodes_ = np.nonzero(inputs_calib[i])[0]
+        pred_prob_ = pred_scores_calib[i][:, 1]
+        ground_truth_one_hot_ = ground_truths_calib[i]
+        ground_truth_part_one_hot_ = set_truncate(ground_truth_one_hot_, pred_prob_, pow_expected)
+        score_ = min_score(pred_prob_, ground_truth_part_one_hot_, prop_model, infected_nodes_)
+        cfscore_calib.append(score_)
+      cfscore_calib = np.array(cfscore_calib)
+
+      ## Compute conformity scores on the test set
+      start_time_method_ = time.time()
+      cfscore_test = []
+      for i in range(n_test):
+        infected_nodes_ = np.nonzero(inputs_test[i])[0]
+        cfscore_ = min_score_gtunknown(pred_scores_test[i][:, 1], prop_model, infected_nodes_)
+        cfscore_test.append(cfscore_)
+      cfscore_test = np.array(cfscore_test)
+      print('Conformity scores computed. shape of test:' + str(cfscore_test.shape))
+
+      ## Compute prediction sets and evaluate the performance
+      coverage = np.zeros(n_alpha)
+      avg_size = np.zeros(n_alpha)
+
+      for i in range(n_test):
+        pred_sets = {}
+        for alpha in confi_levels:
+          pred_sets[str(alpha)] = set()
+
+          ## compute the quantile
+          tail_prop = (1 - alpha) * (1 + 1 / n_calibration)
+          threshold = cpquantile(cfscore_calib, tail_prop)
+
+          for j in range(n_nodes):
+            if cfscore_test[i][j] <= threshold:
+              pred_sets[str(alpha)].add(j)
+        
+        for j, alpha in enumerate(confi_levels):
+          ground_truth_source = np.nonzero(ground_truths_test[i])[0]
+          predicted_set = list(pred_sets[str(alpha)])
+
+          # Compute intersection between ground truth and predicted set
+          intersection_ = np.intersect1d(ground_truth_source, predicted_set)
+
+          # Calculate power as the ratio of correctly detected true signals
+          power = len(intersection_) / len(ground_truth_source) if len(ground_truth_source) > 0 else 0.0
+
+          # Create power flag based on comparison with expected power
+          power_flag = power >= pow_expected
+          if power_flag:
+            coverage[j] = coverage[j] + 1
+          
+          avg_size[j] = avg_size[j] + len(predicted_set)  
+
+      coverage = coverage / n_test
+      avg_size = avg_size / n_test
+      time_cost = time.time() - start_time_method_
+
+      # save the results
+      res_ = {'cover': coverage, 'set_size': avg_size, 'time_cost': time_cost}
+      with open(save_path + '/' + file_name_, 'wb') as f:
+        pickle.dump(res_, f)
+
+    print('coverage:', coverage)
+    print('set size:', avg_size)
+    print('time cost:', time_cost)
+
+    if 'set_min' not in method_names:
+      method_names.append('set_min')
+    if 'set_min' not in coverage_res:
+      coverage_res['set_min'] = np.zeros((mc_runs, n_alpha))
+      set_size_res['set_min'] = np.zeros((mc_runs, n_alpha))
+      time_cost_res['set_min'] = np.zeros((mc_runs, n_alpha))
+    coverage_res['set_min'][mc_idx, :] = coverage
+    set_size_res['set_min'][mc_idx, :] = avg_size
+    time_cost_res['set_min'][mc_idx, :] = time_cost
+  
   if ADiT_DSI:
     # ADiT-DSI
 

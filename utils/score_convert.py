@@ -297,6 +297,68 @@ def recall_score_gtunknown(pred_prob, prop_model, infected_nodes):
     
     return pred_scores
 
+def min_score(pred_prob, ground_truth, prop_model, infected_nodes):
+    '''
+    This function computes the min score for a single sample.
+    This score leads to the set in CRC.
+
+    Args:
+    pred_prob: list of float, predicted scores of nodes, representing the probability of belonging to the initial infected nodes
+    ground_truth: list of 0 and 1, one-hot vector of ground truth node
+    prop_model: str, propagation model used
+    infected_nodes: list of int, indices of infected nodes at the earlist available time step
+
+    Returns:
+    Average score: float.
+    '''
+
+    n_nodes = len(pred_prob)
+
+    # adjust the pred_prob accoding to the propagation model
+    pi_hat = np.array(pred_prob)
+
+    indicator_vec = np.zeros(n_nodes)
+    indicator_vec[infected_nodes] = 1
+
+    pi_hat = pi_hat * indicator_vec
+    
+    # find the smallest pi_hat inside the ground truth
+    gt_indices = np.where(ground_truth > 0)[0]
+    min_pi_hat = np.min(pi_hat[gt_indices])
+
+    # compute the sum of probability inside the indices
+    pred_score = -min_pi_hat
+    
+    return pred_score
+
+def min_score_gtunknown(pred_prob, prop_model, infected_nodes):
+    '''
+    This function computes the min score for a single sample, when ground truth label is unknown.
+
+    Args:
+    pred_prob: list of float, predicted scores of nodes, representing the probability of belonging to the initial infected nodes
+    prop_model: str, propagation model used
+    infected_nodes: list of int, indices of infected nodes at the earlist available time step
+
+    Returns:
+    Average score: float.
+    '''
+
+    n_nodes = len(pred_prob)
+
+    # adjust the pred_prob accoding to the propagation model
+    pi_hat = np.array(pred_prob)
+
+    indicator_vec = np.zeros(n_nodes)
+    indicator_vec[infected_nodes] = 1
+
+    pi_hat = pi_hat * indicator_vec
+
+    # compute conformity score for all labels
+    pred_scores = - pi_hat
+    
+    return pred_scores
+
 def F1_comb_score(pred_prob, ground_truth, prop_model, infected_nodes):
     '''
     This function computes the proposed score for a single sample.
