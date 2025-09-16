@@ -1,4 +1,8 @@
 Comparison,Beta,0.05,0.1,0.15
+ArbiTree_CQC < set_min,0.1,1.000,1.000,1.000
+ArbiTree_CQC < set_min,0.3,1.000,1.000,1.000
+ArbiTree_CQC < set_min,0.5,1.000,1.000,1.000
+ArbiTree_CQC < set_min,0.7,1.000,1.000,1.000
 ArbiTree_CQC < set_prec,0.1,1.000,1.000,1.000
 ArbiTree_CQC < set_prec,0.3,1.000,1.000,1.000
 ArbiTree_CQC < set_prec,0.5,1.000,1.000,1.000
@@ -7,6 +11,10 @@ ArbiTree_CQC < set_recall,0.1,3.78e-10***,3.78e-10***,3.78e-10***
 ArbiTree_CQC < set_recall,0.3,3.78e-10***,1.000,1.000
 ArbiTree_CQC < set_recall,0.5,1.000,1.000,1.000
 ArbiTree_CQC < set_recall,0.7,1.000,1.000,1.000
+ArbiTree_CQC > set_min,0.1,3.78e-10***,3.78e-10***,3.78e-10***
+ArbiTree_CQC > set_min,0.3,3.78e-10***,3.78e-10***,3.78e-10***
+ArbiTree_CQC > set_min,0.5,3.78e-10***,3.78e-10***,3.78e-10***
+ArbiTree_CQC > set_min,0.7,3.78e-10***,3.78e-10***,3.78e-10***
 ArbiTree_CQC > set_prec,0.1,3.78e-10***,3.78e-10***,3.78e-10***
 ArbiTree_CQC > set_prec,0.3,3.78e-10***,3.78e-10***,3.78e-10***
 ArbiTree_CQC > set_prec,0.5,3.78e-10***,3.78e-10***,3.78e-10***
@@ -15,6 +23,22 @@ ArbiTree_CQC > set_recall,0.1,1.000,1.000,1.000
 ArbiTree_CQC > set_recall,0.3,1.000,3.78e-10***,3.78e-10***
 ArbiTree_CQC > set_recall,0.5,3.78e-10***,3.78e-10***,3.78e-10***
 ArbiTree_CQC > set_recall,0.7,3.78e-10***,3.78e-10***,3.78e-10***
+set_min < set_prec,0.1,3.78e-10***,3.78e-10***,3.78e-10***
+set_min < set_prec,0.3,3.78e-10***,3.78e-10***,3.78e-10***
+set_min < set_prec,0.5,3.78e-10***,3.77e-10***,3.77e-10***
+set_min < set_prec,0.7,3.78e-10***,3.78e-10***,3.77e-10***
+set_min < set_recall,0.1,3.78e-10***,3.78e-10***,3.78e-10***
+set_min < set_recall,0.3,3.78e-10***,7.34e-10***,2.39e-09***
+set_min < set_recall,0.5,1.000,1.000,1.000
+set_min < set_recall,0.7,1.000,1.000,1.000
+set_min > set_prec,0.1,1.000,1.000,1.000
+set_min > set_prec,0.3,1.000,1.000,1.000
+set_min > set_prec,0.5,1.000,1.000,1.000
+set_min > set_prec,0.7,1.000,1.000,1.000
+set_min > set_recall,0.1,1.000,1.000,1.000
+set_min > set_recall,0.3,1.000,1.000,1.000
+set_min > set_recall,0.5,3.78e-10***,3.77e-10***,3.78e-10***
+set_min > set_recall,0.7,3.78e-10***,3.78e-10***,3.78e-10***
 set_prec < set_recall,0.1,3.78e-10***,3.78e-10***,3.77e-10***
 set_prec < set_recall,0.3,3.78e-10***,1.000,1.000
 set_prec < set_recall,0.5,1.000,1.000,1.000

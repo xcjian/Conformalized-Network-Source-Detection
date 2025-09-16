@@ -19,7 +19,7 @@ def load_results(graph, test_exp_name, beta_ran, alpha_ran):
         Dictionary of 3D numpy arrays (n_beta × n_alpha × n_repeats)
     """
     base_path = f"results/{graph}/{test_exp_name}"
-    methods = ['ADiT_DSI', 'ArbiTree_CQC', 'set_prec', 'set_recall']
+    methods = ['ADiT_DSI', 'ArbiTree_CQC', 'set_prec', 'set_recall', 'set_min']
     all_alphas = [0.05, 0.07, 0.10, 0.15, 0.20]
     
     # Initialize 3D arrays for each method
