@@ -2,7 +2,7 @@
 
 ## About the Project
 
-This repository contains the source code and data for reproducing the paper *Conformal Prediction for Multi-Source Detection on a Network*.
+This repository contains the source code and data for reproducing the results in *Conformal Prediction for Multi-Source Detection on a Network*.
 
 <img src="./results/highSchool/SIR_nsrc1-15_Rzero1-15_gamma0.1-0.4_ls8000_nf16/pow_expected0.7/visualizations/sample0_set_recall_alpha0.10_sources.png" alt="Diagram" width="600">
 
@@ -61,10 +61,10 @@ See `batch_CP_process.sh` and `batch_CP_process_SI1.sh` for a complete list of c
 
 The `DSI` module is derived from the [source code](https://github.com/lab-sigma/Diffusion-Source-Identification) of the existing work
 
-Dawkins, Q. E., Li, T., & Xu, H. (2021, July). Diffusion source identification on networks with statistical confidence. In International Conference on Machine Learning
+Dawkins, Q. E.; Li, T.; and Xu, H. 2021. Diffusion source identification on networks with statistical confidence. In ICML.
 
 
 The `SD-STGCN` module is derived from the [source code](https://github.com/anonymous-anuthor/SD-STGCN) of the existing work
 
-H. Sha, M. Al Hasan and G. Mohler, "Source detection on networks using spatial temporal graph convolutional networks," 2021 IEEE 8th International Conference on Data Science and Advanced Analytics (DSAA), Porto, Portugal.
-
+Sha, H.; Al Hasan, M.; and Mohler, G. 2021. Source detection on networks using spatial temporal graph convolutional
+networks. In IEEE International Conference on Data Science and Advanced Analytics (DSAA).
