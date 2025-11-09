@@ -57,6 +57,10 @@ python main.py --graph highSchool --train_exp_name SIR_nsrc10_Rzero43.44_beta0.2
 ```
 See `batch_CP_process.sh` and `batch_CP_process_SI1.sh` for a complete list of commands to reproduce the experiments.
 
+## Visualization
+
+```python visualization.py```
+
 ## Acknowledgements
 
 The `DSI` module is derived from the [source code](https://github.com/lab-sigma/Diffusion-Source-Identification) of the existing work
