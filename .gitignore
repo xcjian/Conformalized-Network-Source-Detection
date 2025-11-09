@@ -1,2 +1,4 @@
 */__pycache__/
 *.log
+*_entire.pickle
+*.dat
