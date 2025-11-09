@@ -2,7 +2,7 @@
 
 ## About the Project
 
-This repository contains the source code and data for reproducing the results in *Conformal Prediction for Multi-Source Detection on a Network*.
+This is the official implementation of the paper *Conformal Prediction for Multi-Source Detection on a Network*. The target is to privide confident detection of information propagation sources on a network.
 
 <img src="./results/highSchool/SIR_nsrc1-15_Rzero1-15_gamma0.1-0.4_ls8000_nf16/pow_expected0.7/visualizations/sample0_set_recall_alpha0.10_sources.png" alt="Diagram" width="600">
 
