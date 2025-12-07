@@ -4,17 +4,12 @@
 """
 Single-sample source detection visualization (components with sources only) + optional clipping.
 
-Enhancements:
-- Plot initial infected nodes (value==1) and initial recovered nodes (value==2) in distinct colors.
-- Include pow_expected and x/y ranges in the output figure filename.
+Saves:
+1) full figure (initial infected/recovered + correct/false/missed sources)
+2) sources-only figure
+3) plain graph figure
 
-Colors:
-  light gray : all nodes in shown subgraph
-  blue       : initial infected (inputs[...,0]==1)
-  purple     : initial recovered (inputs[...,0]==2)
-  green      : correctly identified sources (true ∩ predicted)
-  orange     : falsely identified sources (predicted \ true)
-  red        : sources not identified (true \ predicted)
+No GIF is produced.
 """
 
 import os
@@ -56,7 +51,6 @@ def ensure_graph(graph_extract_path, graph_path):
         os.system(f'cp {graph_extract_path} {graph_path}')
     graph = nx.read_edgelist(graph_path, nodetype=int)
     G = nx.Graph(graph)
-    # IMPORTANT: do NOT set G.graph = G
     return G
 
 
@@ -92,14 +86,23 @@ def load_and_flatten(data_path, calib_ratio):
             n_samples, n_calibration)
 
 
-def split_indices(n_samples, n_calibration, save_root, mc_idx=0):
-    idx_file = os.path.join(save_root, f'calib_index_repeat{mc_idx}.npy')
-    if os.path.exists(idx_file):
-        calib_index = np.load(idx_file)
-    else:
-        calib_index = np.random.choice(n_samples, n_calibration, replace=False)
-        np.save(idx_file, calib_index)
-    test_index = np.setdiff1d(np.arange(n_samples), calib_index)
+def split_indices(n_samples, n_calibration):
+    """
+    Deterministic split:
+      - calibration = last n_calibration indices
+      - test        = the remaining (leading) indices
+    """
+    import numpy as np
+    n_calibration = int(n_calibration)
+    n_calibration = max(0, min(n_calibration, n_samples))
+    if n_calibration == 0:
+        calib_index = np.array([], dtype=int)
+        test_index = np.arange(n_samples, dtype=int)
+        return calib_index, test_index
+
+    start = n_samples - n_calibration
+    calib_index = np.arange(start, n_samples, dtype=int)
+    test_index = np.arange(0, start, dtype=int)
     return calib_index, test_index
 
 
@@ -115,7 +118,7 @@ def compute_threshold(cfscore_calib, alpha, n_calib, tail_sign=+1):
 def _extract_initial_states(arr):
     """
     Given inputs[sample], which may be shape (n_nodes,) or (T, n_nodes),
-    return sets of indices:
+    return sets of indices (t=0 row if 2-D):
         infected0 = {j: state==1 at t=0}
         recovered0 = {j: state==2 at t=0}
     """
@@ -151,7 +154,6 @@ def predict_set_single_sample(
     if method in ('set_recall', 'set_prec', 'set_min'):
         cfscore_calib = []
         for i in range(n_calib):
-            # union of initial infected+recovered for calibration sample i
             inf0_i, rec0_i = _extract_initial_states(inputs_calib[i])
             infected_nodes_ = np.array(sorted(list(inf0_i | rec0_i)))
             pred_prob_ = pred_scores_calib[i][:, 1]
@@ -187,7 +189,6 @@ def predict_set_single_sample(
             raise ValueError("ADiT-DSI only supports SI in this script.")
         if G is None:
             raise ValueError("Graph G is required for ADiT-DSI.")
-        # ADiT-DSI uses union of infected+recovered as infected_nodes_
         infected_nodes_sample = sorted(list(infected0 | recovered0))
         model = FixedTSI(G, [ADiT_h], canonical=True, expectation_after=False,
                          m_l=m_l, m_p=m_p, T=max(len(infected_nodes_sample) - 1, 0))
@@ -224,7 +225,6 @@ def normalize_positions(pos):
 
 
 def clip_subgraph_by_bbox(G, pos, x_min, x_max, y_min, y_max):
-    """Keep only nodes with x_min ≤ x ≤ x_max and y_min ≤ y ≤ y_max; return subgraph + clipped pos."""
     if x_min >= x_max or y_min >= y_max:
         raise ValueError(f"Invalid clip box: [{x_min}, {x_max}] × [{y_min}, {y_max}]")
     keep_nodes = [n for n, (x, y) in pos.items() if (x_min <= x <= x_max and y_min <= y <= y_max)]
@@ -235,34 +235,26 @@ def clip_subgraph_by_bbox(G, pos, x_min, x_max, y_min, y_max):
     return H, pos_clip
 
 
-def visualize(G, pred_set, true_sources, infected0, recovered0, pos, out_path,
-              base_node_size=80, highlight_size=140, linewidths=0.2):
-    """
-    Coloring priority (later overwrites earlier):
-      1) base lightgray
-      2) infected0 -> blue, recovered0 -> purple
-      3) sources: green/orange/red
-    """
+# ---------- VISUALIZATIONS ----------
+def visualize_full(G, pred_set, true_sources, infected0, recovered0, pos, out_path,
+                   base_node_size=80, highlight_size=140, linewidths=0.2):
     nodes = list(G.nodes())
     index_of = {u: i for i, u in enumerate(nodes)}
     color_map = ['lightgray'] * len(nodes)
     sizes = [base_node_size] * len(nodes)
 
-    # Initial states
-    infected_color = 'tab:blue'
-    recovered_color = 'tab:purple'
+    # initial states
     for u in infected0:
         if u in index_of:
-            color_map[index_of[u]] = infected_color
+            color_map[index_of[u]] = 'tab:blue'
     for u in recovered0:
         if u in index_of:
-            color_map[index_of[u]] = recovered_color
+            color_map[index_of[u]] = 'tab:purple'
 
-    # Sources coloring
-    true_and_pred = true_sources.intersection(pred_set)
-    false_pos = pred_set.difference(true_sources)
-    missed = true_sources.difference(pred_set)
-
+    # source correctness
+    true_and_pred = true_sources & pred_set
+    false_pos = pred_set - true_sources
+    missed = true_sources - pred_set
     for u in true_and_pred:
         i = index_of[u]; color_map[i] = 'tab:green'; sizes[i] = highlight_size
     for u in false_pos:
@@ -275,7 +267,6 @@ def visualize(G, pred_set, true_sources, infected0, recovered0, pos, out_path,
     nx.draw_networkx_nodes(G, pos, node_color=color_map, node_size=sizes,
                            linewidths=linewidths, edgecolors='k')
     plt.axis('off')
-
     legend_elements = [
         Patch(facecolor='tab:blue', edgecolor='k', label='Infected (earliest accessible)'),
         Patch(facecolor='tab:purple', edgecolor='k', label='Recovered (earliest accessible)'),
@@ -284,12 +275,56 @@ def visualize(G, pred_set, true_sources, infected0, recovered0, pos, out_path,
         Patch(facecolor='tab:red', edgecolor='k', label='Sources not identified'),
     ]
     plt.legend(handles=legend_elements, loc='upper right', frameon=True)
-
     plt.tight_layout()
     plt.savefig(out_path, dpi=300, bbox_inches='tight')
     plt.close()
 
 
+def visualize_sources_only(G, pred_set, true_sources, pos, out_path,
+                           base_node_size=80, highlight_size=140, linewidths=0.2):
+    nodes = list(G.nodes())
+    index_of = {u: i for i, u in enumerate(nodes)}
+    color_map = ['lightgray'] * len(nodes)
+    sizes = [base_node_size] * len(nodes)
+
+    tp = true_sources & pred_set
+    fp = pred_set - true_sources
+    fn = true_sources - pred_set
+    for u in tp:
+        i = index_of[u]; color_map[i] = 'tab:green'; sizes[i] = highlight_size
+    for u in fp:
+        i = index_of[u]; color_map[i] = 'tab:orange'; sizes[i] = highlight_size
+    for u in fn:
+        i = index_of[u]; color_map[i] = 'tab:red'; sizes[i] = highlight_size
+
+    plt.figure(figsize=(8, 7))
+    nx.draw_networkx_edges(G, pos, alpha=0.3, width=0.5)
+    nx.draw_networkx_nodes(G, pos, node_color=color_map, node_size=sizes,
+                           linewidths=linewidths, edgecolors='k')
+    plt.axis('off')
+    legend_elements = [
+        Patch(facecolor='tab:green', edgecolor='k', label='Correctly identified'),
+        Patch(facecolor='tab:orange', edgecolor='k', label='Falsely identified'),
+        Patch(facecolor='tab:red', edgecolor='k', label='Sources not identified'),
+    ]
+    plt.legend(handles=legend_elements, loc='upper right', frameon=True)
+    plt.tight_layout()
+    plt.savefig(out_path, dpi=300, bbox_inches='tight')
+    plt.close()
+
+
+def visualize_plain_graph(G, pos, out_path, base_node_size=80, linewidths=0.2):
+    plt.figure(figsize=(8, 7))
+    nx.draw_networkx_edges(G, pos, alpha=0.3, width=0.5)
+    nx.draw_networkx_nodes(G, pos, node_color='lightgray', node_size=base_node_size,
+                           linewidths=linewidths, edgecolors='k')
+    plt.axis('off')
+    plt.tight_layout()
+    plt.savefig(out_path, dpi=300, bbox_inches='tight')
+    plt.close()
+
+
+# ---------- UTILS ----------
 def nodes_in_source_components(G, true_sources):
     if not true_sources:
         return set()
@@ -304,7 +339,7 @@ def nodes_in_source_components(G, true_sources):
 def main():
     parser = argparse.ArgumentParser()
 
-    # --- original-ish args ---
+    # --- core args ---
     parser.add_argument('--graph', type=str, default='highSchool')
     parser.add_argument('--train_exp_name', type=str, default='SIR_nsrc1-15_Rzero1-15_gamma0.1-0.4_ls21200_nf16')
     parser.add_argument('--test_exp_name', type=str,  default='SIR_nsrc1-15_Rzero1-15_gamma0.1-0.4_ls8000_nf16')
@@ -324,12 +359,12 @@ def main():
     parser.add_argument('--m_l', type=int, default=20)
     parser.add_argument('--m_p', type=int, default=20)
 
-    parser.add_argument('--sample_index', type=int, default=0)
+    parser.add_argument('--sample_index', type=int, default=11)
     parser.add_argument('--alpha', type=float, default=0.10)
     parser.add_argument('--method', type=str, default='set_recall', choices=['set_recall', 'set_prec', 'set_min'])
     parser.add_argument('--layout', type=str, default='spring', choices=['spring', 'kamada_kawai', 'spectral'])
 
-    # --- layout normalization & clipping controls ---
+    # layout normalization & clipping controls
     parser.add_argument('--normalize_layout', type=int, default=1,
                         help='1: rescale layout to [0,1]x[0,1] before clipping, 0: raw layout coords')
     parser.add_argument('--x_min', type=float, default=0.5)
@@ -352,7 +387,7 @@ def main():
     if args.sample_index < 0 or args.sample_index >= n_samples:
         raise IndexError(f"--sample_index={args.sample_index} out of range [0, {n_samples-1}]")
 
-    calib_index, _ = split_indices(n_samples, n_calib, os.path.dirname(vis_dir), mc_idx=0)
+    calib_index, _ = split_indices(n_samples, n_calib)
 
     pred_set, true_sources, infected0, recovered0 = predict_set_single_sample(
         method=args.method,
@@ -388,7 +423,7 @@ def main():
     infected0_H = infected0 & nodes_H
     recovered0_H = recovered0 & nodes_H
 
-    # Layout, optional normalization
+    # Layout & normalization
     pos = make_layout(H, layout=args.layout, seed=41)
     if args.normalize_layout:
         pos = normalize_positions(pos)
@@ -403,17 +438,25 @@ def main():
         infected0_H &= nodes_H
         recovered0_H &= nodes_H
 
-    # --- Output filename parts ---
+    # Filename parts
     rng_tag = f"x[{args.x_min}-{args.x_max}]_y[{args.y_min}-{args.y_max}]" if do_clip else "x[all]-y[all]"
     pow_tag = f"pow{args.pow_expected:g}"
+    base_prefix = f"sample{args.sample_index}_{args.method}_alpha{args.alpha:.2f}_{pow_tag}_{rng_tag}"
 
-    out_png = os.path.join(
-        vis_dir,
-        f'sample{args.sample_index}_{args.method}_alpha{args.alpha:.2f}_{pow_tag}_{rng_tag}_sources.png'
-    )
+    # 1) Full figure
+    out_full = os.path.join(vis_dir, f"{base_prefix}_sources.png")
+    visualize_full(H, pred_set_H, true_sources_H, infected0_H, recovered0_H, pos, out_full)
+    print(f"Saved figure: {out_full}")
 
-    visualize(H, pred_set_H, true_sources_H, infected0_H, recovered0_H, pos, out_png)
-    print(f"Saved figure to: {out_png}")
+    # 2) Sources-only figure
+    out_src_only = os.path.join(vis_dir, f"{base_prefix}_sources_only.png")
+    visualize_sources_only(H, pred_set_H, true_sources_H, pos, out_src_only)
+    print(f"Saved figure: {out_src_only}")
+
+    # 3) Plain graph figure
+    out_plain = os.path.join(vis_dir, f"{base_prefix}_plain_graph.png")
+    visualize_plain_graph(H, pos, out_plain)
+    print(f"Saved figure: {out_plain}")
 
 
 if __name__ == '__main__':
