@@ -4,15 +4,17 @@
 """
 Single-sample source detection visualization (components with sources only) + optional clipping.
 
-- Only displays connected components that contain ≥1 true source.
-- Optional rectangular clipping window: keep nodes with x_min ≤ x ≤ x_max and y_min ≤ y ≤ y_max.
-- By default, layout coordinates are normalized to [0,1]x[0,1] (toggle with --normalize_layout).
+Enhancements:
+- Plot initial infected nodes (value==1) and initial recovered nodes (value==2) in distinct colors.
+- Include pow_expected and x/y ranges in the output figure filename.
 
 Colors:
-  gray  : all nodes in shown subgraph
-  green : correctly identified sources (true ∩ predicted)
-  orange: falsely identified sources (predicted \ true) within shown subgraph
-  red   : sources not identified (true \ predicted) within shown subgraph
+  light gray : all nodes in shown subgraph
+  blue       : initial infected (inputs[...,0]==1)
+  purple     : initial recovered (inputs[...,0]==2)
+  green      : correctly identified sources (true ∩ predicted)
+  orange     : falsely identified sources (predicted \ true)
+  red        : sources not identified (true \ predicted)
 """
 
 import os
@@ -71,7 +73,7 @@ def load_and_flatten(data_path, calib_ratio):
     with open(data_path, 'rb') as f:
         data = pickle.load(f)
 
-    inputs_raw = data['inputs']         # n_batch x n_sample x n_nodes
+    inputs_raw = data['inputs']         # n_batch x n_sample x (n_nodes or T x n_nodes)
     pred_scores_raw = data['predictions']
     ground_truths_raw = data['ground_truth']
     logits_raw = data['logits']
@@ -110,6 +112,23 @@ def compute_threshold(cfscore_calib, alpha, n_calib, tail_sign=+1):
     return thresh
 
 
+def _extract_initial_states(arr):
+    """
+    Given inputs[sample], which may be shape (n_nodes,) or (T, n_nodes),
+    return sets of indices:
+        infected0 = {j: state==1 at t=0}
+        recovered0 = {j: state==2 at t=0}
+    """
+    a = arr
+    if hasattr(a, "ndim") and a.ndim >= 2:
+        a0 = a[0, :]
+    else:
+        a0 = a
+    infected0 = set(np.where(a0 == 1)[0])
+    recovered0 = set(np.where(a0 == 2)[0])
+    return infected0, recovered0
+
+
 def predict_set_single_sample(
     method, alpha, sample_idx,
     inputs, pred_scores, ground_truths, logits,
@@ -125,10 +144,16 @@ def predict_set_single_sample(
     y_true = ground_truths[sample_idx]
     true_sources = set(np.nonzero(y_true)[0])
 
+    # Initial infected/recovered for this sample (t=0)
+    infected0, recovered0 = _extract_initial_states(inputs[sample_idx])
+    infected_union = sorted(list(infected0 | recovered0))  # used by *_gtunknown scores
+
     if method in ('set_recall', 'set_prec', 'set_min'):
         cfscore_calib = []
         for i in range(n_calib):
-            infected_nodes_ = np.nonzero(inputs_calib[i])[0]
+            # union of initial infected+recovered for calibration sample i
+            inf0_i, rec0_i = _extract_initial_states(inputs_calib[i])
+            infected_nodes_ = np.array(sorted(list(inf0_i | rec0_i)))
             pred_prob_ = pred_scores_calib[i][:, 1]
             gt_one_hot = ground_truths_calib[i]
             gt_part = set_truncate(gt_one_hot, pred_prob_, pow_expected)
@@ -142,34 +167,34 @@ def predict_set_single_sample(
             cfscore_calib.append(s)
         cfscore_calib = np.array(cfscore_calib)
 
-        infected_nodes_sample = np.nonzero(inputs[sample_idx])[0]
         pred_prob_sample = pred_scores[sample_idx][:, 1]
         if method == 'set_recall':
-            cfscore_test = recall_score_gtunknown(pred_prob_sample, prop_model, infected_nodes_sample)
+            cfscore_test = recall_score_gtunknown(pred_prob_sample, prop_model, infected_union)
             tail_sign = +1
         elif method == 'set_prec':
-            cfscore_test = avg_score_gtunknown(pred_prob_sample, prop_model, infected_nodes_sample)
+            cfscore_test = avg_score_gtunknown(pred_prob_sample, prop_model, infected_union)
             tail_sign = +1
         else:
-            cfscore_test = min_score_gtunknown(pred_prob_sample, prop_model, infected_nodes_sample)
+            cfscore_test = min_score_gtunknown(pred_prob_sample, prop_model, infected_union)
             tail_sign = +1
 
         threshold = compute_threshold(cfscore_calib, alpha, n_calib, tail_sign=tail_sign)
         pred_set = set(j for j in range(n_nodes) if cfscore_test[j] <= threshold)
-        return pred_set, true_sources
+        return pred_set, true_sources, infected0, recovered0
 
     elif method == 'ADiT_DSI':
         if prop_model != 'SI':
             raise ValueError("ADiT-DSI only supports SI in this script.")
         if G is None:
             raise ValueError("Graph G is required for ADiT-DSI.")
-        infected_nodes_sample = np.nonzero(inputs[sample_idx])[0]
+        # ADiT-DSI uses union of infected+recovered as infected_nodes_
+        infected_nodes_sample = sorted(list(infected0 | recovered0))
         model = FixedTSI(G, [ADiT_h], canonical=True, expectation_after=False,
                          m_l=m_l, m_p=m_p, T=max(len(infected_nodes_sample) - 1, 0))
         confidence_sets = model.confidence_set_mp(infected_nodes_sample, [alpha], new_run=True)
         confidence_sets = confidence_sets['ADiT_h']
         pred_set = set(confidence_sets[str(alpha)])
-        return pred_set, true_sources
+        return pred_set, true_sources, infected0, recovered0
 
     else:
         raise ValueError(f"Unknown method: {method}")
@@ -210,13 +235,30 @@ def clip_subgraph_by_bbox(G, pos, x_min, x_max, y_min, y_max):
     return H, pos_clip
 
 
-def visualize(G, pred_set, true_sources, pos, out_path,
+def visualize(G, pred_set, true_sources, infected0, recovered0, pos, out_path,
               base_node_size=80, highlight_size=140, linewidths=0.2):
+    """
+    Coloring priority (later overwrites earlier):
+      1) base lightgray
+      2) infected0 -> blue, recovered0 -> purple
+      3) sources: green/orange/red
+    """
     nodes = list(G.nodes())
     index_of = {u: i for i, u in enumerate(nodes)}
     color_map = ['lightgray'] * len(nodes)
     sizes = [base_node_size] * len(nodes)
 
+    # Initial states
+    infected_color = 'tab:blue'
+    recovered_color = 'tab:purple'
+    for u in infected0:
+        if u in index_of:
+            color_map[index_of[u]] = infected_color
+    for u in recovered0:
+        if u in index_of:
+            color_map[index_of[u]] = recovered_color
+
+    # Sources coloring
     true_and_pred = true_sources.intersection(pred_set)
     false_pos = pred_set.difference(true_sources)
     missed = true_sources.difference(pred_set)
@@ -235,10 +277,10 @@ def visualize(G, pred_set, true_sources, pos, out_path,
     plt.axis('off')
 
     legend_elements = [
-        # Patch(facecolor='lightgray', edgecolor='k', label='All nodes'),
-        # Patch(facecolor='lightgray', edgecolor='k'),
-        Patch(facecolor='tab:green', edgecolor='k', label='Correctly identified'),
-        Patch(facecolor='tab:orange', edgecolor='k', label='Falsely identified'),
+        Patch(facecolor='tab:blue', edgecolor='k', label='Infected (earliest accessible)'),
+        Patch(facecolor='tab:purple', edgecolor='k', label='Recovered (earliest accessible)'),
+        Patch(facecolor='tab:green', edgecolor='k', label='Correctly identified sources'),
+        Patch(facecolor='tab:orange', edgecolor='k', label='Falsely identified sources'),
         Patch(facecolor='tab:red', edgecolor='k', label='Sources not identified'),
     ]
     plt.legend(handles=legend_elements, loc='upper right', frameon=True)
@@ -266,7 +308,7 @@ def main():
     parser.add_argument('--graph', type=str, default='highSchool')
     parser.add_argument('--train_exp_name', type=str, default='SIR_nsrc1-15_Rzero1-15_gamma0.1-0.4_ls21200_nf16')
     parser.add_argument('--test_exp_name', type=str,  default='SIR_nsrc1-15_Rzero1-15_gamma0.1-0.4_ls8000_nf16')
-    parser.add_argument('--pow_expected', type=float, default=0.7)
+    parser.add_argument('--pow_expected', type=float, default=0.5)
     parser.add_argument('--calib_ratio', type=float, default=0.95)
     parser.add_argument('--prop_model', type=str, default='SI')
     parser.add_argument('--confi_levels', nargs='*', type=float, default=[0.05, 0.07, 0.10, 0.15, 0.20])
@@ -287,7 +329,7 @@ def main():
     parser.add_argument('--method', type=str, default='set_recall', choices=['set_recall', 'set_prec', 'set_min'])
     parser.add_argument('--layout', type=str, default='spring', choices=['spring', 'kamada_kawai', 'spectral'])
 
-    # --- NEW: layout normalization & clipping controls ---
+    # --- layout normalization & clipping controls ---
     parser.add_argument('--normalize_layout', type=int, default=1,
                         help='1: rescale layout to [0,1]x[0,1] before clipping, 0: raw layout coords')
     parser.add_argument('--x_min', type=float, default=0.5)
@@ -312,7 +354,7 @@ def main():
 
     calib_index, _ = split_indices(n_samples, n_calib, os.path.dirname(vis_dir), mc_idx=0)
 
-    pred_set, true_sources = predict_set_single_sample(
+    pred_set, true_sources, infected0, recovered0 = predict_set_single_sample(
         method=args.method,
         alpha=args.alpha,
         sample_idx=args.sample_index,
@@ -329,6 +371,7 @@ def main():
         m_p=args.m_p
     )
 
+    print(f"Initial states -> infected: {len(infected0)}, recovered: {len(recovered0)}")
     print(f"Sample {args.sample_index}: |predicted|={len(pred_set)}, |true|={len(true_sources)}")
     print(f"Breakdown -> correct:{len(true_sources & pred_set)}  false+:{len(pred_set - true_sources)}  missed:{len(true_sources - pred_set)}")
 
@@ -339,8 +382,11 @@ def main():
     H = G.subgraph(keep_nodes).copy()
 
     # Restrict sets to H
-    pred_set_H = pred_set & set(H.nodes())
-    true_sources_H = true_sources & set(H.nodes())
+    nodes_H = set(H.nodes())
+    pred_set_H = pred_set & nodes_H
+    true_sources_H = true_sources & nodes_H
+    infected0_H = infected0 & nodes_H
+    recovered0_H = recovered0 & nodes_H
 
     # Layout, optional normalization
     pos = make_layout(H, layout=args.layout, seed=41)
@@ -351,18 +397,22 @@ def main():
     do_clip = all(v is not None for v in (args.x_min, args.x_max, args.y_min, args.y_max))
     if do_clip:
         H, pos = clip_subgraph_by_bbox(H, pos, args.x_min, args.x_max, args.y_min, args.y_max)
-        pred_set_H = pred_set_H & set(H.nodes())
-        true_sources_H = true_sources_H & set(H.nodes())
+        nodes_H = set(H.nodes())
+        pred_set_H &= nodes_H
+        true_sources_H &= nodes_H
+        infected0_H &= nodes_H
+        recovered0_H &= nodes_H
 
-    # Output
-    suffix = "_norm" if args.normalize_layout else "_raw"
-    if do_clip:
-        suffix += f"_clip[{args.x_min}-{args.x_max}]x[{args.y_min}-{args.y_max}]"
+    # --- Output filename parts ---
+    rng_tag = f"x[{args.x_min}-{args.x_max}]_y[{args.y_min}-{args.y_max}]" if do_clip else "x[all]-y[all]"
+    pow_tag = f"pow{args.pow_expected:g}"
+
     out_png = os.path.join(
         vis_dir,
-        f'sample{args.sample_index}_{args.method}_alpha{args.alpha:.2f}_sources.png'
+        f'sample{args.sample_index}_{args.method}_alpha{args.alpha:.2f}_{pow_tag}_{rng_tag}_sources.png'
     )
-    visualize(H, pred_set_H, true_sources_H, pos, out_png)
+
+    visualize(H, pred_set_H, true_sources_H, infected0_H, recovered0_H, pos, out_png)
     print(f"Saved figure to: {out_png}")
 
 

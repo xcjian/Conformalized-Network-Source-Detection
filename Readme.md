@@ -4,7 +4,7 @@
 
 This is the official implementation of the paper *Conformal Prediction for Multi-Source Detection on a Network*. The target is to privide confident detection of information propagation sources on a network.
 
-<img src="./results/highSchool/SIR_nsrc1-15_Rzero1-15_gamma0.1-0.4_ls8000_nf16/pow_expected0.7/visualizations/sample0_set_recall_alpha0.10_sources.png" alt="Diagram" width="600">
+<img src="./results/highSchool/SIR_nsrc1-15_Rzero1-15_gamma0.1-0.4_ls8000_nf16/pow_expected0.5/visualizations/sample11_set_recall_alpha0.10_pow0.5_x[0.5-0.8]_y[0.2-0.6]_sources.png" alt="Diagram" width="800">
 
 ## Getting Started
 
@@ -59,7 +59,7 @@ See `batch_CP_process.sh` and `batch_CP_process_SI1.sh` for a complete list of c
 
 ## Visualization
 
-```python visualization.py```
+```python visualization.py --sample_index 11```
 
 ## Acknowledgements
 
